@@ -33,6 +33,7 @@ namespace core {
 using std::shared_ptr;
 using std::is_integral;
 using std::is_unsigned;
+using std::is_same;
 using std::function;
 
 class utils {
@@ -46,6 +47,8 @@ class utils {
 
         template<typename T>
         static function<T()> uniqid(T init_val) {
+            static_assert(!is_same<T, bool>::value,
+                          "T must be one of uint[64,32,16,8]_t");
             static_assert(is_unsigned<T>::value,
                           "T must be one of uint[64,32,16,8]_t");
             static_assert(is_integral<T>::value,
