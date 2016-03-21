@@ -23,10 +23,17 @@
 #define __UTILS_H__
 
 #include<cctype>
+#include<type_traits>
+#include<functional>
 
 namespace com {
 namespace goffersoft {
 namespace core {
+
+using std::shared_ptr;
+using std::is_integral;
+using std::is_unsigned;
+using std::function;
 
 class utils {
     public :
@@ -35,7 +42,26 @@ class utils {
         static bool strequals_igncase(unsigned char a,
                                       unsigned char b) {
             return tolower(a) == tolower(b);
-        };
+        }
+
+        template<typename T>
+        static function<T()> uniqid(T init_val) {
+            static_assert(is_unsigned<T>::value,
+                          "T must be one of uint[64,32,16,8]_t");
+            static_assert(is_integral<T>::value,
+                          "T must be one of uint[64,32,16,8]_t");
+            
+            shared_ptr<T> next_val(new T(init_val));
+
+            return [init_val, next_val]() {
+                       T tmp = *next_val;
+                       (*next_val)++;
+                       if( (*next_val) == 0) {
+                           *next_val = init_val;
+                       }
+                       return tmp;
+                   };
+        }
 };
 
 } //com

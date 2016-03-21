@@ -39,15 +39,17 @@
 
 using std::string;
 using std::array;
+using std::function;
 
 using com::goffersoft::codeclean::codeclean;
 using com::goffersoft::codeclean::testsuite;
 using com::goffersoft::codeclean::testcase;
 using com::goffersoft::codeclean::test;
+using com::goffersoft::core::utils;
 
-uint32_t testcase::next_id = 1;
-uint32_t testsuite::next_id = 1;
-uint32_t test::next_id = 1;
+testsuite::IdFuncType testsuite::get_next_id = utils::uniqid((uint32_t)1);
+testcase::IdFuncType testcase::get_next_id = utils::uniqid((uint32_t)1);
+test::IdFuncType test::get_next_id = utils::uniqid((uint32_t)1);
 
 const string&  test::noname = "t-noname";
 const string&  testcase::noname = "tc-noname";

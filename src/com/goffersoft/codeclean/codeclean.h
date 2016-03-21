@@ -45,6 +45,7 @@
 #include <array>
 
 #include "except.h"
+#include "utils.h"
 
 namespace com {
 namespace goffersoft {
@@ -72,6 +73,7 @@ using com::goffersoft::core::not_implemented_error;
 class test {
     public:
         using TestFuncType = function<bool(void)>;
+        using IdFuncType = function<uint32_t(void)>;
 
     private:
         uint32_t id;
@@ -81,7 +83,6 @@ class test {
         static const string ws_ts_prefix;
         static const string ws_r_prefix;
         static const array<const char*, 256>& escs;
-        static uint32_t next_id;
 
         static array<const char*, 256>& init_escs() {
             array<const char*, 256>& tmp = 
@@ -131,15 +132,7 @@ class test {
             }
         }
 
-
-        static uint32_t get_next_id() {
-            uint32_t id = next_id;
-            next_id++;
-            if(next_id == 0) {
-                next_id = 1;
-            }
-            return id;
-        }
+        static IdFuncType get_next_id;
 
     public:
         using decision_func = bool();
@@ -304,6 +297,8 @@ class test {
 };
 
 class testcase {
+    public :
+        using IdFuncType = function<uint32_t(void)>;
     private :
         using TPtrType = unique_ptr<test>;
         using VecType = vector<TPtrType>;
@@ -313,18 +308,10 @@ class testcase {
         static const string ws_t_prefix;
         uint32_t id;
         string name;
-        static uint32_t next_id;
         VecPtrType list_of_tests;
         static const string& noname;
 
-        static uint32_t get_next_id() {
-            uint32_t id = next_id;
-            next_id++;
-            if(next_id == 0) {
-                next_id = 1;
-            }
-            return id;
-        }
+        static IdFuncType get_next_id;
 
     public :
         testcase(const string& tcname = noname) {
@@ -368,6 +355,9 @@ class testcase {
 
 
 class testsuite {
+    public :
+        using IdFuncType = function<uint32_t(void)>;
+
     private :
         using TcPtrType = unique_ptr<testcase>;
         using VecType = vector<TcPtrType>;
@@ -378,17 +368,9 @@ class testsuite {
         string name;
         VecPtrType list_of_testcases;
 
-        static uint32_t next_id;
         static const string& noname;
 
-        static uint32_t get_next_id() {
-            uint32_t id = next_id;
-            next_id++;
-            if(next_id == 0) {
-                next_id = 1;
-            }
-            return id;
-        }
+        static IdFuncType get_next_id;
 
     public :
         testsuite(const string& tsname = noname) {
