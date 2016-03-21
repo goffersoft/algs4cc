@@ -1,3 +1,9 @@
+/******************************************************************************
+ *  Dependencies: none
+ *
+ *  test code for the cstdout class.
+ *
+ ******************************************************************************/
 #ifndef __CSTDOUT_TEST__
 #define __CSTDOUT_TEST__
 
@@ -36,6 +42,7 @@ class cstdout_testsuite : public testsuite {
                                    testcase(name) {
                     add_test(bind(&testcase1::test1, this), "lvalue test");
                     add_test(bind(&testcase1::test2, this), "rvalue test");
+                    add_test(test3());
                 }
 
                 bool test1() {
@@ -51,6 +58,21 @@ class cstdout_testsuite : public testsuite {
                     test::ccassert_equals(string("27\n"), output); 
                     return true;
                 }
+
+                class test3 : public test {
+                     public :
+                         test3(): test(){}
+                         test3& clone() const override {
+                             return *new test3(*this);
+                         }
+
+                         bool run() {
+                            string output = test::capture_stdout(
+                                 []() -> void { int i = 27; cstdout::println(i); });
+                            test::ccassert_equals(string("27\n"), output); 
+                            return true;
+                        }
+                };
         };
 };
 

@@ -1,3 +1,40 @@
+/** 
+ **
+ ** This file is part of algs4cc.
+ **
+ ** algs4cc is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation, either version 3 of the License, or
+ ** (at your option) any later version.
+ **
+ ** algs4cc is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **
+ ** You should have received a copy of the GNU General Public License
+ ** along with algs4cc. If not, see <http://www.gnu.org/licenses/>.
+ **
+ ** this file describes the classes that are used for implementing a
+ ** unit test framework
+ **      1) a test is made of a vector of testsuite classes
+ **            a) member function to add a testsuite
+ **
+ **      2) each testsuite class are made up of a vector of
+ **         testcase classes.
+ **            a) member function to add a testcase
+ **
+ **      3) each testcase class is made of a vector of testcases
+ **            a) member functions to add a test
+ **
+ **      4) two ways of creating a test class
+ **           a) public derivation from base test class
+ **                 1) must override clone
+ **                 2) must override run function (code goes here)
+ **           b) create a function object(std::function, std::bind)
+ **              of type bool(boid)
+ ** 
+ **/
 #ifndef __CODECLEAN__
 #define __CODECLEAN__
 
@@ -6,6 +43,8 @@
 #include <sstream>
 #include <string>
 #include <array>
+
+#include "except.h"
 
 namespace com {
 namespace goffersoft {
@@ -27,6 +66,8 @@ using std::endl;
 using std::stringstream;
 using std::streambuf;
 using std::array;
+
+using com::goffersoft::core::not_implemented_error;
 
 class test {
     public:
@@ -100,14 +141,15 @@ class test {
             return id;
         }
 
-        bool exec() { return run(); }
-
     public:
         using decision_func = bool();
         using cap_func = void();
         using mock_func = void();
 
         static const string& noname;
+
+        test(const string& tname = noname) :
+                        test(nullptr, tname) {}
 
         test(const TestFuncType& tf,
              const string& tname = noname) {
@@ -124,6 +166,9 @@ class test {
         }
 
         const TestFuncType& get_test() {
+            if(test_func == nullptr) {
+                test_func = bind(&test::run, this);
+            }
             return test_func;
         }
 
@@ -135,8 +180,13 @@ class test {
             return name;
         }
 
+        virtual test& clone() const {
+            throw not_implemented_error("must override in derived class");
+        }
 
-        virtual bool run() { return true; }
+        virtual bool run() {
+            throw not_implemented_error("must override in derived class");
+        }
 
         static void ccassert(bool val,
                              const string& msg = "test failed",
@@ -296,6 +346,12 @@ class testcase {
                        );
         }
 
+        void add_test(const test& t) {
+            list_of_tests->push_back(
+                  TPtrType(&t.clone())
+                       );
+        }
+
         virtual void run(ostream& os = cout) {
             os << ws_tc_prefix
                << "Running Test Case #"
@@ -398,28 +454,5 @@ string* test::get_raw<string>(const string& oldstr);
 } //com
 } //goffersoft
 } //codeclean
-
-/******************************************************************************
- *  Copyright 2016, Prakash Easwar.
- *
- *  This file is part of test.so, ported to c++ from java
- *
- *      Algorithms, 4th edition by Robert Sedgewick and Kevin Wayne,
- *      Addison-Wesley Professional, 2011, ISBN 0-321-57351-X.
- *      http://algs4.cs.princeton.edu
- *
- *  test.so is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  test.so is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with test.so.  If not, see http://www.gnu.org/licenses.
- ******************************************************************************/
 
 #endif /* __CODECLEAN__ */

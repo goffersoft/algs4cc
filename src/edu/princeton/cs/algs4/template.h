@@ -1,3 +1,9 @@
+/******************************************************************************
+ *  Dependencies: none
+ *
+ *  template header file
+ *
+ ******************************************************************************/
 #ifndef __CSTDOUT__
 #define __CSTDOUT__
 
@@ -16,7 +22,7 @@ using std::endl;
 using std::flush;
 using std::string;
 
-class cstdin {
+class <your class> {
     
 };
 

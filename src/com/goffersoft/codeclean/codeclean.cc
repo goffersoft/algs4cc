@@ -1,3 +1,40 @@
+/** 
+ **
+ ** This file is part of algs4cc.
+ **
+ ** algs4cc is free software: you can redistribute it and/or modify
+ ** it under the terms of the GNU General Public License as published by
+ ** the Free Software Foundation, either version 3 of the License, or
+ ** (at your option) any later version.
+ **
+ ** algs4cc is distributed in the hope that it will be useful,
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ** GNU General Public License for more details.
+ **
+ ** You should have received a copy of the GNU General Public License
+ ** along with algs4cc. If not, see <http://www.gnu.org/licenses/>.
+ **
+ ** this file describes the classes that are used for implementing a
+ ** unit test framework
+ **      1) a test is made of a vector of testsuite classes
+ **            a) member function to add a testsuite
+ **
+ **      2) each testsuite class are made up of a vector of
+ **         testcase classes.
+ **            a) member function to add a testcase
+ **
+ **      3) each testcase class is made of a vector of testcases
+ **            a) member functions to add a test
+ **
+ **      4) two ways of creating a test class
+ **           a) public derivation from base test class
+ **                 1) must override clone
+ **                 2) must override run function (code goes here)
+ **           b) create a function object(std::function, std::bind)
+ **              of type bool(boid)
+ ** 
+ **/
 #include "codeclean.h"
 
 using std::string;

@@ -15,31 +15,39 @@
  ** You should have received a copy of the GNU General Public License
  ** along with algs4cc. If not, see <http://www.gnu.org/licenses/>.
  **
- ** This file descrbes the utils class of the algs4cc project.
- ** This class cannot be instantiated. Has a bunch of static
- ** helper functions
+ ** This file descrbes the various exception classes of the
+ ** algs4cc project.
+ **      not_implmeneted_error exception class
  **/
-#ifndef __UTILS_H__
-#define __UTILS_H__
+#ifndef __EXCEPT_H__
+#define __EXCEPT_H__
 
-#include<cctype>
+#include<exception>
+#include<string>
 
 namespace com {
 namespace goffersoft {
 namespace core {
 
-class utils {
-    public :
-        utils() = delete;
+using std::exception;
+using std::string;
 
-        static bool strequals_igncase(unsigned char a,
-                                      unsigned char b) {
-            return tolower(a) == tolower(b);
-        };
+class not_implemented_error : public exception {
+    private :
+        string msg;
+
+    public :
+        not_implemented_error(
+            const string& m =
+                    "function not implemented") : exception(), msg(m){}
+
+        const char* what() const noexcept override {
+            return msg.c_str();
+        }
 };
 
 } //com
 } //goffersoft
 } //core
 
-#endif /* __UTILS_H__ */
+#endif /* __EXCEPT_H__ */
