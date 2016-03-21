@@ -181,31 +181,35 @@ class test {
             throw not_implemented_error("must override in derived class");
         }
 
-        static void ccassert(bool val,
+        static bool ccassert(bool val,
                              const string& msg = "test failed",
                              ostream& os = cout,
                              const string& fail_msg = "test failed",
                              const string& pass_msg = "test_passed") {
             if(!val) {
                 os << ws_ts_prefix << fail_msg << endl; 
+                return false;
             } else {
                 os << ws_ts_prefix << pass_msg << endl; 
+                return true;
             }
         }
 
-        static void ccassert(const function<decision_func>& dfunc,
+        static bool ccassert(const function<decision_func>& dfunc,
                              ostream& os = cout,
                              const string& fail_msg = "test failed",
                              const string& pass_msg = "test_passed") {
             if(!dfunc()) {
                 os << ws_ts_prefix << fail_msg << endl; 
+                return false;
             } else {
                 os << ws_ts_prefix << pass_msg << endl; 
+                return true;
             }
         }
 
         template <typename T>
-        static void ccassert_equals(
+        static bool ccassert_equals(
                  const T& expected,
                  const T& actual,
                  ostream& os = cout,
@@ -215,15 +219,17 @@ class test {
                 print_msg(expected,
                           actual,
                           os, fail_msg, true);
+                return false;
             } else {
                 print_msg(expected,
                           actual,
                           os, pass_msg, false);
+                return true;
             }
         }
 
         template <typename T>
-        static void ccassert_not_equals(
+        static bool ccassert_not_equals(
                  const T& expected,
                  const T& actual,
                  ostream& os = cout,
@@ -233,10 +239,12 @@ class test {
                 print_msg(expected,
                           actual,
                           os, fail_msg, true);
+                return false;
             } else {
                 print_msg(expected,
                           actual,
                           os, pass_msg, false);
+                return true;
             }
         }
        
@@ -310,6 +318,9 @@ class testcase {
         string name;
         VecPtrType list_of_tests;
         static const string& noname;
+        uint32_t num_tests_passed = 0;
+        uint32_t num_tests_failed = 0;
+        uint32_t num_tests = 0;
 
         static IdFuncType get_next_id;
 
@@ -340,6 +351,7 @@ class testcase {
         }
 
         virtual void run(ostream& os = cout) {
+            num_tests = list_of_tests->size();
             os << ws_tc_prefix
                << "Running Test Case #"
                << id << "," << name << endl;
@@ -348,8 +360,34 @@ class testcase {
                    << "Running Test #"
                    << t->get_id() << ","
                    << t->get_name() << endl;
-                (t->get_test())();;
+                bool status = ((t->get_test())());
+                if(status) {
+                    num_tests_passed++;
+                } else {
+                    num_tests_failed++;
+                }
             }
+        }
+        
+        uint32_t get_num_tests_passed() {
+            return num_tests_passed;
+        }
+
+        uint32_t get_num_tests_failed() {
+            return num_tests_failed;
+        }
+
+        uint32_t get_num_tests() {
+            return num_tests;
+        }
+
+        void print_report(ostream& os = cout) {
+            os << ws_tc_prefix 
+               << "TestCase(" << id << ',' << name << ") : " << endl
+               << ws_t_prefix << "Report(Total/Pass/Fail) : ("
+               << num_tests << "/"
+               << num_tests_passed << "/"
+               << num_tests_failed << ")" << endl;
         }
 };
 
@@ -363,13 +401,16 @@ class testsuite {
         using VecType = vector<TcPtrType>;
         using VecPtrType = shared_ptr<VecType>;
 
-        static const string ws_prefix;
         uint32_t id;
         string name;
         VecPtrType list_of_testcases;
+        uint32_t num_tests_passed = 0;
+        uint32_t num_tests_failed = 0;
+        uint32_t num_tests = 0;
 
+        static const string ws_ts_prefix;
+        static const string ws_tc_prefix;
         static const string& noname;
-
         static IdFuncType get_next_id;
 
     public :
@@ -392,11 +433,38 @@ class testsuite {
         }
 
         virtual void run(ostream& os = cout) {
-            os << ws_prefix
+            os << ws_ts_prefix
                << "Running Test Suite #"
                << id << "," << name << endl;
             for(auto& tc : *list_of_testcases) {
                 tc->run(os);
+                num_tests_passed += tc->get_num_tests_passed();
+                num_tests_failed += tc->get_num_tests_failed();
+                num_tests += tc->get_num_tests();
+            }
+        }
+
+        uint32_t get_num_tests_passed() {
+            return num_tests_passed;
+        }
+
+        uint32_t get_num_tests_failed() {
+            return num_tests_failed;
+        }
+
+        uint32_t get_num_tests() {
+            return num_tests;
+        }
+        void print_report(ostream& os = cout) {
+            os << ws_ts_prefix 
+               << "TestSuite(" << id << ',' << name << ") : " << endl
+               << ws_tc_prefix
+               << "Report(Total/Pass/Fail) : ("
+               << num_tests << "/"
+               << num_tests_passed << "/"
+               << num_tests_failed << ")" << endl;
+            for(auto& ts : *list_of_testcases) {
+                ts->print_report();
             }
         }
 };
@@ -410,6 +478,9 @@ class codeclean {
 
         VecPtrType list_of_testsuites;
         string name;
+        uint32_t num_tests_passed = 0;
+        uint32_t num_tests_failed = 0;
+        uint32_t num_tests = 0;
 
     public :
         codeclean() {
@@ -426,6 +497,20 @@ class codeclean {
             os << ws_prefix << "Running Tests" << endl;
             for(auto& ts : *list_of_testsuites) {
                 ts->run(os);
+                num_tests_passed += ts->get_num_tests_passed();
+                num_tests_failed += ts->get_num_tests_failed();
+                num_tests += ts->get_num_tests();
+            }
+        }
+
+        void print_report(ostream& os = cout) {
+            os << ws_prefix 
+               << "Test Report(Total/Pass/Fail) : ("
+               << num_tests << "/"
+               << num_tests_passed << "/"
+               << num_tests_failed << ")" << endl;
+            for(auto& ts : *list_of_testsuites) {
+                ts->print_report();
             }
         }
 };

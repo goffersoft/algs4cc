@@ -28,32 +28,7 @@ int test_main(int argc, const char **argv) {
     codeclean tests;
     tests.add_testsuite(cstdout_testsuite());
     tests.run();
-
-    bool a = true;
-    bool& b = a;
-    const bool& c = a;
-    bool* d = &a;
-    const bool* e = &a;
-
-    cstdout::println(27);
-    cstdout::println(a);
-    cstdout::println(b);
-    cstdout::println(c);
-    cstdout::println(d);
-    cstdout::println(e);
-    cstdout::println(*d);
-    cstdout::println(*e);
-
-    cstdout::printf("%d %s\n", 5, "hello");
-
-    int x = 17;
-    int y = 23;
-    int sum = x + y;
-    cstdout::println("Hello, World");
-    cstdout::printf("%d + %d = %d\n", x, y, sum);
-    cstdout s;  
-    s.println("Hello, World");
-    s.printf("%d + %d = %d\n", x, y, sum);
+    tests.print_report();
 
     return 0;
 }

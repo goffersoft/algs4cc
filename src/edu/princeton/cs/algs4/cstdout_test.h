@@ -8,6 +8,7 @@
 #define __CSTDOUT_TEST__
 
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "codeclean.h"
@@ -23,6 +24,7 @@ using std::shared_ptr;
 using std::function;
 using std::bind;
 using std::cerr;
+using std::stringstream;
 using std::string;
 using com::goffersoft::codeclean::testsuite;
 using com::goffersoft::codeclean::testcase;
@@ -33,6 +35,7 @@ class cstdout_testsuite : public testsuite {
         cstdout_testsuite(const string& name = "cstdout") :
                               testsuite(name) { 
             add_testcase(testcase1());
+            add_testcase(testcase2());
         }
 
     private :
@@ -42,37 +45,117 @@ class cstdout_testsuite : public testsuite {
                                    testcase(name) {
                     add_test(bind(&testcase1::test1, this), "lvalue test");
                     add_test(bind(&testcase1::test2, this), "rvalue test");
-                    add_test(test3());
+                    add_test(test3("ref test"));
+                    add_test(bind(&testcase1::test4, this), "const char *");
+                    add_test(bind(&testcase1::test5, this), "stdout instance test");
+                    add_test(bind(&testcase1::test6, this), "pointer value test");
+                    add_test(bind(&testcase1::test7, this), "const pointer value test");
                 }
 
                 bool test1() {
                     string output = test::capture_stdout(
                          []() -> void { cstdout::println(27); });
-                    test::ccassert_equals(string("27\n"), output); 
-                    return true;
+                    return test::ccassert_equals(string("27\n"), output); 
                 }
 
                 bool test2() {
                     string output = test::capture_stdout(
                          []() -> void { int i = 27; cstdout::println(i); });
-                    test::ccassert_equals(string("27\n"), output); 
-                    return true;
+                    return test::ccassert_equals(string("27\n"), output); 
                 }
 
                 class test3 : public test {
                      public :
                          test3(): test(){}
+                         test3(const string& name): test(name){}
                          test3& clone() const override {
                              return *new test3(*this);
                          }
 
                          bool run() {
-                            string output = test::capture_stdout(
-                                 []() -> void { int i = 27; cstdout::println(i); });
-                            test::ccassert_equals(string("27\n"), output); 
-                            return true;
-                        }
+                             string output = test::capture_stdout(
+                                  []() -> void {
+                                       bool i = true;
+                                       bool& j = i;
+                                       cstdout::println(j);
+                                  });
+                             return test::ccassert_equals(string("1\n"), output); 
+                         }
                 };
+
+                bool test4() {
+                    string output = test::capture_stdout(
+                        []() -> void {
+                            bool i = true;
+                            const bool& j = i;
+                            cstdout::println(j);
+                        });
+                    return test::ccassert_equals(string("1\n"), output); 
+                }
+
+                bool test5() {
+                    string output = test::capture_stdout(
+                        []() -> void {
+                            cstdout out;
+                            const char* s = "Hello World";
+                            out.println(s);
+                        });
+                    return test::ccassert_equals(string("Hello World\n"), output); 
+                }
+
+                bool test6() {
+                    bool a = true;
+                    bool* b = &a;
+                    string output = test::capture_stdout(
+                         [b]() -> void { cstdout::println(b); });
+                    stringstream s;
+                    s << b << endl;
+                    return test::ccassert_equals(s.str(), output); 
+                }
+
+                bool test7() {
+                    bool a = true;
+                    const bool* b = &a;
+                    string output = test::capture_stdout(
+                         [b]() -> void { cstdout::println(b); });
+                    stringstream s;
+                    s << b << endl;
+                    return test::ccassert_equals(s.str(), output); 
+                }
+        };
+        class testcase2 : public testcase {
+            public :
+                testcase2(const string& name = "printf - all tests") : 
+                                   testcase(name) {
+                    add_test(bind(&testcase2::test1, this), "multiple args test");
+                    add_test(bind(&testcase2::test2, this), "instance test");
+                }
+                bool test1() {
+                    string output = test::capture_stdout(
+                        []() -> void {
+                            const char* s = "Hello World";
+                            uint32_t a = 27;
+                            uint32_t b = 28;
+                            uint32_t sum = a + b;
+                            cstdout::printf("%s, sum of (%d+%d)=%d\n", s, a, b, sum);
+                        });
+                    return test::ccassert_equals(
+                      string("Hello World, sum of (27+28)=55\n"), output); 
+                }
+
+                bool test2() {
+                    string output = test::capture_stdout(
+                        []() -> void {
+                            cstdout out;
+                            const char* s = "Hello World";
+                            uint32_t a = 27;
+                            uint32_t b = 28;
+                            uint32_t sum = a + b;
+                            out.printf("%s, sum of (%d+%d)=%d\n", s, a, b, sum);
+                        });
+                    return test::ccassert_equals(
+                      string("Hello World, sum of (27+28)=55\n"), output); 
+                }
         };
 };
 
