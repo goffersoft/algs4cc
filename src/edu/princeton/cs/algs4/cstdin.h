@@ -12,6 +12,7 @@
 #include <string>
 #include <math.h>
 #include <math.h>
+#include <climits>
 
 #include "utils.h"
 
@@ -192,7 +193,7 @@ class cstdin {
             val = conv_func(token.c_str(), &end, 0);
 
             if(p == end) {
-                throw std::ios_base::failure::failure(
+                throw std::ios_base::failure(
                      "bad token '" + token +  "' in input");
             }
             return val;
@@ -424,7 +425,7 @@ class cstdin {
                 throw_exp = true;
             }
             if(throw_exp) {
-               throw std::ios_base::failure::failure(
+               throw std::ios_base::failure(
                      "bad boolean '" + token +  "' in input");
             }
             return val;

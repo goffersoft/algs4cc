@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
+#include <cstdarg>
 
 namespace edu {
 namespace princeton {
@@ -21,6 +23,7 @@ using std::cout;
 using std::endl;
 using std::flush;
 using std::string;
+using std::strlen;
 
 /**
  ** This class provides methods for printing strings and numbers to standard output.
