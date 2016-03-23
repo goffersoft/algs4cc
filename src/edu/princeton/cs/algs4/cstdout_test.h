@@ -20,12 +20,10 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
-using std::shared_ptr;
-using std::function;
 using std::bind;
-using std::cerr;
 using std::stringstream;
 using std::string;
+
 using com::goffersoft::codeclean::testsuite;
 using com::goffersoft::codeclean::testcase;
 using com::goffersoft::codeclean::test;
@@ -36,6 +34,7 @@ class cstdout_testsuite : public testsuite {
                               testsuite(name) { 
             add_testcase(testcase1());
             add_testcase(testcase2());
+            add_testcase(testcase3());
         }
 
     private :
@@ -43,8 +42,8 @@ class cstdout_testsuite : public testsuite {
             public :
                 testcase1(const string& name = "println - all tests") : 
                                    testcase(name) {
-                    add_test(bind(&testcase1::test1, this), "lvalue test");
-                    add_test(bind(&testcase1::test2, this), "rvalue test");
+                    add_test(bind(&testcase1::test1, this), "rvalue test");
+                    add_test(bind(&testcase1::test2, this), "lvalue test");
                     add_test(test3("ref test"));
                     add_test(bind(&testcase1::test4, this), "const char *");
                     add_test(bind(&testcase1::test5, this), "stdout instance test");
@@ -155,6 +154,42 @@ class cstdout_testsuite : public testsuite {
                         });
                     return test::ccassert_equals(
                       string("Hello World, sum of (27+28)=55\n"), output); 
+                }
+        };
+        class testcase3 : public testcase {
+            public :
+                testcase3(const string& name = "print - all tests") : 
+                                   testcase(name) {
+                    add_test(bind(&testcase3::test1, this), "rvalue test");
+                    add_test(bind(&testcase3::test2, this), "lvalue test");
+                    add_test(bind(&testcase3::test3, this), "ref test");
+                    add_test(bind(&testcase3::test4, this), "const ref test");
+                    add_test(bind(&testcase3::test5, this), "const char *");
+                }
+                bool test1() {
+                    string output = test::capture_stdout(
+                         []() -> void { cstdout::print(27); });
+                    return test::ccassert_equals(string("27"), output); 
+                }
+                bool test2() {
+                    string output = test::capture_stdout(
+                         []() -> void { int i = 27; cstdout::print(i); });
+                    return test::ccassert_equals(string("27"), output); 
+                }
+                bool test3() {
+                    string output = test::capture_stdout(
+                         []() -> void { int j=27; int& i=j; cstdout::print(i); });
+                    return test::ccassert_equals(string("27"), output); 
+                }
+                bool test4() {
+                    string output = test::capture_stdout(
+                         []() -> void { int j=27; const int& i=j; cstdout::print(i); });
+                    return test::ccassert_equals(string("27"), output); 
+                }
+                bool test5() {
+                    string output = test::capture_stdout(
+                         []() -> void { const char* i="Hello"; cstdout::print(i); });
+                    return test::ccassert_equals(string("Hello"), output); 
                 }
         };
 };

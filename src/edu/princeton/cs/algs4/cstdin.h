@@ -250,18 +250,18 @@ class cstdin {
          ** Use this method to know whether the next call
          ** to readString(), read_double(), etc will succeed.
          **
-         ** return true if standard input is empty (except possibly
-         **         for whitespace); false otherwise
+         ** return true if standard input has text token
+         **         ; false if empty (or possible whitespace
          **/
         static bool has_next(istream& is = cin) {
             int ch;
-            while((ch = is.peek()) != is.eof()) {
+            while((ch = is.peek()) >= 0) {
                 if(!isspace(ch)) {
-                    return false;
+                    return true;
                 }
                 ch = is.get();
             }
-            return true;
+            return false;
         }
     
         /**
@@ -276,7 +276,7 @@ class cstdin {
          **        false otherwise
          **/
         static bool has_next_char(istream& is = cin) {
-           return (is.peek() != is.eof());
+           return (is.peek() >= 0);
         }
 
         /**
@@ -296,23 +296,22 @@ class cstdin {
          ** Reads the next token and returns the string.
          ** return the next string
          **/
-        static string next(istream& is = cin) {
+        static string read_next(istream& is = cin) {
             int ch;
             string token;
 
-            while((ch = is.peek()) != is.eof()) {
+            while((ch = is.peek()) >= 0) {
                 if(!isspace(ch)) {
                     break;
                 }
                 ch = is.get();
             }
 
-            while((ch = is.peek()) != is.eof()) {
+            while((ch = is.peek()) >= 0) {
                 if(isspace(ch)) {
                     break;
                 } else {
                     token += static_cast<char>(is.get());
-                    break;
                 }
             }
 
@@ -342,7 +341,7 @@ class cstdin {
             string line;
             int ch;
 
-            while((ch = is.get()) != is.eof()) {
+            while((ch = is.get()) >= 0) {
                 if((ch != '\r') &&
                    (ch != '\n')) {
                     line += static_cast<char>(ch);
@@ -374,7 +373,7 @@ class cstdin {
             string input;
             int ch;
 
-            while((ch = is.get()) != is.eof()) {
+            while((ch = is.get()) >= 0) {
                 input += static_cast<char>(ch);
             }
             return input; 
@@ -385,7 +384,7 @@ class cstdin {
          ** return the next string
          **/
         static string read_string(istream& is = cin) {
-            return next(is);
+            return read_next(is);
         }
     
         /**
@@ -600,7 +599,7 @@ class cstdin {
          **/
         static vector<string> read_all_strings(istream& is = cin) {
             vector<string> val;
-            read_all_xtype(is, val, next, has_next);
+            read_all_xtype(is, val, read_next, has_next);
             return val;
         }
     

@@ -14,19 +14,19 @@
  ** along with this software. If not, see <http://www.gnu.org/licenses/>.
  **
  **/
-#include "cstdout.h"
-#include "cstdin.h"
 #include "cstdout_test.h"
+#include "cstdin_test.h"
 #include "codeclean.h"
 
 using com::goffersoft::codeclean::codeclean;
 using com::goffersoft::codeclean::testsuite;
 using edu::princeton::cs::algs4::cstdout_testsuite;
-using edu::princeton::cs::algs4::cstdout;
+using edu::princeton::cs::algs4::cstdin_testsuite;
 
 int test_main(int argc, const char **argv) {
     codeclean tests;
     tests.add_testsuite(cstdout_testsuite());
+    tests.add_testsuite(cstdin_testsuite());
     tests.run();
     tests.print_report();
 

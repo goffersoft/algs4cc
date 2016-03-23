@@ -4,6 +4,14 @@ port of the java code associated with the algs4 library
 
 http://algs4.cs.princeton.edu/code/
 
+to running the unit tests
+
+compile the repository to generate an executable 
+(see instructions below for instal and compile)
+
+execute the following cmd 
+
+<path_to_this_dir>/bin/algs4cc test
 
 
 Before running make, do the following
