@@ -12,7 +12,6 @@
 #include <string>
 
 #include "codeclean.h"
-
 #include "cstdin.h"
 
 namespace edu {
@@ -52,6 +51,15 @@ class cstdin_testsuite : public testsuite {
             add_testcase(testcase16());
             add_testcase(testcase17());
             add_testcase(testcase18());
+            add_testcase(testcase19());
+            add_testcase(testcase20());
+            add_testcase(testcase21());
+            add_testcase(testcase22());
+            add_testcase(testcase23());
+            add_testcase(testcase24());
+            add_testcase(testcase25());
+            add_testcase(testcase26());
+            add_testcase(testcase27());
         }
 
     private :
@@ -1309,6 +1317,487 @@ class cstdin_testsuite : public testsuite {
                             retval = sin.read_int64();
                         });
                     return test::ccassert_equals((int64_t)0xffffffffff, retval); 
+                }
+        };
+
+        class testcase19 : public testcase {
+            public :
+                testcase19(const string& name = "read_all_bools - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase19::test1, this),
+                                  "read_all_bools - list of  bools test");
+                    add_test(bind(&testcase19::test2, this),
+                                  "read_all bools - read bad bool throw exp test");
+                    add_test(bind(&testcase19::test3, this),
+                                  "read_all_bools - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("true false 1 0\r\t\n");
+                    vector<bool> input{true, false, true, false};
+                    vector<bool> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_bools();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<bool> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_bools();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("true false 1 0\r\t\n");
+                    vector<bool> input{true, false, true, false};
+                    vector<bool> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_bools();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase20 : public testcase {
+            public :
+                testcase20(const string& name = "read_all_uint8s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase20::test1, this),
+                                  "read_all_uint8s - list of uint8s test");
+                    add_test(bind(&testcase20::test2, this),
+                                  "read_all uint8s - read bad uint8 throw exp test");
+                    add_test(bind(&testcase20::test3, this),
+                                  "read_all_uint8s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 2 127 64 255 50000\r\t\n");
+                    vector<uint8_t> input{0, 1, 2, 127, 64, 255, 255};
+                    vector<uint8_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_uint8s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<uint8_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_uint8s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0, 1 2 127 64 255 50000\r\t\n");
+                    vector<uint8_t> input{0, 1, 2, 127, 64, 255, 255};
+                    vector<uint8_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_uint8s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase21 : public testcase {
+            public :
+                testcase21(const string& name = "read_all_int8s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase21::test1, this),
+                                  "read_all_int8s - list of int8s test");
+                    add_test(bind(&testcase21::test2, this),
+                                  "read_all int8s - read bad int8 throw exp test");
+                    add_test(bind(&testcase21::test3, this),
+                                  "read_all_int8s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 -2 -128 -127 64 255 50000\r\t\n");
+                    vector<int8_t> input{0, 1, -2, -128, -127, 64, 127, 127};
+                    vector<int8_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_int8s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<int8_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_int8s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 -2 -128 -127 64 255 50000\r\t\n");
+                    vector<int8_t> input{0, 1, -2, -128, -127, 64, 127, 127};
+                    vector<int8_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_int8s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase22 : public testcase {
+            public :
+                testcase22(const string& name = "read_all_uint16s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase22::test1, this),
+                                  "read_all_uint16s - list of uint16s test");
+                    add_test(bind(&testcase22::test2, this),
+                                  "read_all uint16s - read bad uint16 throw exp test");
+                    add_test(bind(&testcase22::test3, this),
+                                  "read_all_uint16s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 2 127 64 255 70000\r\t\n");
+                    vector<uint16_t> input{0, 1, 2, 127, 64, 255, 65535};
+                    vector<uint16_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_uint16s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<uint16_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_uint16s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 2 127 64 255 70000\r\t\n");
+                    vector<uint16_t> input{0, 1, 2, 127, 64, 255, 65535};
+                    vector<uint16_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_uint16s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase23 : public testcase {
+            public :
+                testcase23(const string& name = "read_all_int16s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase23::test1, this),
+                                  "read_all_int16s - list of int16s test");
+                    add_test(bind(&testcase23::test2, this),
+                                  "read_all int16s - read bad int16 throw exp test");
+                    add_test(bind(&testcase23::test3, this),
+                                  "read_all_int16s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 -2 -1216 -70000 64 70000 50000\r\t\n");
+                    vector<int16_t> input{0, 1, -2, -1216, -32768, 64, 32767, 32767};
+                    vector<int16_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_int16s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<int16_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_int16s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 -2 -1216 -70000 64 70000 50000\r\t\n");
+                    vector<int16_t> input{0, 1, -2, -1216, -32768, 64, 32767, 32767};
+                    vector<int16_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_int16s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase24 : public testcase {
+            public :
+                testcase24(const string& name = "read_all_uint32s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase24::test1, this),
+                                  "read_all_uint32s - list of uint32s test");
+                    add_test(bind(&testcase24::test2, this),
+                                  "read_all uint32s - read bad uint32 throw exp test");
+                    add_test(bind(&testcase24::test3, this),
+                                  "read_all_uint32s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 2 127 64 70000 0xffffffffff\r\t\n");
+                    vector<uint32_t> input{0, 1, 2, 127, 64, 70000, 0xffffffff};
+                    vector<uint32_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_uint32s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<uint32_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_uint32s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 2 127 64 70000 0xffffffffff\r\t\n");
+                    vector<uint32_t> input{0, 1, 2, 127, 64, 70000, 0xffffffff};
+                    vector<uint32_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_uint32s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase25 : public testcase {
+            public :
+                testcase25(const string& name = "read_all_int32s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase25::test1, this),
+                                  "read_all_int32s - list of int32s test");
+                    add_test(bind(&testcase25::test2, this),
+                                  "read_all int32s - read bad int32 throw exp test");
+                    add_test(bind(&testcase25::test3, this),
+                                  "read_all_int32s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 -2 -1216 -0x7fffffffff 70000 0xffffffffff\r\t\n");
+                    vector<int32_t> input{0, 1, -2, -1216, INT_MIN, 70000, INT_MAX};
+                    vector<int32_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_int32s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<int32_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_int32s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 -2 -1216 -0x7ffffffff 70000 0xffffffffff\r\t\n");
+                    vector<int32_t> input{0, 1, -2, -1216, INT_MIN, 70000, INT_MAX};
+                    vector<int32_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_int32s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase26 : public testcase {
+            public :
+                testcase26(const string& name = "read_all_uint64s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase26::test1, this),
+                                  "read_all_uint64s - list of uint64s test");
+                    add_test(bind(&testcase26::test2, this),
+                                  "read_all uint64s - read bad uint64 throw exp test");
+                    add_test(bind(&testcase26::test3, this),
+                                  "read_all_uint64s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 2 127 64 70000 0xffffffffffffffffff\r\t\n");
+                    vector<uint64_t> input{0, 1, 2, 127, 64, 70000, ULONG_MAX};
+                    vector<uint64_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_uint64s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<uint64_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_uint64s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 2 127 64 70000 0xffffffffffffffffff\r\t\n");
+                    vector<uint64_t> input{0, 1, 2, 127, 64, 70000, ULONG_MAX};
+                    vector<uint64_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_uint64s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+        };
+
+        class testcase27 : public testcase {
+            public :
+                testcase27(const string& name = "read_all_int64s - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase27::test1, this),
+                                  "read_all_int64s - list of int64s test");
+                    add_test(bind(&testcase27::test2, this),
+                                  "read_all int64s - read bad int64 throw exp test");
+                    add_test(bind(&testcase27::test3, this),
+                                  "read_all_int64s - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("0 1 -2 -1216 \
+                                  70000 0xffffffffffffffffff\r\t\n");
+                    vector<int64_t> input{0, 1, -2, -1216, 70000, LONG_MAX};
+                    vector<int64_t> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_int64s();
+                        });
+                    return test::ccassert_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    std::ios_base::failure e("true fale false true");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+				  vector<int64_t> retval;
+                                  stringstream s("tes\r\t\n");
+                                  test::mock_stdin(
+                                      s,
+                                      [&retval]() -> void {
+                                          retval = cstdin::read_all_int64s();
+                                      });
+                              });
+                }
+
+                bool test3() {
+                    stringstream s("0 1 -2 -1216 \
+                                  70000 0xffffffffffffffffff\r\t\n");
+                    vector<int64_t> input{0, 1, -2, -1216, 70000, LONG_MAX};
+                    vector<int64_t> retval;
+                    auto cmp_func = [](const int64_t a, const int64_t b) {
+                                         return (a == b); };
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_int64s();
+                        });
+                    return test::ccassert_array_equals(input, retval, cmp_func);
                 }
         };
 };
