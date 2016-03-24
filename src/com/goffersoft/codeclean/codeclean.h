@@ -44,6 +44,7 @@
 #include <string>
 #include <array>
 #include <memory>
+#include <exception>
 
 #include "except.h"
 #include "utils.h"
@@ -68,6 +69,7 @@ using std::endl;
 using std::stringstream;
 using std::streambuf;
 using std::array;
+using std::exception;
 
 using com::goffersoft::core::not_implemented_error;
 
@@ -139,6 +141,7 @@ class test {
         using decision_func = bool();
         using cap_func = void();
         using mock_func = void();
+        using exp_func = void();
 
         static const string& noname;
 
@@ -206,6 +209,36 @@ class test {
             } else {
                 os << ws_ts_prefix << pass_msg << endl; 
                 return true;
+            }
+        }
+
+        template <typename T>
+        static bool ccassert_exception(
+                             const T& exp,
+                             const function<exp_func>& efunc,
+                             ostream& os = cout,
+                             const string& fail_msg = "test failed",
+                             const string& pass_msg = "test_passed") {
+            try {
+                efunc();
+                stringstream exp;
+                exp << "expected exception of type " << typeid(exp).name() << endl;
+                print_msg(exp.str(),
+                          string("no exception was thrown"),
+                          os, fail_msg, true);
+                return false;
+            } catch(T& e) {
+                os << ws_ts_prefix << pass_msg << endl; 
+                return true;
+            } catch(exception& e) {
+                stringstream exp;
+                stringstream act;
+                exp << "expected exception of type " << typeid(exp).name() << endl;
+                act << "got exception of type " << typeid(e).name() <<endl;
+                print_msg(exp.str(),
+                          act.str(),
+                          os, fail_msg, true);
+                return false;
             }
         }
 

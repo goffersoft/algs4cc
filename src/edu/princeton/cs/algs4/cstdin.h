@@ -406,11 +406,13 @@ class cstdin {
                          begin("true"),
                          utils::strequals_igncase)) {
                    val = true;
-                } else if(equal(token.begin(),
+                }
+            } else if(token.length() == 5) {
+                if(equal(token.begin(),
                           token.end(),
                           begin("false"),
                           utils::strequals_igncase)) {
-                    val = false;
+                   val = false;
                 }
             } else if(token.length() == 1) {
                if(token[0] == '1') {
@@ -421,7 +423,7 @@ class cstdin {
                    throw_exp = true;
                }
             } else {
-                throw_exp = true;
+               throw_exp = true;
             }
             if(throw_exp) {
                throw std::ios_base::failure(
