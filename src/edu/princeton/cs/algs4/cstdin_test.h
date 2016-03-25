@@ -22,6 +22,8 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
+using std::ios_base;
+using std::numeric_limits;
 
 using com::goffersoft::codeclean::testsuite;
 using com::goffersoft::codeclean::testcase;
@@ -60,6 +62,9 @@ class cstdin_testsuite : public testsuite {
             add_testcase(testcase25());
             add_testcase(testcase26());
             add_testcase(testcase27());
+            add_testcase(testcase28());
+            add_testcase(testcase29());
+            add_testcase(testcase30());
         }
 
     private :
@@ -680,7 +685,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test9() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -745,7 +750,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test3() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -837,7 +842,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test5() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -902,7 +907,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test3() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -994,7 +999,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test5() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1059,7 +1064,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test3() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1151,7 +1156,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test5() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1216,7 +1221,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test3() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1293,7 +1298,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test4() {
-                    std::ios_base::failure e("some exp");
+                    ios_base::failure e("some exp");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1345,7 +1350,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1398,7 +1403,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1451,7 +1456,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1504,7 +1509,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1557,7 +1562,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1610,7 +1615,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1663,7 +1668,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1716,7 +1721,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1770,7 +1775,7 @@ class cstdin_testsuite : public testsuite {
                 }
 
                 bool test2() {
-                    std::ios_base::failure e("true fale false true");
+                    ios_base::failure e("true fale false true");
                     return test::ccassert_exception(
                               e,
                               []() {
@@ -1798,6 +1803,298 @@ class cstdin_testsuite : public testsuite {
                             retval = sin.read_all_int64s();
                         });
                     return test::ccassert_array_equals(input, retval, cmp_func);
+                }
+        };
+
+        class testcase28 : public testcase {
+            public :
+                testcase28(const string& name = "read_float - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase28::test1, this),
+                                  "read_float - read good float value test");
+                    add_test(bind(&testcase28::test2, this),
+                                  "read_float - read nan value test");
+                    add_test(bind(&testcase28::test3, this),
+                                  "read_float - read inf float value test");
+                    add_test(bind(&testcase28::test4, this),
+                                  "read_float - read -inf float value test");
+                    add_test(bind(&testcase28::test5, this),
+                                  "read_float - read - underflow float value test");
+                    add_test(bind(&testcase28::test6, this),
+                                  "read_float - read - overflow float value test");
+                    add_test(bind(&testcase28::test7, this),
+                                  "read_float - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.5678 \r\t\n");
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                    return test::ccassert_equals((float)145.5678, retval); 
+                }
+
+                bool test2() {
+                    stringstream s("str \r\t\n");
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                    return test::ccassert_equals(nanf("1"), retval); 
+                }
+
+                bool test3() {
+                    stringstream s("inf \r\t\n");
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                    return test::ccassert_equals(
+                            numeric_limits<float>::max(), retval); 
+                }
+
+                bool test4() {
+                    stringstream s("-inf \r\t\n");
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                    
+                    return test::ccassert_equals(
+                            numeric_limits<float>::min(), retval); 
+                }
+
+                bool test5() {
+                    stringstream s;
+                    s << numeric_limits<double>::min() <<"\r\t\n";
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                    
+                    return test::ccassert_equals(
+                            -numeric_limits<float>::min(), retval); 
+                }
+
+                bool test6() {
+                    stringstream s;
+                    s << numeric_limits<double>::max() <<"\r\t\n";
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_float();
+                        });
+                     
+                    return test::ccassert_equals(
+                            numeric_limits<float>::max(), retval); 
+                }
+
+                bool test7() {
+                    stringstream s("145.5678 \r\t\n");
+                    float retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_float();
+                        });
+                    return test::ccassert_equals((float)145.5678, retval); 
+                }
+        };
+
+        class testcase29 : public testcase {
+            public :
+                testcase29(const string& name = "read_double - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase29::test1, this),
+                                  "read_double - read good double value test");
+                    add_test(bind(&testcase29::test2, this),
+                                  "read_double - read nan value test");
+                    add_test(bind(&testcase29::test3, this),
+                                  "read_double - read inf double value test");
+                    add_test(bind(&testcase29::test4, this),
+                                  "read_double - read -inf double value test");
+                    add_test(bind(&testcase29::test5, this),
+                                  "read_double - read - underflow double value test");
+                    add_test(bind(&testcase29::test6, this),
+                                  "read_double - read - overflow double value test");
+                    add_test(bind(&testcase29::test7, this),
+                                  "read_double - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.5678 \r\t\n");
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                    return test::ccassert_equals((double)145.5678, retval); 
+                }
+
+                bool test2() {
+                    stringstream s("str \r\t\n");
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                    return test::ccassert_equals(nan("1"), retval); 
+                }
+
+                bool test3() {
+                    stringstream s("inf \r\t\n");
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                    return test::ccassert_equals(
+                            numeric_limits<double>::max(), retval); 
+                }
+
+                bool test4() {
+                    stringstream s("-inf \r\t\n");
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                    
+                    return test::ccassert_equals(
+                            numeric_limits<double>::min(), retval); 
+                }
+
+                bool test5() {
+                    stringstream s;
+                    s << numeric_limits<long double>::min() <<"\r\t\n";
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                    
+                    return test::ccassert_equals(
+                            numeric_limits<double>::min(), retval); 
+                }
+
+                bool test6() {
+                    stringstream s;
+                    s << numeric_limits<long double>::max() <<"\r\t\n";
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_double();
+                        });
+                     
+                    return test::ccassert_equals(
+                            numeric_limits<double>::max(), retval); 
+                }
+
+                bool test7() {
+                    stringstream s("145.5678 \r\t\n");
+                    double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_double();
+                        });
+                    return test::ccassert_equals((double)145.5678, retval); 
+                }
+        };
+
+        class testcase30 : public testcase {
+            public :
+                testcase30(const string& name = "read_long_double - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase30::test1, this),
+                                  "read_long_double - read good long_double value test");
+                    add_test(bind(&testcase30::test2, this),
+                                  "read_long_double - read nan value test");
+                    add_test(bind(&testcase30::test3, this),
+                                  "read_long_double - read inf long_double value test");
+                    add_test(bind(&testcase30::test4, this),
+                                  "read_long_double - read -inf long_double value test");
+                    add_test(bind(&testcase30::test5, this),
+                                  "read_long_double - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.5678 \r\t\n");
+                    long double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_long_double();
+                        });
+                    return test::ccassert_equals((long double)145.5678, retval); 
+                }
+
+                bool test2() {
+                    stringstream s("str \r\t\n");
+                    long double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_long_double();
+                        });
+                    return test::ccassert_equals(nanl("1"), retval); 
+                }
+
+                bool test3() {
+                    stringstream s("inf \r\t\n");
+                    long double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_long_double();
+                        });
+                    return test::ccassert_equals(
+                            numeric_limits<long double>::max(), retval); 
+                }
+
+                bool test4() {
+                    stringstream s("-inf \r\t\n");
+                    long double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_long_double();
+                        });
+                    
+                    return test::ccassert_equals(
+                            numeric_limits<long double>::min(), retval); 
+                }
+
+                bool test5() {
+                    stringstream s("145.5678 \r\t\n");
+                    long double retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_long_double();
+                        });
+                    return test::ccassert_equals((long double)145.5678, retval); 
                 }
         };
 };

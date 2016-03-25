@@ -45,6 +45,7 @@
 #include <array>
 #include <memory>
 #include <exception>
+#include <type_traits>
 
 #include "except.h"
 #include "utils.h"
@@ -70,8 +71,10 @@ using std::stringstream;
 using std::streambuf;
 using std::array;
 using std::exception;
+using std::is_floating_point;
 
 using com::goffersoft::core::not_implemented_error;
+using com::goffersoft::core::utils;
 
 class test {
     public:
@@ -101,7 +104,7 @@ class test {
 
             return tmp;
         }
-        
+
         template<typename T>
         static T* get_raw(const T& t) {
             return nullptr;
@@ -182,6 +185,9 @@ class test {
         using cap_func = void();
         using mock_func = void();
         using exp_func = void();
+
+        template<typename T>
+        using cmp_func = function<bool(const T&, const T&)>;
 
         static const string& noname;
 
@@ -289,7 +295,7 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
-            if (expected != actual) {
+            if (!utils::cmp_equal(expected, actual)) {
                 print_msg(expected,
                           actual,
                           os, fail_msg, true);
@@ -309,7 +315,7 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
-            if (expected == actual) {
+            if (utils::cmp_equal(expected, actual)) {
                 print_msg(expected,
                           actual,
                           os, fail_msg, true);
@@ -326,14 +332,13 @@ class test {
         static bool ccassert_array_equals(
                  const A& expected,
                  const A& actual,
-                 const function<bool(typename A::const_reference,
-                                     typename A::const_reference)>& cmp_func,
+                 const cmp_func<typename A::const_reference> cfunc,
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
             bool retval;
 
-            retval = equal(begin(actual), end(actual), begin(expected), cmp_func);
+            retval = equal(begin(actual), end(actual), begin(expected), cfunc);
 
             if (!retval) {
                 print_array_msg(expected,
@@ -356,8 +361,17 @@ class test {
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
             bool retval;
-
-            retval = equal(begin(actual), end(actual), begin(expected));
+            if(is_floating_point<typename A::const_reference>::value) {
+                retval = equal(begin(actual),
+                               end(actual),
+                               begin(expected),
+                               [](typename A::const_reference lhs,
+                                  typename A::const_reference rhs) {
+                                   return utils::cmp_equal(lhs, rhs);
+                               });
+            } else {
+                retval = equal(begin(actual), end(actual), begin(expected));
+            }
 
             if (!retval) {
                 print_array_msg(expected,
@@ -376,14 +390,13 @@ class test {
         static bool ccassert_array_notequals(
                  const A& expected,
                  const A& actual,
-                 const function<bool(typename A::const_reference,
-                                     typename A::const_reference)>& cmp_func,
+                 const cmp_func<typename A::const_reference> cfunc,
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
             bool retval;
 
-            retval = equal(begin(actual), end(actual), begin(expected), cmp_func);
+            retval = equal(begin(actual), end(actual), begin(expected), cfunc);
 
             if (retval) {
                 print_array_msg(expected,
@@ -407,7 +420,17 @@ class test {
                  const string& pass_msg = "test_passed") {
             bool retval;
 
-            retval = equal(begin(actual), end(actual), begin(expected));
+            if(is_floating_point<typename A::const_reference>::value) {
+                retval = equal(begin(actual),
+                               end(actual),
+                               begin(expected),
+                               [](typename A::const_reference lhs,
+                                  typename A::const_reference rhs) {
+                                   return utils::cmp_equal(lhs, rhs);
+                               });
+            } else {
+                retval = equal(begin(actual), end(actual), begin(expected));
+            }
 
             if (retval) {
                 print_array_msg(expected,

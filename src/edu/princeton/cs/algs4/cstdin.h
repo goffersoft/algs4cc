@@ -31,6 +31,8 @@ using std::string;
 using std::isspace;
 using std::equal;
 using std::begin;
+using std::ios_base;
+using std::numeric_limits;
 
 using com::goffersoft::core::utils;
 
@@ -71,7 +73,7 @@ using com::goffersoft::core::utils;
  ** it into a value of the specified type. If it succeeds,
  ** it returns that value.
  ** for function 1 thru 9  an exception is thrown on error.
- **   std::ios_base::failure::failure on error
+ **   ios_base::failure::failure on error
  ** for 11 thru 13 nan is returned.
  **     
  ** Whitespace includes spaces, tabs, and newlines;
@@ -183,7 +185,7 @@ class cstdin {
          ** return the next int64 on standard input
          ** int64_t - returns LONG_MIN, LONG_MAX if value is out of range
          ** uint64_t - returns ULONG_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         template<typename T, typename F>
         static T read_xint64(istream& is, T& val, F conv_func) {
@@ -193,7 +195,7 @@ class cstdin {
             val = conv_func(token.c_str(), &end, 0);
 
             if(p == end) {
-                throw std::ios_base::failure(
+                throw ios_base::failure(
                      "bad token '" + token +  "' in input");
             }
             return val;
@@ -210,9 +212,9 @@ class cstdin {
          ** long double - HUGE_VALL
          ** if value is out of range
          ** returns on error
-         ** float - std::nanf("1")
-         ** double - std::nan("1")
-         ** long double - std::nanl("1")
+         ** float - nanf("1")
+         ** double - nan("1")
+         ** long double - nanl("1")
          **/
         template<typename T, typename F, typename N>
         static T read_xfld(istream& is, T& val,
@@ -223,8 +225,14 @@ class cstdin {
             val = conv_func(token.c_str(), &end);
 
             if(p == end) {
-                return nan_func("1");
+                val = nan_func("1");
             }
+
+            if(val > numeric_limits<T>::max())
+                val = numeric_limits<T>::max();
+            else if(val < -numeric_limits<T>::min())
+                val = -numeric_limits<T>::min();
+            
             return val;
         }
         
@@ -394,7 +402,7 @@ class cstdin {
          ** returns true or 1 for true,
          **            and false or 0 for false,
          ** ignoring case
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static bool read_bool(istream& is = cin) {
             bool throw_exp = false;
@@ -426,7 +434,7 @@ class cstdin {
                throw_exp = true;
             }
             if(throw_exp) {
-               throw std::ios_base::failure(
+               throw ios_base::failure(
                      "bad boolean '" + token +  "' in input");
             }
             return val;
@@ -437,7 +445,7 @@ class cstdin {
          ** parses it as an int64, and returns the integer.
          ** return the next int64 on standard input
          ** returns LONG_MIN, LONG_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static int64_t read_int64(istream& is = cin) {
             int64_t val;
@@ -451,7 +459,7 @@ class cstdin {
          ** return the next uint64_t on standard input
          ** returns ULONG_MAX if value is
          ** out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static uint64_t read_uint64(istream& is = cin) {
             uint64_t val;
@@ -464,7 +472,7 @@ class cstdin {
          ** parses it as an int32, and returns the integer.
          ** return the next int32 on standard input
          ** returns INT_MIN, INT_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static int32_t read_int32(istream& is = cin) {
             int64_t val = read_int64(is);
@@ -481,7 +489,7 @@ class cstdin {
          ** return the next uint32_t on standard input
          ** returns UINT_MAX if value is
          ** out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static uint32_t read_uint32(istream& is = cin) {
             uint64_t val = read_uint64(is);
@@ -495,7 +503,7 @@ class cstdin {
          ** parses it as an int16, and returns the integer.
          ** return the next int16 on standard input
          ** returns USHRT_MIN, USHRT_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static int16_t read_int16(istream& is = cin) {
             int64_t val = read_int64(is);
@@ -511,7 +519,7 @@ class cstdin {
          ** parses it as an uint16_t, and returns the integer.
          ** return the next uint16_t on standard input
          ** returns USHRT_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static uint16_t read_uint16(istream& is = cin) {
             uint64_t val = read_uint64(is);
@@ -525,7 +533,7 @@ class cstdin {
          ** parses it as an int8, and returns the integer.
          ** return the next int8 on standard input
          ** returns SCHAR_MIN, SCHAR_MAX if value is out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static int8_t read_int8(istream& is = cin) {
             int64_t val = read_int64(is);
@@ -542,7 +550,7 @@ class cstdin {
          ** return the next uint8_t on standard input
          ** returns UCHAR_MAX if value is
          ** out of range
-         ** throws std::ios_base::failure::failure on error
+         ** throws ios_base::failure::failure on error
          **/
         static uint8_t read_uint8(istream& is = cin) {
             uint64_t val = read_uint64(is);
@@ -557,7 +565,7 @@ class cstdin {
          ** return the next float on standard input
          ** returns HUGE_VALF if value is
          ** out of range
-         ** returns std::nanf("1") on error
+         ** returns nanf("1") on error
          **/
         static float read_float(istream& is = cin) {
             float val;
@@ -571,7 +579,7 @@ class cstdin {
          ** return the next double on standard input
          ** returns HUGE_VAL if value is
          ** out of range
-         ** returns std::nan("1") on error
+         ** returns nan("1") on error
          **/
         static double read_double(istream& is = cin) {
             double val;
@@ -585,7 +593,7 @@ class cstdin {
          ** return the next long double on standard input
          ** returns HUGE_VALL if value is
          ** out of range
-         ** returns std::nanl("1") on error
+         ** returns nanl("1") on error
          **/
         static long double read_long_double(istream& is = cin) {
             long double val;
@@ -622,7 +630,7 @@ class cstdin {
           ** and returns them as an array of uint64.
           ** return all remaining lines on standard input,
           ** as an array of uint64
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<uint64_t> read_all_uint64s(istream& is = cin) {
              vector<uint64_t> val;
@@ -635,7 +643,7 @@ class cstdin {
           ** and returns them as an array of int64.
           ** return all remaining lines on standard input,
           ** as an array of int64
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<int64_t> read_all_int64s(istream& is = cin) {
              vector<int64_t> val;
@@ -648,7 +656,7 @@ class cstdin {
           ** and returns them as an array of uint32.
           ** return all remaining lines on standard input,
           ** as an array of uint32
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<uint32_t> read_all_uint32s(istream& is = cin) {
              vector<uint32_t> val;
@@ -661,7 +669,7 @@ class cstdin {
           ** and returns them as an array of int32.
           ** return all remaining lines on standard input,
           ** as an array of int32
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<int32_t> read_all_int32s(istream& is = cin) {
              vector<int32_t> val;
@@ -674,7 +682,7 @@ class cstdin {
           ** and returns them as an array of uint16.
           ** return all remaining lines on standard input,
           ** as an array of uint16
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<uint16_t> read_all_uint16s(istream& is = cin) {
              vector<uint16_t> val;
@@ -687,7 +695,7 @@ class cstdin {
           ** and returns them as an array of int16.
           ** return all remaining lines on standard input,
           ** as an array of int16
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<int16_t> read_all_int16s(istream& is = cin) {
              vector<int16_t> val;
@@ -700,7 +708,7 @@ class cstdin {
           ** and returns them as an array of uint8.
           ** return all remaining lines on standard input,
           ** as an array of uint8
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<uint8_t> read_all_uint8s(istream& is = cin) {
              vector<uint8_t> val;
@@ -713,7 +721,7 @@ class cstdin {
           ** and returns them as an array of int8.
           ** return all remaining lines on standard input,
           ** as an array of int8
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<int8_t> read_all_int8s(istream& is = cin) {
              vector<int8_t> val;
@@ -762,7 +770,7 @@ class cstdin {
           ** and returns them as an array of bool.
           ** return all remaining lines on standard input,
           ** as an array of bool
-          ** throws std::ios_base::failure::failure on error
+          ** throws ios_base::failure::failure on error
           **/
          static vector<bool> read_all_bools(istream& is = cin) {
              vector<bool> val;
