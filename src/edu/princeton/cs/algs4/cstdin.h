@@ -198,6 +198,7 @@ class cstdin {
                 throw ios_base::failure(
                      "bad token '" + token +  "' in input");
             }
+
             return val;
         }
 
@@ -206,11 +207,8 @@ class cstdin {
          ** Reads the next token from standard input,
          ** parses it as an type T, and returns T.
          ** return the next value of tyep T on standard input
-         ** returns
-         ** float - HUGE_VALF
-         ** double - HUGE_VAL
-         ** long double - HUGE_VALL
-         ** if value is out of range
+         ** returns numeric_limits<T>::lowest if underflow
+         ** returns numeric_limits<T>::max if overflow
          ** returns on error
          ** float - nanf("1")
          ** double - nan("1")
@@ -225,13 +223,13 @@ class cstdin {
             val = conv_func(token.c_str(), &end);
 
             if(p == end) {
-                val = nan_func("1");
+                val = nan_func(token.c_str());
             }
 
             if(val > numeric_limits<T>::max())
                 val = numeric_limits<T>::max();
-            else if(val < -numeric_limits<T>::min())
-                val = -numeric_limits<T>::min();
+            else if(val < numeric_limits<T>::lowest())
+                val = numeric_limits<T>::lowest();
             
             return val;
         }
@@ -476,10 +474,14 @@ class cstdin {
          **/
         static int32_t read_int32(istream& is = cin) {
             int64_t val = read_int64(is);
-            if (val <= static_cast<int64_t>(INT_MIN))
-                return INT_MIN;
-            if (val >= static_cast<int64_t>(INT_MAX))
-                return INT_MAX;
+
+            if(val > static_cast<int64_t>(
+                        numeric_limits<int32_t>::max()))
+                val = numeric_limits<int32_t>::max();
+            else if(val < static_cast<int64_t>(
+                             numeric_limits<int32_t>::lowest()))
+                val = numeric_limits<int32_t>::lowest();
+
             return static_cast<int32_t>(val);
         }
 
@@ -493,8 +495,11 @@ class cstdin {
          **/
         static uint32_t read_uint32(istream& is = cin) {
             uint64_t val = read_uint64(is);
-            if (val >= static_cast<uint64_t>(UINT_MAX))
-                return UINT_MAX;
+
+            if(val > static_cast<uint64_t>(
+                        numeric_limits<uint32_t>::max()))
+                val = numeric_limits<uint32_t>::max();
+
             return static_cast<uint32_t>(val);
         }
 
@@ -507,10 +512,15 @@ class cstdin {
          **/
         static int16_t read_int16(istream& is = cin) {
             int64_t val = read_int64(is);
-            if (val <= static_cast<int64_t>(SHRT_MIN))
-                return SHRT_MIN;
-            if (val >= static_cast<int64_t>(SHRT_MAX))
-                return SHRT_MAX;
+
+
+            if(val > static_cast<int64_t>(
+                        numeric_limits<int16_t>::max()))
+                val = numeric_limits<int16_t>::max();
+            else if(val < static_cast<int64_t>(
+                             numeric_limits<int16_t>::lowest()))
+                val = numeric_limits<int16_t>::lowest();
+
             return static_cast<int16_t>(val);
         }
 
@@ -523,8 +533,11 @@ class cstdin {
          **/
         static uint16_t read_uint16(istream& is = cin) {
             uint64_t val = read_uint64(is);
-            if (val >= static_cast<uint64_t>(USHRT_MAX))
-                return USHRT_MAX;
+
+            if(val > static_cast<uint64_t>(
+                        numeric_limits<uint16_t>::max()))
+                val = numeric_limits<uint16_t>::max();
+
             return static_cast<uint16_t>(val);
         }
 
@@ -537,10 +550,14 @@ class cstdin {
          **/
         static int8_t read_int8(istream& is = cin) {
             int64_t val = read_int64(is);
-            if (val <= static_cast<int64_t>(SCHAR_MIN))
-                return SCHAR_MIN;
-            if (val >= static_cast<int64_t>(SCHAR_MAX))
-                return SCHAR_MAX;
+
+            if(val > static_cast<int64_t>(
+                        numeric_limits<int8_t>::max()))
+                val = numeric_limits<int8_t>::max();
+            else if(val < static_cast<int64_t>(
+                             numeric_limits<int8_t>::lowest()))
+                val = numeric_limits<int8_t>::lowest();
+
             return static_cast<int8_t>(val);
         }
 
@@ -554,8 +571,11 @@ class cstdin {
          **/
         static uint8_t read_uint8(istream& is = cin) {
             uint64_t val = read_uint64(is);
-            if (val >= static_cast<uint64_t>(UCHAR_MAX))
-                return UCHAR_MAX;
+
+            if(val > static_cast<uint64_t>(
+                        numeric_limits<uint8_t>::max()))
+                val = numeric_limits<uint8_t>::max();
+
             return static_cast<uint8_t>(val);
         }
 

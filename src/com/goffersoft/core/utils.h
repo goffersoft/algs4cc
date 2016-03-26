@@ -89,11 +89,8 @@ class utils {
                 return false;
 
             const T diff = (lhs - rhs);
-            //std::cout << lhs << std::endl;
-            //std::cout << rhs << std::endl;
-            //std::cout << diff << std::endl;
-            //std::cout << epsilon << std::endl;
-            return ((diff >= -(T)epsilon) && (diff <= (T)epsilon));
+
+            return ((diff >= -epsilon) && (diff <= epsilon));
         }
 
         template<typename T>

@@ -1834,7 +1834,7 @@ class cstdin_testsuite : public testsuite {
                         [&retval]() -> void {
                             retval = cstdin::read_float();
                         });
-                    return test::ccassert_equals((float)145.5678, retval); 
+                    return test::ccassert_equals((float)145.5678f, retval); 
                 }
 
                 bool test2() {
@@ -1870,12 +1870,12 @@ class cstdin_testsuite : public testsuite {
                         });
                     
                     return test::ccassert_equals(
-                            numeric_limits<float>::min(), retval); 
+                            numeric_limits<float>::lowest(), retval); 
                 }
 
                 bool test5() {
                     stringstream s;
-                    s << numeric_limits<double>::min() <<"\r\t\n";
+                    s << numeric_limits<double>::lowest() <<"\r\t\n";
                     float retval;
                     test::mock_stdin(
                         s,
@@ -1884,7 +1884,7 @@ class cstdin_testsuite : public testsuite {
                         });
                     
                     return test::ccassert_equals(
-                            -numeric_limits<float>::min(), retval); 
+                            numeric_limits<float>::lowest(), retval); 
                 }
 
                 bool test6() {
@@ -1910,7 +1910,7 @@ class cstdin_testsuite : public testsuite {
                             cstdin sin;
                             retval = sin.read_float();
                         });
-                    return test::ccassert_equals((float)145.5678, retval); 
+                    return test::ccassert_equals((float)145.5678f, retval); 
                 }
         };
 
@@ -1978,12 +1978,12 @@ class cstdin_testsuite : public testsuite {
                         });
                     
                     return test::ccassert_equals(
-                            numeric_limits<double>::min(), retval); 
+                            numeric_limits<double>::lowest(), retval); 
                 }
 
                 bool test5() {
                     stringstream s;
-                    s << numeric_limits<long double>::min() <<"\r\t\n";
+                    s << numeric_limits<long double>::lowest() <<"\r\t\n";
                     double retval;
                     test::mock_stdin(
                         s,
@@ -1992,7 +1992,7 @@ class cstdin_testsuite : public testsuite {
                         });
                     
                     return test::ccassert_equals(
-                            numeric_limits<double>::min(), retval); 
+                            numeric_limits<double>::lowest(), retval); 
                 }
 
                 bool test6() {
@@ -2046,7 +2046,7 @@ class cstdin_testsuite : public testsuite {
                         [&retval]() -> void {
                             retval = cstdin::read_long_double();
                         });
-                    return test::ccassert_equals((long double)145.5678, retval); 
+                    return test::ccassert_equals((long double)145.5678l, retval); 
                 }
 
                 bool test2() {
@@ -2082,7 +2082,7 @@ class cstdin_testsuite : public testsuite {
                         });
                     
                     return test::ccassert_equals(
-                            numeric_limits<long double>::min(), retval); 
+                            numeric_limits<long double>::lowest(), retval); 
                 }
 
                 bool test5() {
@@ -2094,7 +2094,7 @@ class cstdin_testsuite : public testsuite {
                             cstdin sin;
                             retval = sin.read_long_double();
                         });
-                    return test::ccassert_equals((long double)145.5678, retval); 
+                    return test::ccassert_equals((long double)145.5678l, retval); 
                 }
         };
 };
