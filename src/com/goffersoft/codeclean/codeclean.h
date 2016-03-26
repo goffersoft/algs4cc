@@ -115,7 +115,7 @@ class test {
                                     const T& actual,
                                     ostream& os,
                                     const string &msg,
-                                    bool fail_msg,
+                                    const bool& fail_msg,
                                     uint32_t num_cols = 16) {
             if(fail_msg) {
                 os << ws_ts_prefix << msg << endl
@@ -175,6 +175,46 @@ class test {
                 }
             } else {
                 os << ws_ts_prefix << msg << endl;
+            }
+        }
+
+        template<typename T>
+        static bool analyze_result(bool result,
+                                   const T& expected,
+                                   const T& actual,
+                                   ostream& os,
+                                   const string& pass_msg,
+                                   const string& fail_msg) {
+            if (result) {
+                print_msg(expected,
+                          actual,
+                          os, pass_msg, false);
+                return true;
+            } else {
+                print_msg(expected,
+                          actual,
+                          os, fail_msg, true);
+                return false;
+            }
+        }
+
+        template<typename T>
+        static bool analyze_array_result(bool result,
+                                         const T& expected,
+                                         const T& actual,
+                                         ostream& os,
+                                         const string& pass_msg,
+                                         const string& fail_msg) {
+            if (result) {
+                print_array_msg(expected,
+                                actual,
+                                os, pass_msg, false);
+                return true;
+            } else {
+                print_array_msg(expected,
+                                actual,
+                                os, fail_msg, true);
+                return false;
             }
         }
 
@@ -295,17 +335,11 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
-            if (!utils::cmp_equal(expected, actual)) {
-                print_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+
+            bool retval = utils::cmp_equal(expected, actual);
+
+            return analyze_result(retval, expected, actual,
+                                  os, pass_msg, fail_msg);
         }
 
         template <typename T>
@@ -315,17 +349,10 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
-            if (utils::cmp_equal(expected, actual)) {
-                print_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+            bool retval = utils::cmp_equal(expected, actual);
+
+            return analyze_result(!retval, expected, actual,
+                                  os, pass_msg, fail_msg);
         }
 
         template <typename A>
@@ -340,17 +367,8 @@ class test {
 
             retval = equal(begin(actual), end(actual), begin(expected), cfunc);
 
-            if (!retval) {
-                print_array_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_array_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+            return analyze_array_result(retval, expected, actual,
+                                        os, pass_msg, fail_msg);
         }
 
         template <typename A>
@@ -360,30 +378,43 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
-            bool retval;
-            if(is_floating_point<typename A::const_reference>::value) {
-                retval = equal(begin(actual),
-                               end(actual),
-                               begin(expected),
-                               [](typename A::const_reference lhs,
-                                  typename A::const_reference rhs) {
-                                   return utils::cmp_equal(lhs, rhs);
-                               });
-            } else {
-                retval = equal(begin(actual), end(actual), begin(expected));
-            }
+            static_assert(
+               !is_floating_point<typename A::const_reference>::value,
+               "A::const_reference must not be one of "
+               "float, double or long double");
 
-            if (!retval) {
-                print_array_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_array_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+            bool retval;
+
+            retval = equal(begin(actual), end(actual), begin(expected));
+
+            return analyze_array_result(retval, expected, actual,
+                                        os, pass_msg, fail_msg);
+        }
+
+        template <typename A>
+        static bool ccassert_fp_array_equals(
+                 const A& expected,
+                 const A& actual,
+                 ostream& os = cout,
+                 const string& fail_msg = "test failed",
+                 const string& pass_msg = "test_passed") {
+            bool retval;
+
+            static_assert(
+               is_floating_point<typename A::const_reference>::value,
+               "A::const_reference must be one of "
+               "float, double or long double");
+
+            retval = equal(begin(actual),
+                           end(actual),
+                           begin(expected),
+                           [](typename A::const_reference lhs,
+                              typename A::const_reference rhs) {
+                               return utils::cmp_equal(lhs, rhs);
+                           });
+
+            return analyze_array_result(retval, expected, actual,
+                                        os, pass_msg, fail_msg);
         }
 
         template <typename A>
@@ -398,17 +429,8 @@ class test {
 
             retval = equal(begin(actual), end(actual), begin(expected), cfunc);
 
-            if (retval) {
-                print_array_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_array_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+            return analyze_array_result(!retval, expected, actual,
+                                        os, pass_msg, fail_msg);
         }
 
         template <typename A>
@@ -418,31 +440,45 @@ class test {
                  ostream& os = cout,
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
+            static_assert(
+               is_floating_point<typename A::const_reference>::value,
+               "A::const_reference must not be one of "
+               "float, double or long double");
+
             bool retval;
 
-            if(is_floating_point<typename A::const_reference>::value) {
-                retval = equal(begin(actual),
-                               end(actual),
-                               begin(expected),
-                               [](typename A::const_reference lhs,
-                                  typename A::const_reference rhs) {
-                                   return utils::cmp_equal(lhs, rhs);
-                               });
-            } else {
-                retval = equal(begin(actual), end(actual), begin(expected));
-            }
+            retval = equal(begin(actual), end(actual), begin(expected));
 
-            if (retval) {
-                print_array_msg(expected,
-                          actual,
-                          os, fail_msg, true);
-                return false;
-            } else {
-                print_array_msg(expected,
-                          actual,
-                          os, pass_msg, false);
-                return true;
-            }
+            return analyze_array_result(!retval, expected, actual,
+                                        os, pass_msg, fail_msg);
+
+        }
+
+        template <typename A>
+        static bool ccassert_fp_array_notequals(
+                 const A& expected,
+                 const A& actual,
+                 ostream& os = cout,
+                 const string& fail_msg = "test failed",
+                 const string& pass_msg = "test_passed") {
+            static_assert(
+               is_floating_point<typename A::const_reference>::value,
+               "A::const_reference must be one of "
+               "float, double or long double");
+
+            bool retval;
+
+            retval = equal(begin(actual),
+                           end(actual),
+                           begin(expected),
+                           [](typename A::const_reference lhs,
+                              typename A::const_reference rhs) {
+                               return utils::cmp_equal(lhs, rhs);
+                           });
+
+            return analyze_array_result(!retval, expected, actual,
+                                        os, pass_msg, fail_msg);
+
         }
 
         static void capture_ostream(ostream& os,
