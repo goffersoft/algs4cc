@@ -441,7 +441,7 @@ class test {
                  const string& fail_msg = "test failed",
                  const string& pass_msg = "test_passed") {
             static_assert(
-               is_floating_point<typename A::const_reference>::value,
+               !is_floating_point<typename A::const_reference>::value,
                "A::const_reference must not be one of "
                "float, double or long double");
 
