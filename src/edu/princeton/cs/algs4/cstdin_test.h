@@ -65,6 +65,9 @@ class cstdin_testsuite : public testsuite {
             add_testcase(testcase28());
             add_testcase(testcase29());
             add_testcase(testcase30());
+            add_testcase(testcase31());
+            add_testcase(testcase32());
+            add_testcase(testcase33());
         }
 
     private :
@@ -2095,6 +2098,124 @@ class cstdin_testsuite : public testsuite {
                             retval = sin.read_long_double();
                         });
                     return test::ccassert_equals((long double)145.5678l, retval); 
+                }
+        };
+
+        class testcase31 : public testcase {
+            public :
+                testcase31(const string& name = "read_all_floats - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase31::test1, this),
+                                  "read_all_floats - read float values test");
+                    add_test(bind(&testcase31::test2, this),
+                                  "read_all_floats - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<float> input{145.3456f, -145.3456f, nanf("1"),
+                                        0, 1.234f, -34567889.1f};
+                    vector<float> retval;
+                    auto cmp_func = [](const float& a, const float& b) {
+                                         return utils::equal_xfld(a,b);};
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_floats();
+                        });
+                    return test::ccassert_array_equals(input, retval, cmp_func);
+                }
+
+                bool test2() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<float> input{145.3456f, -145.3456f, nanf("1"),
+                                        0, 1.234f, -34567889.1f};
+                    vector<float> retval;
+                    auto cmp_func = [](const float& a, const float& b) {
+                                         return utils::equal_xfld(a,b);};
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_floats();
+                        });
+                    return test::ccassert_array_equals(input, retval, cmp_func);
+                }
+        };
+
+        class testcase32 : public testcase {
+            public :
+                testcase32(const string& name = "read_all_doubles - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase32::test1, this),
+                                  "read_all_doubles - read double values test");
+                    add_test(bind(&testcase32::test2, this),
+                                  "read_all_doubles - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<double> input{145.3456, -145.3456, nan("1"),
+                                        0, 1.234, -34567889.1};
+                    vector<double> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_doubles();
+                        });
+                    return test::ccassert_fp_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<double> input{145.3456, -145.3456, nan("1"),
+                                        0, 1.234, -34567889.1};
+                    vector<double> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_doubles();
+                        });
+                    return test::ccassert_fp_array_equals(input, retval);
+                }
+        };
+
+        class testcase33 : public testcase {
+            public :
+                testcase33(const string& name = "read_all_long_doubles - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase33::test1, this),
+                                  "read_all_long_doubles - read long double values test");
+                    add_test(bind(&testcase33::test2, this),
+                                  "read_all_long_doubles - instance test");
+                }
+
+                bool test1() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<long double> input{145.3456l, -145.3456l, nanl("1"),
+                                        0, 1.234l, -34567889.1l};
+                    vector<long double> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            retval = cstdin::read_all_long_doubles();
+                        });
+                    return test::ccassert_fp_array_equals(input, retval);
+                }
+
+                bool test2() {
+                    stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
+                    vector<long double> input{145.3456l, -145.3456l, nanl("1"),
+                                        0, 1.234l, -34567889.1l};
+                    vector<long double> retval;
+                    test::mock_stdin(
+                        s,
+                        [&retval]() -> void {
+                            cstdin sin;
+                            retval = sin.read_all_long_doubles();
+                        });
+                    return test::ccassert_fp_array_equals(input, retval);
                 }
         };
 };
