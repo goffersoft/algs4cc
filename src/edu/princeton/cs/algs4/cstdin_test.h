@@ -2156,7 +2156,7 @@ class cstdin_testsuite : public testsuite {
                 bool test1() {
                     stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
                     vector<double> input{145.3456, -145.3456, nan("1"),
-                                        0, 1.234, -34567889.1};
+                                         0, 1.234, -34567889.1};
                     vector<double> retval;
                     test::mock_stdin(
                         s,
@@ -2169,7 +2169,7 @@ class cstdin_testsuite : public testsuite {
                 bool test2() {
                     stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
                     vector<double> input{145.3456, -145.3456, nan("1"),
-                                        0, 1.234, -34567889.1};
+                                         0, 1.234, -34567889.1};
                     vector<double> retval;
                     test::mock_stdin(
                         s,
@@ -2194,7 +2194,7 @@ class cstdin_testsuite : public testsuite {
                 bool test1() {
                     stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
                     vector<long double> input{145.3456l, -145.3456l, nanl("1"),
-                                        0, 1.234l, -34567889.1l};
+                                              0, 1.234l, -34567889.1l};
                     vector<long double> retval;
                     test::mock_stdin(
                         s,
@@ -2207,7 +2207,7 @@ class cstdin_testsuite : public testsuite {
                 bool test2() {
                     stringstream s("145.3456 -145.3456 bad 0 1.234 -34567889.1 \r\t\n");
                     vector<long double> input{145.3456l, -145.3456l, nanl("1"),
-                                        0, 1.234l, -34567889.1l};
+                                              0, 1.234l, -34567889.1l};
                     vector<long double> retval;
                     test::mock_stdin(
                         s,
