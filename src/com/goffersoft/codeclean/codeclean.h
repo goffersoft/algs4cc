@@ -24,15 +24,15 @@
  **         testcase classes.
  **            a) member function to add a testcase
  **
- **      3) each testcase class is made of a vector of testcases
+ **      3) each testcase class is made of a vector of tests
  **            a) member functions to add a test
  **
  **      4) two ways of creating a test class
  **           a) public derivation from base test class
  **                 1) must override clone
- **                 2) must override run function (code goes here)
+ **                 2) must override run function (test code goes here)
  **           b) create a function object(std::function, std::bind)
- **              of type bool(boid)
+ **              of type bool(void)
  ** 
  **/
 #ifndef __CODECLEAN__
