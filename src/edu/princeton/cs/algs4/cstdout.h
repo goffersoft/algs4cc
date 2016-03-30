@@ -53,31 +53,6 @@ using std::strlen;
  ** author Prakash Easwar 
  **/
 class cstdout {
-   private :
-       //format into a string buffer
-       //algorithm taken from stack overflow
-       //http://stackoverflow.com/questions/1056411/
-       //how-to-pass-variable-number-of-arguments-to-printf-sprintf
-       static string format(const char *fmt, ...) {
-           int size = strlen(fmt) * 2 + 50; //initial size 
-           std::string str;
-           va_list ap;
-           while (1) {// Maximum two passes...
-               str.resize(size);
-               va_start(ap, fmt);
-               int n = vsnprintf((char *)str.data(), size, fmt, ap);
-               va_end(ap);
-               if (n > -1 && n < size) {  // Everything worked
-                   str.resize(n);
-                   return str;
-               }
-               if (n > -1)  // Needed size returned
-                   size = n + 1;   // For null char
-               else
-                   size *= 2;      // Guess at a larger size (OS specific)
-           }
-       }
-
    public :
        /**
         ** Terminates the current line by printing the line-separator string.
@@ -114,6 +89,32 @@ class cstdout {
         static void printf(const char* fmt, Args&&... args) {
             os << format(fmt, forward<Args>(args)...) << std::flush;
         }
+
+   private :
+       //format into a string buffer
+       //algorithm taken from stack overflow
+       //http://stackoverflow.com/questions/1056411/
+       //how-to-pass-variable-number-of-arguments-to-printf-sprintf
+       static string format(const char *fmt, ...) {
+           int size = strlen(fmt) * 2 + 50; //initial size 
+           std::string str;
+           va_list ap;
+           while (1) {// Maximum two passes...
+               str.resize(size);
+               va_start(ap, fmt);
+               int n = vsnprintf((char *)str.data(), size, fmt, ap);
+               va_end(ap);
+               if (n > -1 && n < size) {  // Everything worked
+                   str.resize(n);
+                   return str;
+               }
+               if (n > -1)  // Needed size returned
+                   size = n + 1;   // For null char
+               else
+                   size *= 2;      // Guess at a larger size (OS specific)
+           }
+       }
+
 };
 
 } //edu

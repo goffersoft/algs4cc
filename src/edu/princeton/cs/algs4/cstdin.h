@@ -176,79 +176,6 @@ using com::goffersoft::core::utils;
  ** author Prakash Easwar 
  **/
 class cstdin {
-
-    private :
-        /** helper function for
-         ** uint[8,16,32,64]_t, int[8,16,32,64]_t,
-         ** Reads the next token from standard input,
-         ** parses it as an [u]int64, and returns the integer.
-         ** return the next int64 on standard input
-         ** int64_t - returns LONG_MIN, LONG_MAX if value is out of range
-         ** uint64_t - returns ULONG_MAX if value is out of range
-         ** throws ios_base::failure::failure on error
-         **/
-        template<typename T, typename F>
-        static T read_xint64(istream& is, T& val, F conv_func) {
-            string token = read_string(is);
-            char *end;
-            const char *p = token.c_str();
-            val = conv_func(token.c_str(), &end, 0);
-
-            if(p == end) {
-                throw ios_base::failure(
-                     "bad token '" + token +  "' in input");
-            }
-
-            return val;
-        }
-
-        /** helper function for
-         ** float, double, long double
-         ** Reads the next token from standard input,
-         ** parses it as an type T, and returns T.
-         ** return the next value of tyep T on standard input
-         ** returns numeric_limits<T>::lowest if underflow
-         ** returns numeric_limits<T>::max if overflow
-         ** returns on error
-         ** float - nanf("1")
-         ** double - nan("1")
-         ** long double - nanl("1")
-         **/
-        template<typename T, typename F, typename N>
-        static T read_xfld(istream& is, T& val,
-                           F conv_func, N nan_func) {
-            string token = read_string(is);
-            char *end;
-            const char *p = token.c_str();
-            val = conv_func(token.c_str(), &end);
-
-            if(p == end) {
-                val = nan_func(token.c_str());
-            }
-
-            if(val > numeric_limits<T>::max())
-                val = numeric_limits<T>::max();
-            else if(val < numeric_limits<T>::lowest())
-                val = numeric_limits<T>::lowest();
-            
-            return val;
-        }
-        
-        /**
-         ** Reads all remaining lines from standard input
-         ** and returns them as an vector of T.
-         ** return all remaining lines on standard input,
-         ** as an vector of T 
-         **/
-        template<typename T, typename F, typename H>
-        static vector<T> read_all_xtype(istream& is, vector<T>& val,
-                                          F next_func, H has_next_func) {
-            while(has_next_func(is)) {
-                val.push_back(next_func(is));
-            }
-            return val;
-        }
-
     public :
         /**
          ** Returns true if standard input has next 
@@ -797,6 +724,78 @@ class cstdin {
              read_all_xtype(is, val, read_bool, has_next);
              return val;
          }
+
+    private :
+        /** helper function for
+         ** uint[8,16,32,64]_t, int[8,16,32,64]_t,
+         ** Reads the next token from standard input,
+         ** parses it as an [u]int64, and returns the integer.
+         ** return the next int64 on standard input
+         ** int64_t - returns LONG_MIN, LONG_MAX if value is out of range
+         ** uint64_t - returns ULONG_MAX if value is out of range
+         ** throws ios_base::failure::failure on error
+         **/
+        template<typename T, typename F>
+        static T read_xint64(istream& is, T& val, F conv_func) {
+            string token = read_string(is);
+            char *end;
+            const char *p = token.c_str();
+            val = conv_func(token.c_str(), &end, 0);
+
+            if(p == end) {
+                throw ios_base::failure(
+                     "bad token '" + token +  "' in input");
+            }
+
+            return val;
+        }
+
+        /** helper function for
+         ** float, double, long double
+         ** Reads the next token from standard input,
+         ** parses it as an type T, and returns T.
+         ** return the next value of tyep T on standard input
+         ** returns numeric_limits<T>::lowest if underflow
+         ** returns numeric_limits<T>::max if overflow
+         ** returns on error
+         ** float - nanf("1")
+         ** double - nan("1")
+         ** long double - nanl("1")
+         **/
+        template<typename T, typename F, typename N>
+        static T read_xfld(istream& is, T& val,
+                           F conv_func, N nan_func) {
+            string token = read_string(is);
+            char *end;
+            const char *p = token.c_str();
+            val = conv_func(token.c_str(), &end);
+
+            if(p == end) {
+                val = nan_func(token.c_str());
+            }
+
+            if(val > numeric_limits<T>::max())
+                val = numeric_limits<T>::max();
+            else if(val < numeric_limits<T>::lowest())
+                val = numeric_limits<T>::lowest();
+            
+            return val;
+        }
+        
+        /**
+         ** Reads all remaining lines from standard input
+         ** and returns them as an vector of T.
+         ** return all remaining lines on standard input,
+         ** as an vector of T 
+         **/
+        template<typename T, typename F, typename H>
+        static vector<T> read_all_xtype(istream& is, vector<T>& val,
+                                          F next_func, H has_next_func) {
+            while(has_next_func(is)) {
+                val.push_back(next_func(is));
+            }
+            return val;
+        }
 };
 
 } //edu
