@@ -99,7 +99,6 @@ class utils {
                               const T epsilon = numeric_limits<T>::epsilon()) {
             return (lhs == rhs);
         }
-
 };
 
 

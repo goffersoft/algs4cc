@@ -7,7 +7,6 @@
 #ifndef __BAG_TEST__
 #define __BAG_TEST__
 
-#include <iostream>
 #include <sstream>
 #include <string>
 

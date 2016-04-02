@@ -7,14 +7,10 @@
 #ifndef __BAG_H__
 #define __BAG_H__
 
-#include <iostream>
 #include <sstream>
 #include <string>
 #include <list>
-#include <memory>
-#include <iterator>
 #include <type_traits>
-#include <functional>
 
 namespace edu {
 namespace princeton {
@@ -22,12 +18,9 @@ namespace cs {
 namespace algs4 {
 
 using std::stringstream;
-using std::cout;
 using std::endl;
-using std::flush;
 using std::string;
 using std::list;
-using std::shared_ptr;
 using std::conditional;
 using std::reference_wrapper;
 
