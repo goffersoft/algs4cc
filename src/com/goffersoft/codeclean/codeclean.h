@@ -446,8 +446,8 @@ class test {
                     if ((i != 0) and (i % num_cols == 0))
                         os << endl << ws_r_prefix;
                     os << setprecision(
-                             numeric_limits<typename T::value_type>::max_digits10)
-                       << e << " "; 
+                          numeric_limits<typename T::value_type>::max_digits10);
+                    utils::print_data(os, e) << " "; 
                     i++;
                 }
                 os << endl;
@@ -462,8 +462,8 @@ class test {
                     if ((i != 0) and (i % num_cols == 0))
                         os << endl << ws_r_prefix;
                     os << setprecision(
-                             numeric_limits<typename T::value_type>::max_digits10)
-                       << a << " "; 
+                          numeric_limits<typename T::value_type>::max_digits10);
+                    utils::print_data(os, a) << " "; 
                     i++;
                 }
                 os << endl;
@@ -489,9 +489,11 @@ class test {
                 os << setprecision(numeric_limits<T>::max_digits10)
                    << ws_ts_prefix << msg << endl
                    << ws_r_prefix
-                   << "expected: "<< *exp << endl
-                   << ws_r_prefix
-                   << "actual  : "<< *act << endl;
+                   << "expected: ";
+                utils::print_data(os, *exp) << endl; 
+                os << ws_r_prefix
+                   << "actual  : ";
+                utils::print_data(os, *act) << endl; 
                 if(tmp != nullptr) {
                     delete exp;
                     delete act;
