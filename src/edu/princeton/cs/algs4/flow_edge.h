@@ -245,11 +245,11 @@ class flow_edge : public flow_edge_base, public object {
                   bool init_flow_data = true) :
             flow_edge_base(is, init_flow_data) {};
 
-        const cmp_func_type& get_cmp_func() const {
+        cmp_func_type& get_cmp_func() const {
             return *cmp_func;
         }
 
-        void set_cmp_func(const cmp_func_type& cmp_func) {
+        void set_cmp_func(cmp_func_type& cmp_func) {
             this->cmp_func = &cmp_func;
         }
 
@@ -276,7 +276,7 @@ class flow_edge : public flow_edge_base, public object {
         }
 
     private :
-        const cmp_func_type* cmp_func = &cmp_by_flow;
+        cmp_func_type* cmp_func = &cmp_by_flow;
 };
 
 } //edu

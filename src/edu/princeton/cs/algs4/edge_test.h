@@ -171,7 +171,7 @@ class edge_testsuite : public testsuite {
                 bool test4() {
                     edge e1(2, 4);
                     edge e2(2, 3);
-                    const edge::cmp_func_type& c = e1.get_cmp_func();
+                    edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
                 }
 
@@ -179,7 +179,7 @@ class edge_testsuite : public testsuite {
                     edge e1(2, 3);
                     edge e2(3, 3);
                     e1.set_cmp_func(edge::cmp_by_second_vertex);
-                    const edge::cmp_func_type& c = e1.get_cmp_func();
+                    edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
 
@@ -342,7 +342,7 @@ class edge_testsuite : public testsuite {
                 bool test4() {
                     weighted_edge e1(3, 3, .8456);
                     weighted_edge e2(3, 3, 0.7456);
-                    const weighted_edge::cmp_func_type& c =
+                    weighted_edge::cmp_func_type& c =
                                            e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
                 }
@@ -352,7 +352,7 @@ class edge_testsuite : public testsuite {
                     weighted_edge e2(3, 3, 0.7456);
                     e1.set_cmp_func(
                            weighted_edge::cmp_by_weight_descending);
-                    const weighted_edge::cmp_func_type& c =
+                    weighted_edge::cmp_func_type& c =
                                               e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
@@ -575,7 +575,7 @@ class edge_testsuite : public testsuite {
                 bool test5() {
                     weighted_udedge e1(3, 3, .8456);
                     weighted_udedge e2(3, 3, 0.7456);
-                    const weighted_udedge::cmp_func_type& c =
+                    weighted_udedge::cmp_func_type& c =
                                            e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
                 }
@@ -585,7 +585,7 @@ class edge_testsuite : public testsuite {
                     weighted_udedge e2(3, 3, 0.7456);
                     e1.set_cmp_func(
                            weighted_udedge::cmp_by_weight_descending);
-                    const weighted_udedge::cmp_func_type& c =
+                    weighted_udedge::cmp_func_type& c =
                                               e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
@@ -791,7 +791,7 @@ class edge_testsuite : public testsuite {
                 bool test5() {
                     weighted_diedge e1(3, 3, .8456);
                     weighted_diedge e2(3, 3, 0.7456);
-                    const weighted_diedge::cmp_func_type& c =
+                    weighted_diedge::cmp_func_type& c =
                                            e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
                 }
@@ -801,7 +801,7 @@ class edge_testsuite : public testsuite {
                     weighted_diedge e2(3, 3, 0.7456);
                     e1.set_cmp_func(
                            weighted_diedge::cmp_by_weight_descending);
-                    const weighted_diedge::cmp_func_type& c =
+                    weighted_diedge::cmp_func_type& c =
                                               e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
@@ -1154,7 +1154,7 @@ class edge_testsuite : public testsuite {
                 bool test7() {
                     flow_edge e1(2, 4, 10, 5);
                     flow_edge e2(4, 5, 10, 4);
-                    const flow_edge::cmp_func_type& c = e1.get_cmp_func();
+                    flow_edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
                 }
 
@@ -1162,7 +1162,7 @@ class edge_testsuite : public testsuite {
                     flow_edge e1(2, 4, 10, 5);
                     flow_edge e2(4, 3, 20, 6);
                     e1.set_cmp_func(flow_edge::cmp_by_capacity);
-                    const flow_edge::cmp_func_type& c = e1.get_cmp_func();
+                    flow_edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
 

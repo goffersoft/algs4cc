@@ -125,11 +125,11 @@ class weighted_edge : public weighted_edge_base, public object {
         weighted_edge(istream& is = cin) :
            weighted_edge_base(is) {}
 
-        const cmp_func_type& get_cmp_func() const {
+        cmp_func_type& get_cmp_func() const {
             return *cmp_func;
         }
 
-        void set_cmp_func(const cmp_func_type& cmp_func) {
+        void set_cmp_func(cmp_func_type& cmp_func) {
             this->cmp_func = &cmp_func;
         }
 
@@ -155,7 +155,7 @@ class weighted_edge : public weighted_edge_base, public object {
         }
 
     private :
-        const cmp_func_type* cmp_func = &cmp_by_weight;
+        cmp_func_type* cmp_func = &cmp_by_weight;
 };
 
 } //edu

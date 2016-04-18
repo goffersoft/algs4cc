@@ -123,11 +123,11 @@ class edge : public edge_base, public object {
 
         edge(istream& is = cin) : edge_base(is) {}
 
-        const cmp_func_type& get_cmp_func() const {
+        cmp_func_type& get_cmp_func() const {
             return *cmp_func;
         }
 
-        void set_cmp_func(const cmp_func_type& cmp_func) {
+        void set_cmp_func(cmp_func_type& cmp_func) {
             this->cmp_func = &cmp_func;
         }
 
@@ -153,7 +153,7 @@ class edge : public edge_base, public object {
         }
 
     private :
-        const cmp_func_type* cmp_func = &cmp_by_first_vertex;
+        cmp_func_type* cmp_func = &cmp_by_first_vertex;
 };
 
 } //edu

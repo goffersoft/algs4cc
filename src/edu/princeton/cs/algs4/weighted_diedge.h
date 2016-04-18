@@ -149,11 +149,11 @@ class weighted_diedge : public weighted_diedge_base, public object {
         weighted_diedge(istream& is = cin) :
              weighted_diedge_base(is) {}
 
-        const cmp_func_type& get_cmp_func() const {
+        cmp_func_type& get_cmp_func() const {
             return *cmp_func;
         }
 
-        void set_cmp_func(const cmp_func_type& cmp_func) {
+        void set_cmp_func(cmp_func_type& cmp_func) {
             this->cmp_func = &cmp_func;
         }
 
@@ -178,7 +178,7 @@ class weighted_diedge : public weighted_diedge_base, public object {
         }
 
     private :
-        const cmp_func_type* cmp_func = &cmp_by_weight;
+        cmp_func_type* cmp_func = &cmp_by_weight;
 };
 
 } //edu
