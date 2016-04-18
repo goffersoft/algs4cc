@@ -18,18 +18,21 @@
 #include "cstdout_test.h"
 #include "cstdin_test.h"
 #include "bag_test.h"
+#include "edge_test.h"
 
 using com::goffersoft::codeclean::codeclean;
 using com::goffersoft::codeclean::testsuite;
 using edu::princeton::cs::algs4::cstdout_testsuite;
 using edu::princeton::cs::algs4::cstdin_testsuite;
 using edu::princeton::cs::algs4::bag_testsuite;
+using edu::princeton::cs::algs4::edge_testsuite;
 
 int test_main(int argc, const char **argv) {
     codeclean tests;
     tests.add_testsuite(cstdout_testsuite());
     tests.add_testsuite(cstdin_testsuite());
     tests.add_testsuite(bag_testsuite());
+    tests.add_testsuite(edge_testsuite());
     tests.run();
     tests.print_report();
 
