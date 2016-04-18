@@ -12,7 +12,6 @@
 #include <string>
 
 #include "codeclean.h"
-
 #include "cstdout.h"
 
 namespace edu {
