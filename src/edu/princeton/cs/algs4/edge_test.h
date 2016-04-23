@@ -14,6 +14,8 @@
 
 #include "codeclean.h"
 #include "edge.h"
+#include "udedge.h"
+#include "diedge.h"
 #include "weighted_edge.h"
 #include "weighted_udedge.h"
 #include "weighted_diedge.h"
@@ -44,6 +46,8 @@ using edu::princeton::cs::algs4::weighted_edge_base;
 using edu::princeton::cs::algs4::weighted_edge;
 using edu::princeton::cs::algs4::edge_base;
 using edu::princeton::cs::algs4::edge;
+using edu::princeton::cs::algs4::udedge;
+using edu::princeton::cs::algs4::diedge;
 
 class edge_testsuite : public testsuite {
     public :
@@ -59,6 +63,10 @@ class edge_testsuite : public testsuite {
             add_testcase(testcase8());
             add_testcase(testcase9());
             add_testcase(testcase10());
+            add_testcase(testcase11());
+            add_testcase(testcase12());
+            add_testcase(testcase13());
+            add_testcase(testcase14());
         }
 
     private :
@@ -454,8 +462,9 @@ class edge_testsuite : public testsuite {
                             e = new weighted_udedge_base();
                         });
                      
-                    bool retval = test::ccassert_equals(string("2 <-> 3 0.5678"),
-                                                        e->to_string()); 
+                    bool retval = test::ccassert_equals(
+                                          string("2 <-> 3 0.5678"),
+                                          e->to_string()); 
                     delete e;
                     return retval;
                 }
@@ -475,8 +484,9 @@ class edge_testsuite : public testsuite {
 
                 bool test6() {
                     weighted_udedge_base e(2, 3, 3.1);
-                    return test::ccassert_equals(string("2 ?-? 3 3.1"),
-                                                 weighted_udedge_base::edge_type(e).to_string()); 
+                    return test::ccassert_equals(
+                             string("2 ?-? 3 3.1"),
+                             static_cast<weighted_edge_base>(e).to_string()); 
                 }
 
                 bool test7() {
@@ -705,8 +715,9 @@ class edge_testsuite : public testsuite {
 
                 bool test6() {
                     weighted_diedge_base e(2, 3, 3.1);
-                    return test::ccassert_equals(string("2 ?-? 3 3.1"),
-                                                 weighted_diedge_base::edge_type(e).to_string()); 
+                    return test::ccassert_equals(
+                              string("2 ?-? 3 3.1"),
+                              static_cast<weighted_edge_base>(e).to_string()); 
                 }
 
                 bool test7() {
@@ -1218,6 +1229,445 @@ class edge_testsuite : public testsuite {
                     flow_edge e1(2, 4, 10, 5);
                     flow_edge e2(4, 3, 10, 6);
                     e1.set_cmp_func(flow_edge::cmp_by_capacity);
+                    return test::ccassert(e1 <= e2 && (e1 <= e1));
+                }
+        };
+
+        class testcase11 : public testcase {
+            public :
+                testcase11(const string& name = "udedge_base - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase11::test1, this),
+                             "sizeof(udedge_base) <= 8 test");
+                    add_test(bind(&testcase11::test2, this),
+                             "constructor-(v,w) test");
+                    add_test(bind(&testcase11::test3, this),
+                             "constructor-(cin) test");
+                    add_test(bind(&testcase11::test4, this),
+                             "constructor-(edge_type) test");
+                    add_test(bind(&testcase11::test5, this),
+                                  "conversion operator test");
+                    add_test(bind(&testcase11::test6, this),
+                                  "get_either method test");
+                    add_test(bind(&testcase11::test7, this),
+                                  "get_other method test");
+                    add_test(bind(&testcase11::test8, this),
+                                  "get_other method exception test");
+                }
+
+                bool test1() {
+                    return test::ccassert(sizeof(udedge_base) <= 8);
+                }
+
+                bool test2() {
+                    udedge_base e(2, 3);
+                    return test::ccassert_equals(string("2 <-> 3"),
+                                                 e.to_string());
+                }
+
+                bool test3() {
+                    stringstream s("2 3");
+                    udedge_base *e;
+                    test::mock_stdin(
+                        s,
+                        [&e]() -> void {
+                            e = new udedge_base();
+                        });
+                     
+                    bool retval = test::ccassert_equals(
+                                          string("2 <-> 3"),
+                                          e->to_string());
+                    delete e;
+                    return retval;
+                }
+
+                bool test4() {
+                    edge_base e1(2, 3);
+                    udedge_base e(e1);
+                    return test::ccassert_equals(string("2 <-> 3"),
+                                                 e.to_string()); 
+                }
+
+                bool test5() {
+                    udedge_base e(2, 3);
+                    return test::ccassert_equals(
+                             string("2 ?-? 3"),
+                             static_cast<edge_base>(e).to_string()); 
+                }
+
+                bool test6() {
+                    udedge_base e(2, 3);
+                    return test::ccassert(e.get_either() ==
+                                          udedge_base::vertex_type(2) || 
+                                          e.get_either() ==
+                                          udedge_base::vertex_type(3));
+                }
+
+                bool test7() {
+                    udedge_base e(2, 3);
+                    return test::ccassert(e.get_other(2) ==
+                                          udedge_base::vertex_type(3) || 
+                                          e.get_other(3) ==
+                                          udedge_base::vertex_type(2));
+                }
+
+                bool test8() {
+                    invalid_argument e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+                                 udedge_base e(2, 3);
+                                 e.get_other(4);
+                              });
+                }
+        };
+
+        class testcase12 : public testcase {
+            public :
+                testcase12(const string& name = "udedge - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase12::test1, this),
+                             "sizeof(udedge) <= 24 test");
+                    add_test(bind(&testcase12::test2, this),
+                             "constructor-(v,w, wt) test");
+                    add_test(bind(&testcase12::test3, this),
+                             "constructor-(cin) test");
+                    add_test(bind(&testcase12::test4, this),
+                             "constructor-(edge_type) test");
+                    add_test(bind(&testcase12::test5, this),
+                             "get_cmp_func method test");
+                    add_test(bind(&testcase12::test6, this),
+                             "set_cmp_func method test");
+                    add_test(bind(&testcase12::test7, this),
+                             "equals(object) method test");
+                    add_test(bind(&testcase12::test8, this),
+                             "!equals(object) method test");
+                    add_test(bind(&testcase12::test9, this),
+                             "==(object) method test");
+                    add_test(bind(&testcase12::test10, this),
+                             "!=(object) method test");
+                    add_test(bind(&testcase12::test11, this),
+                             ">(object) method test");
+                    add_test(bind(&testcase12::test12, this),
+                             ">=(object) method test");
+                    add_test(bind(&testcase12::test13, this),
+                             "<(object) method test");
+                    add_test(bind(&testcase12::test14, this),
+                             "<=(object) method test");
+                }
+
+                bool test1() {
+                    return test::ccassert(sizeof(udedge) <= 24);
+                }
+
+                bool test2() {
+                    udedge e(2, 3);
+                    return test::ccassert_equals(string("2 <-> 3"),
+                                                 string(e));
+                }
+
+                bool test3() {
+                    stringstream s("2 3");
+                    udedge *e;
+                    test::mock_stdin(
+                        s,
+                        [&e]() -> void {
+                            e = new udedge();
+                        });
+                     
+                    bool retval = test::ccassert_equals(string("2 <-> 3"),
+                                                        string(*e)); 
+                    delete e;
+                    return retval;
+                }
+
+                bool test4() {
+                    edge_base e1(2, 3);
+                    udedge e(e1);
+                    return test::ccassert_equals(string("2 <-> 3"),
+                                                 string(e)); 
+                }
+
+                bool test5() {
+                    udedge e1(3, 3);
+                    udedge e2(2, 3);
+                    udedge::cmp_func_type& c =
+                                   e1.get_cmp_func();
+                    return test::ccassert(c(e1, e2) > 0);
+                }
+
+                bool test6() {
+                    udedge e1(3, 3);
+                    udedge e2(2, 3);
+                    e1.set_cmp_func(
+                           udedge::cmp_by_first_vertex_descending);
+                    udedge::cmp_func_type& c =
+                                   e1.get_cmp_func();
+                    return test::ccassert(c(e1, e2) < 0);
+                }
+
+                bool test7() {
+                    udedge e1(3, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test8() {
+                    udedge e1(2, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test9() {
+                    udedge e1(3, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test10() {
+                    udedge e1(1, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
+
+                bool test11() {
+                    udedge e1(4, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 > e2 && !(e1 > e1));
+                }
+
+                bool test12() {
+                    udedge e1(4, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 >= e2 && (e1 >= e1));
+                }
+
+                bool test13() {
+                    udedge e1(2, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 < e2 && !(e1 < e1));
+                }
+
+                bool test14() {
+                    udedge e1(3, 3);
+                    udedge e2(3, 3);
+                    return test::ccassert(e1 <= e2 && (e1 <= e1));
+                }
+        };
+
+        class testcase13 : public testcase {
+            public :
+                testcase13(const string& name = "diedge_base - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase13::test1, this),
+                             "sizeof(diedge_base) <= 8 test");
+                    add_test(bind(&testcase13::test2, this),
+                             "constructor-(v,w) test");
+                    add_test(bind(&testcase13::test3, this),
+                             "constructor-(cin) test");
+                    add_test(bind(&testcase13::test4, this),
+                             "constructor-(edge_type) test");
+                    add_test(bind(&testcase13::test5, this),
+                                  "conversion operator test");
+                    add_test(bind(&testcase13::test6, this),
+                                  "get_from method test");
+                    add_test(bind(&testcase13::test7, this),
+                                  "get_to method test");
+                }
+
+                bool test1() {
+                    return test::ccassert(sizeof(diedge_base) <= 8);
+                }
+
+                bool test2() {
+                    diedge_base e(2, 3);
+                    return test::ccassert_equals(string("2 -> 3"),
+                                                 e.to_string());
+                }
+
+                bool test3() {
+                    stringstream s("2 3");
+                    diedge_base *e;
+                    test::mock_stdin(
+                        s,
+                        [&e]() -> void {
+                            e = new diedge_base();
+                        });
+                     
+                    bool retval = test::ccassert_equals(
+                                          string("2 -> 3"),
+                                          e->to_string());
+                    delete e;
+                    return retval;
+                }
+
+                bool test4() {
+                    edge_base e1(2, 3);
+                    diedge_base e(e1);
+                    return test::ccassert_equals(string("2 -> 3"),
+                                                 e.to_string()); 
+                }
+
+                bool test5() {
+                    diedge_base e(2, 3);
+                    return test::ccassert_equals(
+                             string("2 ?-? 3"),
+                             static_cast<edge_base>(e).to_string()); 
+                }
+
+                bool test6() {
+                    diedge_base e(2, 3);
+                    return test::ccassert_equals(
+                                  e.get_from(),
+                                  diedge_base::vertex_type(2));
+                }
+
+                bool test7() {
+                    diedge_base e(2, 3);
+                    return test::ccassert(e.get_to() ==
+                                          diedge_base::vertex_type(3));
+                }
+        };
+
+        class testcase14 : public testcase {
+            public :
+                testcase14(const string& name = "diedge - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase14::test1, this),
+                             "sizeof(diedge) <= 24 test");
+                    add_test(bind(&testcase14::test2, this),
+                             "constructor-(v,w, wt) test");
+                    add_test(bind(&testcase14::test3, this),
+                             "constructor-(cin) test");
+                    add_test(bind(&testcase14::test4, this),
+                             "constructor-(edge_type) test");
+                    add_test(bind(&testcase14::test5, this),
+                             "get_cmp_func method test");
+                    add_test(bind(&testcase14::test6, this),
+                             "set_cmp_func method test");
+                    add_test(bind(&testcase14::test7, this),
+                             "equals(object) method test");
+                    add_test(bind(&testcase14::test8, this),
+                             "!equals(object) method test");
+                    add_test(bind(&testcase14::test9, this),
+                             "==(object) method test");
+                    add_test(bind(&testcase14::test10, this),
+                             "!=(object) method test");
+                    add_test(bind(&testcase14::test11, this),
+                             ">(object) method test");
+                    add_test(bind(&testcase14::test12, this),
+                             ">=(object) method test");
+                    add_test(bind(&testcase14::test13, this),
+                             "<(object) method test");
+                    add_test(bind(&testcase14::test14, this),
+                             "<=(object) method test");
+                }
+
+                bool test1() {
+                    return test::ccassert(sizeof(diedge) <= 24);
+                }
+
+                bool test2() {
+                    diedge e(2, 3);
+                    return test::ccassert_equals(string("2 -> 3"),
+                                                 string(e));
+                }
+
+                bool test3() {
+                    stringstream s("2 3");
+                    diedge *e;
+                    test::mock_stdin(
+                        s,
+                        [&e]() -> void {
+                            e = new diedge();
+                        });
+                     
+                    bool retval = test::ccassert_equals(string("2 -> 3"),
+                                                        string(*e)); 
+                    delete e;
+                    return retval;
+                }
+
+                bool test4() {
+                    edge_base e1(2, 3);
+                    diedge e(e1);
+                    return test::ccassert_equals(string("2 -> 3"),
+                                                 string(e)); 
+                }
+
+                bool test5() {
+                    diedge e1(3, 3);
+                    diedge e2(2, 3);
+                    diedge::cmp_func_type& c =
+                                   e1.get_cmp_func();
+                    return test::ccassert(c(e1, e2) > 0);
+                }
+
+                bool test6() {
+                    diedge e1(3, 3);
+                    diedge e2(2, 3);
+                    e1.set_cmp_func(
+                           diedge::cmp_by_first_vertex_descending);
+                    diedge::cmp_func_type& c =
+                                   e1.get_cmp_func();
+                    return test::ccassert(c(e1, e2) < 0);
+                }
+
+                bool test7() {
+                    diedge e1(3, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test8() {
+                    diedge e1(2, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test9() {
+                    diedge e1(3, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test10() {
+                    diedge e1(1, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
+
+                bool test11() {
+                    diedge e1(4, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(e1 > e2 && !(e1 > e1));
+                }
+
+                bool test12() {
+                    diedge e1(4, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(e1 >= e2 && (e1 >= e1));
+                }
+
+                bool test13() {
+                    diedge e1(2, 3);
+                    diedge e2(3, 3);
+                    return test::ccassert(e1 < e2 && !(e1 < e1));
+                }
+
+                bool test14() {
+                    diedge e1(3, 3);
+                    diedge e2(3, 3);
                     return test::ccassert(e1 <= e2 && (e1 <= e1));
                 }
         };
