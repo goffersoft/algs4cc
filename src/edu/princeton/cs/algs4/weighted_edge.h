@@ -57,7 +57,7 @@ class weighted_edge_base : public edge_base {
 
         weighted_edge_base(istream& is = cin) :
            edge_base(is),
-           weight(cstdin::read_double(is)) {}
+           weight(read_weight(is)) {}
 
         const weight_type get_weight() const {
             return weight;
@@ -76,6 +76,10 @@ class weighted_edge_base : public edge_base {
             utils::print_data(ss, get_weight());
 
             return ss.str();
+        }
+
+        static weight_type read_weight(istream& is = cin) {
+            return cstdin::read_double(is);
         }
 
         static int32_t cmp_by_weight(const edge_type& lhs,
