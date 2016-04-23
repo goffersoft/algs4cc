@@ -68,7 +68,14 @@ class edge_base {
                 return 0;
             return utils::cmp(lhs.get_first(), lhs.get_second(),
                               rhs.get_first(), rhs.get_second());
-        };
+        }
+
+        static int32_t cmp_by_first_vertex_descending(
+                           const edge_type& lhs,
+                           const edge_type& rhs) {
+            return -utils::cmp(lhs.get_first(), lhs.get_second(),
+                               rhs.get_first(), rhs.get_second());
+        }
 
         static int32_t cmp_by_second_vertex(
                            const edge_type& lhs,
@@ -77,7 +84,14 @@ class edge_base {
                 return 0;
             return utils::cmp(lhs.get_second(), lhs.get_first(),
                               rhs.get_second(), rhs.get_first());
-        };
+        }
+
+        static int32_t cmp_by_second_vertex_descending(
+                           const edge_type& lhs,
+                           const edge_type& rhs) {
+            return -utils::cmp(lhs.get_second(), lhs.get_first(),
+                              rhs.get_second(), rhs.get_first());
+        }
 
         bool is_equal(const edge_type& that) const {
             return ( this->first == that.first &&
