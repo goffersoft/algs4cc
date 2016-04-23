@@ -85,7 +85,7 @@ class bag {
         void add(typename conditional<is_reference_type,
                              reference,
                              const_reference>::type item) {
-            list_of_items.emplace_back(item);
+            list_of_items.push_back(item);
         }
 
         const_iterator cbegin() const { return const_iterator(list_of_items.cbegin()); }
