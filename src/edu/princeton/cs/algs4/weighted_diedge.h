@@ -14,6 +14,7 @@
 
 #include "object.h"
 #include "weighted_edge.h"
+#include "diedge.h"
 
 namespace edu {
 namespace princeton {
@@ -27,6 +28,7 @@ using std::string;
 using std::stringstream;
 
 using edu::princeton::cs::algs4::weighted_edge_base;
+using edu::princeton::cs::algs4::diedge_base;
 using com::goffersoft::core::object;
 
 /**
@@ -42,74 +44,65 @@ using com::goffersoft::core::object;
  **  Memory <= sizeof(weighted_edge) (16 bytes)
  **  This is am immutable class.
  **/
-class weighted_diedge_base {
+class weighted_diedge_base : public diedge_base {
     public :
         using diedge_type = weighted_diedge_base;
-        using edge_type = weighted_edge_base;
-        using vertex_type = edge_type::vertex_type;
-        using weight_type = edge_type::weight_type;
+        using diedge_base_type = diedge_base;
+        using vertex_type = diedge_base_type::vertex_type;
+        using weight_type = weighted_edge_base::weight_type;
 
         weighted_diedge_base(const vertex_type& v,
                              const vertex_type& w,
                              const weight_type& weight) :
-             e(v, w, weight) {}
+             diedge_base(v, w), weight(weight) {}
 
-        weighted_diedge_base(const edge_type& e) : e(e) {}
+        weighted_diedge_base(const weighted_edge_base& e) :
+             diedge_base(e.get_first(),
+                         e.get_second()), 
+                         weight(e.get_weight()) {}
 
-        weighted_diedge_base(istream& is = cin) : e(is) {}
-
-        const vertex_type get_from() const {
-            return e.get_first();
-        }
-
-        const vertex_type get_to() const {
-            return e.get_second();
-        }
+        weighted_diedge_base(istream& is = cin) :
+             diedge_base(is),
+             weight(weighted_edge_base::read_weight(is)) {}
 
         const weight_type get_weight() const {
-            return e.get_weight();
+            return weight;
         }
 
-        operator edge_type() const {
-            return e;
+        operator weighted_edge_base() const {
+            return weighted_edge_base(get_from(),
+                                      get_to(),
+                                      weight);
         }
 
         static int32_t cmp_by_weight(const diedge_type& lhs,
                                      const diedge_type& rhs) {
-            return edge_type::cmp_by_weight(edge_type(lhs),
-                                            edge_type(rhs));
+            return utils::cmp(lhs.weight, rhs.weight);
         }
 
         static int32_t cmp_by_weight_descending(
                                      const diedge_type& lhs,
                                      const diedge_type& rhs) {
-            return edge_type::cmp_by_weight_descending(
-                                     edge_type(lhs),
-                                     edge_type(rhs));
+            return -utils::cmp(lhs.weight, rhs.weight);
         }
 
         bool is_equal(const diedge_type& that) const {
-            return e.is_equal(that.e);
+            return (diedge_base::is_equal(that) &&
+                    utils::cmp_equal(weight,
+                                    that.weight));
         }
  
         string to_string() const {
             stringstream ss;
 
-            ss << e.get_first() << " -> "
-               << e.get_second() << " "
-               << e.get_weight();
+            ss << diedge_base_type::to_string()
+               << " " << weight;
 
             return ss.str();
         }
 
-    protected :
-
-        const edge_type& get_edge() const {
-            return e;
-        }
-
     private :
-        const edge_type  e;
+        const weight_type  weight;
 };
 
 /**
@@ -134,16 +127,16 @@ class weighted_diedge_base {
 class weighted_diedge : public weighted_diedge_base, public object {
     public :
         using diedge_type = weighted_diedge;
-        using base_edge_type = weighted_diedge_base;
-        using cmp_func_type = int32_t(const base_edge_type&,
-                                      const base_edge_type&);
+        using diedge_base_type = weighted_diedge_base;
+        using cmp_func_type = int32_t(const diedge_base_type&,
+                                      const diedge_base_type&);
 
         weighted_diedge(const vertex_type& v,
                     const vertex_type& w,
                     const weight_type& weight) :
              weighted_diedge_base(v, w, weight) {}
 
-        weighted_diedge(const edge_type& e) :
+        weighted_diedge(const weighted_edge_base& e) :
              weighted_diedge_base(e){}
 
         weighted_diedge(istream& is = cin) :
@@ -158,8 +151,7 @@ class weighted_diedge : public weighted_diedge_base, public object {
         }
 
         int32_t cmp(const diedge_type& that) const {
-            return edge_type::cmp_by_weight(this->get_edge(),
-                                            that.get_edge());
+            return cmp_func(*this, that);
         }
 
     protected :

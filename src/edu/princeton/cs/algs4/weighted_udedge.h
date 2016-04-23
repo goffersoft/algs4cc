@@ -14,6 +14,7 @@
 
 #include "object.h"
 #include "weighted_edge.h"
+#include "udedge.h"
 #include "bag.h"
 #include "cstdin.h"
 
@@ -33,7 +34,9 @@ using std::move;
 using edu::princeton::cs::algs4::bag;
 using edu::princeton::cs::algs4::cstdin;
 using com::goffersoft::core::object;
+using com::goffersoft::core::utils;
 using edu::princeton::cs::algs4::weighted_edge_base;
+using edu::princeton::cs::algs4::udedge_base;
 
 /**
  **  the weighted_udedge_base class represents a
@@ -48,81 +51,65 @@ using edu::princeton::cs::algs4::weighted_edge_base;
  **  Memory <= sizeof(weighted_edge) (16 bytes)
  **  This is am immutable class.
  **/
-class weighted_udedge_base {
+class weighted_udedge_base : public udedge_base {
     public :
         using udedge_type = weighted_udedge_base;
-        using edge_type = weighted_edge_base;
-        using vertex_type = edge_type::vertex_type;
-        using weight_type = edge_type::weight_type;
+        using udedge_base_type = udedge_base;
+        using vertex_type = udedge_base_type::vertex_type;
+        using weight_type = weighted_edge_base::weight_type;
 
         weighted_udedge_base(const vertex_type& v,
                              const vertex_type& w,
                              const weight_type& weight) :
-             e(v, w, weight) {}
+             udedge_base(v, w), weight(weight) {}
 
-        weighted_udedge_base(const edge_type& e) : e(e) {}
+        weighted_udedge_base(const weighted_edge_base& e) :
+             udedge_base(e.get_first(),
+                         e.get_second()),
+                         weight(e.get_weight()) {}
 
-        weighted_udedge_base(istream& is = cin) : e(is) {}
-
-        const vertex_type get_either() const {
-            return e.get_first();
-        }
-
-        const vertex_type get_other(const vertex_type& v) const {
-            if(e.get_first() == v) {
-                return e.get_second();
-            } else if(e.get_second() == v) {
-                return e.get_first();
-            } else {
-                throw invalid_argument( "invalid argument : v"
-                                        "not member of this edge");
-            }
-        }
+        weighted_udedge_base(istream& is = cin) :
+             udedge_base(is),
+             weight(weighted_edge_base::read_weight(is)) {}
 
         const weight_type get_weight() const {
-            return e.get_weight();
+            return weight;
         }
 
-        operator edge_type() const {
-            return e;
+        operator weighted_edge_base() const {
+            vertex_type x = get_either();
+            vertex_type y = get_other(x);
+            return weighted_edge_base(x, y, weight);
         }
 
         static int32_t cmp_by_weight(const udedge_type& lhs,
                                      const udedge_type& rhs) {
-            return edge_type::cmp_by_weight(edge_type(lhs),
-                                            edge_type(rhs));
+            return utils::cmp(lhs.weight, rhs.weight);
         }
 
         static int32_t cmp_by_weight_descending(
                                      const udedge_type& lhs,
                                      const udedge_type& rhs) {
-            return edge_type::cmp_by_weight_descending(
-                             edge_type(lhs),
-                             edge_type(rhs));
+            return -utils::cmp(lhs.weight, rhs.weight);
         }
 
         bool is_equal(const udedge_type& that) const {
-            return e.is_equal(that.e);
+            return (udedge_base::is_equal(that) &&
+                    utils::cmp_equal(weight,
+                                    that.weight));
         }
  
         string to_string() const {
             stringstream ss;
 
-            ss << e.get_first() << " <-> "
-               << e.get_second() << " "
-               << e.get_weight();
+            ss << udedge_base_type::to_string()
+               << " " << weight;
 
             return ss.str();
         }
 
-    protected :
-
-        const edge_type& get_edge() const {
-            return e;
-        }
-
     private :
-        const edge_type e;
+        const weight_type weight;
 };
 
 /**
@@ -147,16 +134,16 @@ class weighted_udedge_base {
 class weighted_udedge : public weighted_udedge_base, public object {
     public :
         using udedge_type = weighted_udedge;
-        using base_edge_type = weighted_udedge_base;
-        using cmp_func_type = int32_t(const base_edge_type&,
-                                      const base_edge_type&);
+        using udedge_base_type = weighted_udedge_base;
+        using cmp_func_type = int32_t(const udedge_base_type&,
+                                      const udedge_base_type&);
 
         weighted_udedge(const vertex_type& v,
                         const vertex_type& w,
                         const weight_type& weight) :
              weighted_udedge_base(v, w, weight) {}
 
-        weighted_udedge(const edge_type& e) :
+        weighted_udedge(const weighted_edge_base& e) :
              weighted_udedge_base(e) {}
 
         weighted_udedge(istream& is = cin) :
