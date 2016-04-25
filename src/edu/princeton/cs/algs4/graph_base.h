@@ -70,54 +70,47 @@ class graph_base {
         }
 
         size_t degree(const vertex_type& v) const {
-            if (v >= get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_data(v);
             return get_num_adj(v); 
         }
 
         bool has_vertex(const vertex_type& v) const {
             if (v >= get_num_vertices()) {
-                throw range_error("v out of range");
+                return false;
             }
-            return true; 
+            return true;
         }
 
-        static size_t min_degree(const graph_base& g) {
+        size_t min_degree() const {
             size_t min = std::numeric_limits<size_t>::max();
 
-            for(vertex_type i = 0; i < g.get_num_vertices(); i++) {
-                size_t tmp = g.get_num_adj(i);
+            for(vertex_type i = 0; i < get_num_vertices(); i++) {
+                size_t tmp = get_num_adj(i);
                 if (tmp < min) min = tmp;
             }
 
             return min;
         }
 
-        static size_t max_degree(const graph_base& g) {
+        size_t max_degree() const {
             size_t max = 0;
 
-            for(vertex_type i = 0; i < g.get_num_vertices(); i++) {
-                size_t tmp = g.get_num_adj(i);
+            for(vertex_type i = 0; i < get_num_vertices(); i++) {
+                size_t tmp = get_num_adj(i);
                 if (tmp > max) max = tmp;
             }
 
             return max;
         }
 
-        static double avg_degree(const graph_base& g) {
+        double avg_degree() const {
             double avg = 0.0;
 
-            for(vertex_type i = 0; i < g.get_num_vertices(); i++) {
-                avg += g.get_num_adj(i);
+            for(vertex_type i = 0; i < get_num_vertices(); i++) {
+                avg += get_num_adj(i);
             }
 
-            return avg/g.get_num_vertices();
-        }
-
-        static size_t degree(const graph_base& g,
-                             const vertex_type& v) {
-            return g.degree(v);
+            return avg/get_num_vertices();
         }
 
         virtual bool has_edge(const vertex_type& v,

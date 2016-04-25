@@ -63,6 +63,16 @@ class graph_testsuite : public testsuite {
                              "constructor-(cin) test");
                     add_test(bind(&testcase1::test3, this),
                              "constructor-(cin) exception test");
+                    add_test(bind(&testcase1::test4, this),
+                             "degree method test");
+                    add_test(bind(&testcase1::test5, this),
+                             "min_degree method test");
+                    add_test(bind(&testcase1::test6, this),
+                             "max_degree method test");
+                    add_test(bind(&testcase1::test7, this),
+                             "avg_degree method test");
+                    add_test(bind(&testcase1::test8, this),
+                             "has_vertex method test");
                 }
 
                 bool test1() {
@@ -104,6 +114,76 @@ class graph_testsuite : public testsuite {
                                   });
                            });
                 }
+
+                bool test4() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new udgraph();
+                        });
+                    bool retval = test::ccassert_equals(size_t(2), g->degree(2));
+                    delete g;
+                    return retval;
+                }
+
+                bool test5() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(1), g->min_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test6() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(4), g->max_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test7() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(double(2.25), g->avg_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test8() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new udgraph();
+                        });
+                     
+                    bool retval = test::ccassert(g->has_vertex(0) == true &&
+                                                 g->has_vertex(4) == false);
+                    delete g;
+                    return retval;
+                }
         };
 
         class testcase2 : public testcase {
@@ -116,6 +196,16 @@ class graph_testsuite : public testsuite {
                              "constructor-(cin) test");
                     add_test(bind(&testcase2::test3, this),
                              "constructor-(cin) exception test");
+                    add_test(bind(&testcase2::test4, this),
+                             "degree method test");
+                    add_test(bind(&testcase2::test5, this),
+                             "min_degree method test");
+                    add_test(bind(&testcase2::test6, this),
+                             "max_degree method test");
+                    add_test(bind(&testcase2::test7, this),
+                             "avg_degree method test");
+                    add_test(bind(&testcase2::test8, this),
+                             "has_vertex method test");
                 }
 
                 bool test1() {
@@ -159,6 +249,76 @@ class graph_testsuite : public testsuite {
                                   });
                            });
                 }
+
+                bool test4() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new digraph();
+                        });
+                    bool retval = test::ccassert_equals(size_t(1), g->degree(2));
+                    delete g;
+                    return retval;
+                }
+
+                bool test5() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(0), g->min_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test6() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(3), g->max_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test7() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(double(1.25), g->avg_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test8() {
+                    stringstream s("4 5\n0 1\n1 1\n1 2\n1 3\n2 3");
+                    digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new digraph();
+                        });
+                     
+                    bool retval = test::ccassert(g->has_vertex(0) == true &&
+                                                 g->has_vertex(4) == false);
+                    delete g;
+                    return retval;
+                }
         };
 
         class testcase3 : public testcase {
@@ -171,6 +331,16 @@ class graph_testsuite : public testsuite {
                              "constructor-(cin) test");
                     add_test(bind(&testcase3::test3, this),
                              "constructor-(cin) exception test");
+                    add_test(bind(&testcase3::test4, this),
+                             "degree method test");
+                    add_test(bind(&testcase3::test5, this),
+                             "min_degree method test");
+                    add_test(bind(&testcase3::test6, this),
+                             "max_degree method test");
+                    add_test(bind(&testcase3::test7, this),
+                             "avg_degree method test");
+                    add_test(bind(&testcase3::test8, this),
+                             "has_vertex method test");
                 }
 
                 bool test1() {
@@ -219,6 +389,76 @@ class graph_testsuite : public testsuite {
                                   });
                               });
                 }
+
+                bool test4() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_udgraph();
+                        });
+                    bool retval = test::ccassert_equals(size_t(2), g->degree(2));
+                    delete g;
+                    return retval;
+                }
+
+                bool test5() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(1), g->min_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test6() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(4), g->max_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test7() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_udgraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(double(2.25), g->avg_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test8() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_udgraph();
+                        });
+                     
+                    bool retval = test::ccassert(g->has_vertex(0) == true &&
+                                                 g->has_vertex(4) == false);
+                    delete g;
+                    return retval;
+                }
         };
 
         class testcase4 : public testcase {
@@ -231,6 +471,16 @@ class graph_testsuite : public testsuite {
                              "constructor-(cin) test");
                     add_test(bind(&testcase4::test3, this),
                              "constructor-(cin) exception test");
+                    add_test(bind(&testcase4::test4, this),
+                             "degree method test");
+                    add_test(bind(&testcase4::test5, this),
+                             "min_degree method test");
+                    add_test(bind(&testcase4::test6, this),
+                             "max_degree method test");
+                    add_test(bind(&testcase4::test7, this),
+                             "avg_degree method test");
+                    add_test(bind(&testcase4::test8, this),
+                             "has_vertex method test");
                 }
 
                 bool test1() {
@@ -275,6 +525,76 @@ class graph_testsuite : public testsuite {
                                   });
                            });
                 }
+
+                bool test4() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_digraph();
+                        });
+                    bool retval = test::ccassert_equals(size_t(1), g->degree(2));
+                    delete g;
+                    return retval;
+                }
+
+                bool test5() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(0), g->min_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test6() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(3), g->max_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test7() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_digraph();
+                        });
+                     
+                    bool retval = test::ccassert_equals(double(1.25), g->avg_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test8() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new weighted_digraph();
+                        });
+                     
+                    bool retval = test::ccassert(g->has_vertex(0) == true &&
+                                                 g->has_vertex(4) == false);
+                    delete g;
+                    return retval;
+                }
         };
 
         class testcase5 : public testcase {
@@ -289,6 +609,16 @@ class graph_testsuite : public testsuite {
                              "constructor-(cin) - no flow data test");
                     add_test(bind(&testcase5::test4, this),
                              "constructor-(cin) exception test");
+                    add_test(bind(&testcase5::test5, this),
+                             "degree method test");
+                    add_test(bind(&testcase5::test6, this),
+                             "min_degree method test");
+                    add_test(bind(&testcase5::test7, this),
+                             "max_degree method test");
+                    add_test(bind(&testcase5::test8, this),
+                             "avg_degree method test");
+                    add_test(bind(&testcase5::test9, this),
+                             "has_vertex method test");
                 }
 
                 bool test1() {
@@ -362,6 +692,76 @@ class graph_testsuite : public testsuite {
                                           flow_network g(cin);
                                   });
                            });
+                }
+
+                bool test5() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new flow_network();
+                        });
+                    bool retval = test::ccassert_equals(size_t(2), g->degree(2));
+                    delete g;
+                    return retval;
+                }
+
+                bool test6() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new flow_network();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(1), g->min_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test7() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new flow_network();
+                        });
+                     
+                    bool retval = test::ccassert_equals(size_t(4), g->max_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test8() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new flow_network();
+                        });
+                     
+                    bool retval = test::ccassert_equals(double(2.25), g->avg_degree());
+                    delete g;
+                    return retval;
+                }
+
+                bool test9() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network *g;
+                    test::mock_stdin(
+                        s,
+                        [&g]() -> void {
+                            g = new flow_network();
+                        });
+                     
+                    bool retval = test::ccassert(g->has_vertex(0) == true &&
+                                                 g->has_vertex(4) == false);
+                    delete g;
+                    return retval;
                 }
         };
 };
