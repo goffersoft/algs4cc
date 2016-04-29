@@ -11,12 +11,15 @@
 #include <string>
 #include <list>
 #include <type_traits>
+#include <iterator>
 
 namespace edu {
 namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::iterator;
+using std::bidirectional_iterator_tag;
 using std::stringstream;
 using std::endl;
 using std::string;
@@ -116,7 +119,12 @@ class bag {
         L list_of_items;
 
         template<bool is_const_iterator = true>
-        class bag_const_noconst_iterator {
+        class bag_const_noconst_iterator :
+                public std::iterator<bidirectional_iterator_tag,
+                                typename conditional<
+                                    is_const_iterator,
+                                    const value_type,
+                                    value_type>::type> {
             public :
                 using iterator_type =  typename conditional<is_const_iterator,
                                                    typename L::const_iterator,
