@@ -46,8 +46,9 @@ class digraph : public graph {
     public :
         using graph::add_edge;
         using graph::get_edges;
+        using graph::has_edge;
         using edge_type = diedge_base;
-        using edge_iterable = graph::edge_iterable<edge_type>;
+        using graph_ptr = unique_ptr<digraph>;
 
         digraph(const size_t& num_vertices) :
                 graph(num_vertices) {}
@@ -57,17 +58,33 @@ class digraph : public graph {
 
         void add_edge(const vertex_type& v,
                       const vertex_type& w) override {
-            if (v >= get_num_vertices() || w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(v, w);
 	    add_edge(v, w, true);
         }
 
-        unique_ptr<edge_iterable> get_edges() const {
+        void add_edge(const edge_type& e) { 
+            add_edge(e.get_from(),
+                     e.get_to());
+        }
+
+        bool has_edge(const edge_type& e) const {
+            return has_edge(*this, e);
+        }
+
+        edge_iterable_ptr<edge_type> get_edges(const vertex_type& start,
+                                               const vertex_type& end) const {
+            return get_edges<edge_type>(*this, start, end);
+        }
+
+        edge_iterable_ptr<edge_type> get_edges() const {
             return get_edges<edge_type>(*this);
         }
 
-        unique_ptr<digraph> reverse() const {
+        edge_iterable_ptr<edge_type> get_edges(const vertex_type& v) const {
+            return get_edges<edge_type>(*this, v);
+        }
+
+        graph_ptr reverse() const {
             digraph* g = new digraph(get_num_vertices());
 
             for(size_t v = 0; v < get_num_vertices(); v++) {
@@ -75,7 +92,7 @@ class digraph : public graph {
                     g->add_edge(a, v, true);
                 }
             }
-            return unique_ptr<digraph>(g);
+            return graph_ptr(g);
         }
 };
 

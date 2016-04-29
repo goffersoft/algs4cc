@@ -50,6 +50,7 @@ class weighted_digraph :
     public :
         using base_type = weighted_graph<weighted_diedge_base>;
         using weighted_graph::add_edge;
+        using graph_ptr = unique_ptr<weighted_digraph>;
 
         weighted_digraph(const size_t& num_vertices) :
                             base_type(num_vertices) {}
@@ -60,21 +61,17 @@ class weighted_digraph :
         void add_edge(const vertex_type& v,
                       const vertex_type& w,
                       const weight_type& wt) override {
-            if (v >= get_num_vertices() || w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(v, w);
             add_edge(v, w, wt, true);
         }
 
         void add_edge(const edge_type& e) override {
-            if (((weighted_edge_base)e).get_first() >= get_num_vertices() ||
-                ((weighted_edge_base)e).get_second() >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(((weighted_edge_base)e).get_first(),
+                            ((weighted_edge_base)e).get_second());
             add_edge(e, true);
         }
 
-        unique_ptr<weighted_digraph> reverse() const {
+        graph_ptr reverse() const {
             weighted_digraph* g = new weighted_digraph(get_num_vertices());
 
             for(size_t v = 0; v < get_num_vertices(); v++) {
@@ -85,7 +82,7 @@ class weighted_digraph :
                 }
             }
 
-            return unique_ptr<weighted_digraph>(g);
+            return graph_ptr(g);
         }
 };
 

@@ -60,17 +60,13 @@ class weighted_udgraph :
         void add_edge(const vertex_type& v,
                       const vertex_type& w,
                       const weight_type& wt) override {
-            if (v >= get_num_vertices() || w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(v, w);
             add_edge(v, w, wt, false);
         }
 
         void add_edge(const edge_type& e) override {
-            if (((weighted_edge_base)e).get_first() >= get_num_vertices() ||
-                ((weighted_edge_base)e).get_second() >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(((weighted_edge_base)e).get_first(),
+                            ((weighted_edge_base)e).get_second());
             add_edge(e, false);
         }
 };

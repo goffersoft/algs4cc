@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <memory>
 
 #include "graph.h"
 #include "udedge.h"
@@ -33,7 +32,6 @@ namespace algs4 {
 using std::istream;
 using std::cin;
 using std::range_error;
-using std::unique_ptr;
 
 using edu::princeton::cs::algs4::graph;
 using edu::princeton::cs::algs4::udedge_base;
@@ -45,6 +43,7 @@ using edu::princeton::cs::algs4::udedge_base;
 class udgraph : public graph {
     public :
         using graph::add_edge;
+        using graph::has_edge;
         using graph::get_edges;
         using edge_type = udedge_base;
         using edge_iterable = graph::edge_iterable<edge_type>;
@@ -55,16 +54,32 @@ class udgraph : public graph {
         udgraph(istream& is = cin) :
                  graph(is, false) {}
 
-        unique_ptr<edge_iterable> get_edges() const {
+        bool has_edge(const edge_type& e) const {
+            return has_edge(*this, e);
+        }
+
+        edge_iterable_ptr<edge_type> get_edges() const {
             return get_edges<edge_type>(*this);
+        }
+
+        edge_iterable_ptr<edge_type> get_edges(const vertex_type& v) const {
+            return get_edges<edge_type>(*this, v);
+        }
+
+        edge_iterable_ptr<edge_type> get_edges(const vertex_type& start,
+                                               const vertex_type& end) const {
+            return get_edges<edge_type>(*this, start, end);
         }
 
         void add_edge(const vertex_type& v,
                       const vertex_type& w) override {
-            if (v >= get_num_vertices() || w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(v, w);
             add_edge(v, w, false);
+        }
+
+        void add_edge(const edge_type& e) { 
+            add_edge(edge_base(e).get_first(),
+                     edge_base(e).get_second());
         }
 };
 

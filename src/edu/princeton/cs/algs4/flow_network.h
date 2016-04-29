@@ -61,7 +61,8 @@ class flow_network : public graph_base {
         using adj_const_iterator = typename adj_iterable::const_iterator;
         using graph_type = vector<adj_iterable>;
         using edge_iterable =
-            typename bag<edge_type>::bag_value_type;
+            typename bag<adj_type>::bag_value_type;
+        using edge_iterable_ptr = unique_ptr<edge_iterable>;
 
         flow_network(const size_t& nvertices) :
                  graph_base(nvertices) {
@@ -88,30 +89,36 @@ class flow_network : public graph_base {
         }
 
         const adj_iterable& get_adj(const vertex_type& v) const {
-            if (v >= get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_input(v);
             return grep[v];
         }
 
-        unique_ptr<edge_iterable> get_edges() const {
+        edge_iterable_ptr get_edges(
+               const vertex_type& start_vertex,
+               const vertex_type& end_vertex) const {
+            validate_input(start_vertex, end_vertex - 1);
             edge_iterable *edges = new edge_iterable();
 
-            for(size_t v = 0; v < get_num_vertices(); v++) {
+            for(size_t v = start_vertex; v < end_vertex; v++) {
                 for(auto& e : get_adj(v)) {
-                    edges->add(*e); 
+                    edges->add(e); 
                 }
             }
 
-            return unique_ptr<edge_iterable>(edges);
+            return edge_iterable_ptr(edges);
+        }
+
+        edge_iterable_ptr get_edges() const {
+            return get_edges(0, get_num_vertices());
+        }
+
+        edge_iterable_ptr get_edges(const vertex_type& v) const {
+            return get_edges(v, v+1);
         }
 
         bool has_edge(const vertex_type& v,
                       const vertex_type& w) const override {
-            if (v >= get_num_vertices() ||
-                w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
-            }
+            validate_input(v, w);
 
             for(auto& a : get_adj(v)) {
                 if(((edge_type)(*a)).get_to() == w) {
@@ -119,6 +126,17 @@ class flow_network : public graph_base {
                 }
             }
             return false; 
+        }
+
+        bool has_edge(const edge_type& e) const {
+            validate_input(e.get_from(), e.get_to());
+
+            for(auto& a : get_adj(e.get_from())) {
+                if(((edge_type)(*a)).get_to() == e.get_to()) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         operator string() const {
@@ -139,6 +157,7 @@ class flow_network : public graph_base {
 
         virtual void add_edge(const edge_type& e,
                               bool inc_edge_count = true) { 
+            validate_input(e.get_from(), e.get_to());
             edge_type* tmp = new edge_type(e);
             add_edge(tmp, inc_edge_count);
         }
@@ -148,6 +167,7 @@ class flow_network : public graph_base {
                               const flow_edge::flow_type& flow,
                               const flow_edge::capacity_type& capacity,
                               bool inc_edge_count = true) {
+            validate_input(v, w);
             edge_type* tmp = new edge_type(v, w, flow, capacity);
             add_edge(tmp, inc_edge_count);
         }

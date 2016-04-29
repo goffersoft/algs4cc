@@ -43,6 +43,7 @@ using std::vector;
 using std::stringstream;
 using std::range_error;
 using std::shared_ptr;
+using std::unique_ptr;
 
 using edu::princeton::cs::algs4::bag;
 using edu::princeton::cs::algs4::cstdin;
@@ -63,11 +64,13 @@ class weighted_graph : public graph_base {
     public :
         using edge_type = E;
         using weight_type = typename edge_type::weight_type;
-        using adj_type = shared_ptr<edge_type>;
+        using adj_ptr_type = shared_ptr<edge_type>;
+        using adj_type = adj_ptr_type;
         using adj_iterable =
             typename bag<adj_type >::bag_value_type;
         using edge_iterable =
-            typename bag<edge_type>::bag_value_type;
+            typename bag<adj_type>::bag_value_type;
+        using edge_iterable_ptr = unique_ptr<edge_iterable>;
         using adj_iterator =
             typename adj_iterable::iterator;
         using adj_const_iterator =
@@ -103,28 +106,47 @@ class weighted_graph : public graph_base {
             return grep[v];
         }
 
-        unique_ptr<edge_iterable> get_edges() const {
+        edge_iterable_ptr get_edges(
+               const vertex_type& start_vertex,
+               const vertex_type& end_vertex) const {
+            validate_input(start_vertex, end_vertex - 1);
             edge_iterable *edges = new edge_iterable();
 
-            for(size_t v = 0; v < get_num_vertices(); v++) {
+            for(size_t v = start_vertex; v < end_vertex; v++) {
                 for(auto& e : get_adj(v)) {
-                    edges->add(*e); 
+                    edges->add(e); 
                 }
             }
 
-            return unique_ptr<edge_iterable>(edges);
+            return edge_iterable_ptr(edges);
+        }
+
+        edge_iterable_ptr get_edges() const {
+            return get_edges(0, get_num_vertices());
+        }
+
+        edge_iterable_ptr get_edges(const vertex_type& v) const {
+            return get_edges(v, v+1);
         }
 
         bool has_edge(const vertex_type& v,
                       const vertex_type& w) const override {
-            validate_data(v, w);
+            validate_input(v, w);
 
             for(auto& a : get_adj(v)) {
-                if(((weighted_edge_base)(*a)).get_second() == w) {
+                if(((weighted_edge_base)(*a)).get_first() == w ||
+                   ((weighted_edge_base)(*a)).get_second() == w) {
                     return true;
                 }
             }
             return false; 
+        }
+
+        bool has_edge(const edge_type& e) {
+            const vertex_type v = edge_base(e).get_first();
+            const vertex_type w = edge_base(e).get_second();
+
+            return has_edge(v, w);
         }
 
         operator string() const {
@@ -188,7 +210,7 @@ class weighted_graph : public graph_base {
         void create_graph(istream& is, bool directed) {
             for(size_t i = 0; i < get_num_edges(); i++) {
                 weighted_edge_base e(is);
-                validate_data(e.get_first(), e.get_second());
+                validate_input(e.get_first(), e.get_second());
                 add_edge(e, directed, false);
             }
         }

@@ -63,7 +63,7 @@ class flow_edge_base {
              e(first, second),
              capacity(capacity),
              flow(flow) {
-            validate_data(flow, capacity, "");
+            validate_input(flow, capacity, "");
         }
 
         flow_edge_base(istream& is = cin,
@@ -74,7 +74,7 @@ class flow_edge_base {
                 flow = cstdin::read_double(is);
             else
                 flow = 0.0;
-            validate_data(flow, capacity, "");
+            validate_input(flow, capacity, "");
         }
 
         const vertex_type get_from() const {
@@ -130,7 +130,7 @@ class flow_edge_base {
             } else {
                 throw invalid_argument("v is not a member of this edge");
             }
-            validate_data(flow, capacity, "delta flow violates data_integrity");
+            validate_input(flow, capacity, "delta flow violates data_integrity");
         }
 
         /**
@@ -196,7 +196,7 @@ class flow_edge_base {
         const capacity_type capacity;
         flow_type flow;
 
-        static void validate_data(const flow_type& flow,
+        static void validate_input(const flow_type& flow,
                                   const capacity_type& capacity,
                                   const string& prefix) {
             if(utils::cmp(flow, 0.0) < 0 ||

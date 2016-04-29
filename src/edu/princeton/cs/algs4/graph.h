@@ -65,8 +65,12 @@ class graph : public graph_base {
         template<typename E>
         using edge_iterable =
             typename bag<E>::bag_value_type;
-        using adj_iterable = typename bag<vertex_type>::bag_value_type;
-        using adj_iterator = typename adj_iterable::iterator;
+        template<typename E>
+        using edge_iterable_ptr = unique_ptr<edge_iterable<E> >;
+        using adj_iterable =
+            typename bag<vertex_type>::bag_value_type;
+        using adj_iterator =
+            typename adj_iterable::iterator;
         using adj_const_iterator = typename adj_iterable::const_iterator;
         using graph_type = vector<adj_iterable>;
 
@@ -93,32 +97,57 @@ class graph : public graph_base {
         }
 
         const adj_iterable& get_adj(const vertex_type& v) const {
-            validate_data(v);
+            validate_input(v);
             return grep[v];
         }
 
         bool has_edge(const vertex_type& v,
                       const vertex_type& w) const override {
-            validate_data(v, w);
+            validate_input(v, w);
 
             for(auto& a : get_adj(v)) {
                 if(a == w) {
                     return true;
                 }
             }
-            return false; 
+            return false;
         }
 
         template<typename E>
-        static unique_ptr<edge_iterable<E> > get_edges(const graph& g) {
-            edge_iterable<E> *edges = new edge_iterable<E>();
+        static bool has_edge(const graph &g, const E& e) {
+            const vertex_type v = edge_base(e).get_first();
+            const vertex_type w = edge_base(e).get_second();
 
-            for(size_t v = 0; v < g.get_num_vertices(); v++) {
+            return g.has_edge(v, w);
+        }
+
+        template<typename E>
+        static edge_iterable_ptr<E> get_edges(
+                          const graph& g,
+                          const vertex_type& start_vertex,
+                          const vertex_type& end_vertex) {
+            g.validate_input(start_vertex, end_vertex - 1);
+            edge_iterable<E> *edges =
+                      new edge_iterable<E>();
+
+            for(size_t v = start_vertex;
+                v < end_vertex; v++) {
                 for(auto& w : g.get_adj(v)) {
                     edges->add(E(v, w));
                 }
             }
-            return unique_ptr<edge_iterable<E> >(edges);
+            return edge_iterable_ptr<E>(edges);
+        }
+
+        template<typename E>
+        static edge_iterable_ptr<E> get_edges(const graph& g) {
+            return get_edges<E>(g, 0, g.get_num_vertices());
+        }
+
+        template<typename E>
+        static edge_iterable_ptr<E> get_edges(const graph& g,
+                                              const vertex_type& v) {
+            return get_edges<E>(g, v, v+1);
         }
 
         operator string() const {
@@ -164,7 +193,7 @@ class graph : public graph_base {
             for(size_t i = 0; i < get_num_edges(); i++) {
                 vertex_type v = cstdin::read_uint32(is);
                 vertex_type w = cstdin::read_uint32(is);
-                validate_data(v, w);
+                validate_input(v, w);
                 add_edge(v, w, directed, false);
             }
         }

@@ -70,7 +70,7 @@ class graph_base {
         }
 
         size_t degree(const vertex_type& v) const {
-            validate_data(v);
+            validate_input(v);
             return get_num_adj(v); 
         }
 
@@ -132,15 +132,15 @@ class graph_base {
             nedges = num;
         }
 
-        void validate_data(const vertex_type& v,
-                           const vertex_type& w) const {
+        void validate_input(const vertex_type& v,
+                            const vertex_type& w) const {
             if (v >= get_num_vertices() ||
                 w >= get_num_vertices()) {
                 throw range_error("v or w out of range");
             }
         }
 
-        void validate_data(const vertex_type& v) const {
+        void validate_input(const vertex_type& v) const {
             if (v >= get_num_vertices()) {
                 throw range_error("v out of range");
             }
