@@ -21,6 +21,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -75,6 +76,37 @@ class weighted_diedge_base : public diedge_base {
                                       weight);
         }
 
+        bool equals(const diedge_type& that) const {
+            return (diedge_base::equals(that) &&
+                    utils::cmp_equal(weight,
+                                    that.weight));
+        }
+
+        operator string() const {
+            stringstream ss;
+
+            ss << diedge_base_type::operator string()
+               << " " << weight;
+
+            return ss.str();
+        }
+
+        bool operator ==(const diedge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return cmp_by_weight(*this, that);
+        }
+
+        bool operator !=(const diedge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const diedge_type& e) {
+            return os << string(e);
+        }
+
         static int32_t cmp_by_weight(const diedge_type& lhs,
                                      const diedge_type& rhs) {
             return utils::cmp(lhs.weight, rhs.weight);
@@ -84,21 +116,6 @@ class weighted_diedge_base : public diedge_base {
                                      const diedge_type& lhs,
                                      const diedge_type& rhs) {
             return -utils::cmp(lhs.weight, rhs.weight);
-        }
-
-        bool is_equal(const diedge_type& that) const {
-            return (diedge_base::is_equal(that) &&
-                    utils::cmp_equal(weight,
-                                    that.weight));
-        }
- 
-        string to_string() const {
-            stringstream ss;
-
-            ss << diedge_base_type::to_string()
-               << " " << weight;
-
-            return ss.str();
         }
 
     private :
@@ -126,6 +143,10 @@ class weighted_diedge_base : public diedge_base {
  **/
 class weighted_diedge : public weighted_diedge_base, public object {
     public :
+        using object::operator string;
+        using object::equals;
+        using object::operator ==;
+        using object::operator !=;
         using diedge_type = weighted_diedge;
         using diedge_base_type = weighted_diedge_base;
         using cmp_func_type = int32_t(const diedge_base_type&,
@@ -157,7 +178,7 @@ class weighted_diedge : public weighted_diedge_base, public object {
     protected :
         bool is_equal(const object& obj) const override {
             const diedge_type& that = static_cast<const diedge_type&>(obj);
-            return weighted_diedge_base::is_equal(that);
+            return weighted_diedge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -166,7 +187,7 @@ class weighted_diedge : public weighted_diedge_base, public object {
         }
 
         string to_string() const override {
-            return weighted_diedge_base::to_string();
+            return weighted_diedge_base::operator string();
         }
 
     private :

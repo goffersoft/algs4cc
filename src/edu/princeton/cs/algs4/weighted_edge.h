@@ -21,6 +21,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -63,19 +64,35 @@ class weighted_edge_base : public edge_base {
             return weight;
         }
 
-        bool is_equal(const edge_type& that) const {
-            return (edge_base::is_equal(that) &&
+        bool equals(const edge_type& that) const {
+            return (edge_base::equals(that) &&
                     utils::cmp_equal(this->weight,
                                      that.weight));
         }
  
-        string to_string() const {
+        operator string() const {
             stringstream ss;
 
-            ss << edge_base::to_string() << " ";
+            ss << edge_base::operator string() << " ";
             utils::print_data(ss, get_weight());
 
             return ss.str();
+        }
+
+        bool operator ==(const edge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return cmp_by_weight(*this, that);
+        }
+
+        bool operator !=(const edge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const edge_type& e) {
+            return os << string(e);
         }
 
         static weight_type read_weight(istream& is = cin) {
@@ -116,6 +133,10 @@ class weighted_edge_base : public edge_base {
  **/
 class weighted_edge : public weighted_edge_base, public object {
     public :
+        using object::operator string;
+        using object::equals;
+        using object::operator ==;
+        using object::operator !=;
         using edge_type = weighted_edge;
         using base_edge_type = weighted_edge_base;
         using cmp_func_type = int32_t(const base_edge_type&,
@@ -145,7 +166,7 @@ class weighted_edge : public weighted_edge_base, public object {
         bool is_equal(const object& obj) const override {
             const edge_type& that = static_cast<const edge_type&>(obj);
 
-            return weighted_edge_base::is_equal(that);
+            return weighted_edge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -155,7 +176,7 @@ class weighted_edge : public weighted_edge_base, public object {
         }
  
         string to_string() const override {
-            return weighted_edge_base::to_string();
+            return weighted_edge_base::operator string();
         }
 
     private :

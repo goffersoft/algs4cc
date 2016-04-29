@@ -147,7 +147,7 @@ class flow_network : public graph_base {
             for(auto& b : grep) {
                 ss << v << ": ";
                 for(auto& w : b) {
-                    ss << "(" << w->to_string() << ") ";
+                    ss << "(" << *w << ") ";
                 }
                 ss << endl;
                 v++;

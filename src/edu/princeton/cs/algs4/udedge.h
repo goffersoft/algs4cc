@@ -22,6 +22,7 @@ namespace cs {
 namespace algs4 {
 
 using std::istream;
+using std::ostream;
 using std::cin;
 using std::endl;
 using std::string;
@@ -79,17 +80,33 @@ class udedge_base {
             return e;
         }
 
-        bool is_equal(const udedge_type& that) const {
-            return e.is_equal(that.e);
+        bool equals(const udedge_type& that) const {
+            return e.equals(that.e);
         }
  
-        string to_string() const {
+        operator string() const {
             stringstream ss;
 
             ss << e.get_first() << " <-> "
                << e.get_second();
 
             return ss.str();
+        }
+
+        bool operator ==(const udedge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return (e == that.e);
+        }
+
+        bool operator !=(const udedge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const udedge_base& e) {
+            return os << string(e);
         }
 
         static int32_t cmp_by_first_vertex(
@@ -146,6 +163,10 @@ class udedge_base {
  **/
 class udedge : public udedge_base, public object {
     public :
+        using object::equals;
+        using object::operator string;
+        using object::operator ==;
+        using object::operator !=;
         using udedge_type = udedge;
         using base_edge_type = udedge_base;
         using cmp_func_type = int32_t(const base_edge_type&,
@@ -176,7 +197,7 @@ class udedge : public udedge_base, public object {
     protected :
         bool is_equal(const object& obj) const override {
             const udedge_type& that = static_cast<const udedge_type&>(obj);
-            return udedge_base::is_equal(that);
+            return udedge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -185,7 +206,7 @@ class udedge : public udedge_base, public object {
         }
 
         string to_string() const override {
-            return udedge_base::to_string();
+            return udedge_base::operator string();
         }
 
     private :

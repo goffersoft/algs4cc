@@ -23,6 +23,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -82,6 +83,37 @@ class weighted_udedge_base : public udedge_base {
             return weighted_edge_base(x, y, weight);
         }
 
+        bool equals(const udedge_type& that) const {
+            return (udedge_base::equals(that) &&
+                    utils::cmp_equal(weight,
+                                    that.weight));
+        }
+
+        operator string() const {
+            stringstream ss;
+
+            ss << udedge_base_type::operator string() 
+               << " " << weight;
+
+            return ss.str();
+        }
+
+        bool operator ==(const udedge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return cmp_by_weight(*this, that);
+        }
+
+        bool operator !=(const udedge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const udedge_type& e) {
+            return os << string(e);
+        }
+
         static int32_t cmp_by_weight(const udedge_type& lhs,
                                      const udedge_type& rhs) {
             return utils::cmp(lhs.weight, rhs.weight);
@@ -91,21 +123,6 @@ class weighted_udedge_base : public udedge_base {
                                      const udedge_type& lhs,
                                      const udedge_type& rhs) {
             return -utils::cmp(lhs.weight, rhs.weight);
-        }
-
-        bool is_equal(const udedge_type& that) const {
-            return (udedge_base::is_equal(that) &&
-                    utils::cmp_equal(weight,
-                                    that.weight));
-        }
- 
-        string to_string() const {
-            stringstream ss;
-
-            ss << udedge_base_type::to_string()
-               << " " << weight;
-
-            return ss.str();
         }
 
     private :
@@ -133,6 +150,10 @@ class weighted_udedge_base : public udedge_base {
  **/
 class weighted_udedge : public weighted_udedge_base, public object {
     public :
+        using object::operator string;
+        using object::equals;
+        using object::operator ==;
+        using object::operator !=;
         using udedge_type = weighted_udedge;
         using udedge_base_type = weighted_udedge_base;
         using cmp_func_type = int32_t(const udedge_base_type&,
@@ -164,7 +185,7 @@ class weighted_udedge : public weighted_udedge_base, public object {
     protected :
         bool is_equal(const object& obj) const override {
             const udedge_type& that = static_cast<const udedge_type&>(obj);
-            return weighted_udedge_base::is_equal(that);
+            return weighted_udedge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -173,7 +194,7 @@ class weighted_udedge : public weighted_udedge_base, public object {
         }
 
         string to_string() const override {
-            return weighted_udedge_base::to_string();
+            return weighted_udedge_base::operator string();
         }
 
     private :

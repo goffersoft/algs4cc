@@ -19,6 +19,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -61,6 +62,37 @@ class edge_base {
             return second;
         }
 
+        bool equals(const edge_type& that) const {
+            return ( this->first == that.first &&
+                     this->second == that.second);
+        }
+
+        operator string() const {
+            stringstream ss;
+            utils::print_data(ss, first) << " ?-? ";
+            utils::print_data(ss, second);
+
+            return ss.str();
+        }
+
+        bool operator ==(const edge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return ( this->first == that.first &&
+                     this->second == that.second);
+
+        }
+
+        bool operator !=(const edge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const edge_base& e) {
+            return os << string(e);
+        }
+
         static int32_t cmp_by_first_vertex(
                            const edge_type& lhs,
                            const edge_type& rhs) {
@@ -93,19 +125,6 @@ class edge_base {
                               rhs.get_second(), rhs.get_first());
         }
 
-        bool is_equal(const edge_type& that) const {
-            return ( this->first == that.first &&
-                     this->second == that.second);
-        }
-
-        string to_string() const {
-            stringstream ss;
-            utils::print_data(ss, first) << " ?-? ";
-            utils::print_data(ss, second);
-
-            return ss.str();
-        }
-
     private :
         const vertex_type first;
         const vertex_type second;
@@ -126,6 +145,10 @@ class edge_base {
  **/
 class edge : public edge_base, public object {
     public :
+        using object::equals;
+        using object::operator string;
+        using object::operator ==;
+        using object::operator !=;
         using edge_type = edge;
         using base_edge_type = edge_base;
         using cmp_func_type = int32_t(const base_edge_type&,
@@ -153,7 +176,7 @@ class edge : public edge_base, public object {
         bool is_equal(const object& obj) const override {
             const edge_type& that = static_cast<const edge_type&>(obj);
 
-            return edge_base::is_equal(that);
+            return edge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -163,7 +186,7 @@ class edge : public edge_base, public object {
         }
  
         string to_string() const override {
-            return edge_base::to_string();
+            return edge_base::operator string();
         }
 
     private :

@@ -20,6 +20,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -66,17 +67,33 @@ class diedge_base {
             return e;
         }
 
-        bool is_equal(const diedge_type& that) const {
-            return e.is_equal(that.e);
+        bool equals(const diedge_type& that) const {
+            return e.equals(that.e);
         }
  
-        string to_string() const {
+        operator string() const {
             stringstream ss;
 
             ss << e.get_first() << " -> "
                << e.get_second();
 
             return ss.str();
+        }
+
+        bool operator ==(const diedge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return (e == that.e);
+        }
+
+        bool operator !=(const diedge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const diedge_type& e) {
+            return os << string(e);
         }
 
         static int32_t cmp_by_first_vertex(
@@ -133,6 +150,10 @@ class diedge_base {
  **/
 class diedge : public diedge_base, public object {
     public :
+        using object::operator string;
+        using object::equals;
+        using object::operator ==;
+        using object::operator !=;
         using diedge_type = diedge;
         using base_edge_type = diedge_base;
         using cmp_func_type = int32_t(const base_edge_type&,
@@ -161,7 +182,7 @@ class diedge : public diedge_base, public object {
     protected :
         bool is_equal(const object& obj) const override {
             const diedge_type& that = static_cast<const diedge_type&>(obj);
-            return diedge_base::is_equal(that);
+            return diedge_base::equals(that);
         }
 
         int32_t cmp(const object& obj) const override {
@@ -170,7 +191,7 @@ class diedge : public diedge_base, public object {
         }
 
         string to_string() const override {
-            return diedge_base::to_string();
+            return diedge_base::operator string();
         }
 
     private :

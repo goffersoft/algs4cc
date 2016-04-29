@@ -23,6 +23,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::ostream;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -160,15 +161,15 @@ class flow_edge_base {
             return e;
         }
 
-        bool is_equal(const flow_edge_type& that) const {
-            return (e.is_equal((edge_type)that) == 0 &&
+        bool equals(const flow_edge_type& that) const {
+            return (e.equals((edge_type)that) == 0 &&
                     utils::cmp_equal(this->flow,
                                      that.flow) &&
                     utils::cmp_equal(this->capacity,
                                      that.capacity));
         }
 
-        string to_string() const {
+        operator string() const {
             stringstream ss;
 
             ss << get_from() << " -> "
@@ -177,6 +178,22 @@ class flow_edge_base {
             utils::print_data(ss, capacity);
 
             return ss.str();
+        }
+
+        bool operator ==(const flow_edge_type& that) const {
+            if(this == &that)
+                return true;
+
+            return cmp_by_flow(*this, that);
+        }
+
+        bool operator !=(const flow_edge_type& that) const {
+            return !(*this == that);
+        }
+
+        friend ostream& operator <<(ostream& os,
+                                   const flow_edge_type& e) {
+            return os << string(e);
         }
 
         static int32_t cmp_by_flow(const flow_edge_type& lhs,
@@ -229,6 +246,10 @@ class flow_edge_base {
  **/
 class flow_edge : public flow_edge_base, public object {
     public :
+        using object::operator string;
+        using object::equals;
+        using object::operator ==;
+        using object::operator !=;
         using flow_edge_type = flow_edge;
         using flow_edge_base_type = flow_edge_base;
         using cmp_func_type = int32_t(const flow_edge_base_type&,
@@ -262,7 +283,7 @@ class flow_edge : public flow_edge_base, public object {
             const flow_edge_type& that =
                       static_cast<const flow_edge_type&>(obj);
 
-            return flow_edge_base::is_equal(that);
+            return flow_edge_base::equals(that);
         }
 
         int cmp(const object& obj) const override {
@@ -272,7 +293,7 @@ class flow_edge : public flow_edge_base, public object {
         }
  
         string to_string() const override {
-            return flow_edge_base::to_string();
+            return flow_edge_base::operator string();
         }
 
     private :

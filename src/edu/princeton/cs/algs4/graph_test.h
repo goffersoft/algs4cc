@@ -101,6 +101,8 @@ class graph_testsuite : public testsuite {
                              "add_edge(udedge_base) method exception test");
                     add_test(bind(&testcase1::test17, this),
                              "add_edge(udedge_base) method exception test");
+                    add_test(bind(&testcase1::test18, this),
+                             "get_edges(all) method exception test");
                 }
 
                 bool test1() {
@@ -340,6 +342,32 @@ class graph_testsuite : public testsuite {
                                   g.add_edge(udedge_base(5,1)); 
                               }
                            );
+                }
+
+                bool test18() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    udgraph g(s);
+
+                    bag<udedge_base>::bag_value_type exp;
+                    exp.add(udedge_base(0, 1));
+                    exp.add(udedge_base(1, 0));
+                    exp.add(udedge_base(1, 1));
+                    exp.add(udedge_base(1, 2));
+                    exp.add(udedge_base(1, 3));
+                    exp.add(udedge_base(2, 1));
+                    exp.add(udedge_base(2, 3));
+                    exp.add(udedge_base(3, 1));
+                    exp.add(udedge_base(3, 2));
+
+                    auto edges = g.get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const udedge_base& lhs,
+                                      const udedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
                 }
         };
 

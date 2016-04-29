@@ -92,7 +92,7 @@ class edge_testsuite : public testsuite {
 
                 bool test2() {
                     edge_base e(2, 3);
-                    return test::ccassert_equals(string("2 ?-? 3"), e.to_string()); 
+                    return test::ccassert_equals(string("2 ?-? 3"), string(e)); 
                 }
 
                 bool test3() {
@@ -104,7 +104,7 @@ class edge_testsuite : public testsuite {
                             e = new edge_base();
                         });
                      
-                    bool retval = test::ccassert_equals(string("2 ?-? 3"), e->to_string()); 
+                    bool retval = test::ccassert_equals(string("2 ?-? 3"), string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -267,7 +267,7 @@ class edge_testsuite : public testsuite {
 
                 bool test2() {
                     weighted_edge_base e(2, 3, 3.1);
-                    return test::ccassert_equals(string("2 ?-? 3 3.1"), e.to_string()); 
+                    return test::ccassert_equals(string("2 ?-? 3 3.1"), string(e)); 
                 }
 
                 bool test3() {
@@ -280,7 +280,7 @@ class edge_testsuite : public testsuite {
                         });
                      
                     bool retval = test::ccassert_equals(string("2 ?-? 3 3.1"),
-                                                        e->to_string()); 
+                                                        string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -450,7 +450,7 @@ class edge_testsuite : public testsuite {
                 bool test2() {
                     weighted_udedge_base e(2, 3, .5678);
                     return test::ccassert_equals(string("2 <-> 3 0.5678"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test3() {
@@ -464,7 +464,7 @@ class edge_testsuite : public testsuite {
                      
                     bool retval = test::ccassert_equals(
                                           string("2 <-> 3 0.5678"),
-                                          e->to_string()); 
+                                          string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -473,7 +473,7 @@ class edge_testsuite : public testsuite {
                     weighted_edge_base e1(2, 3, .5678);
                     weighted_udedge_base e(e1);
                     return test::ccassert_equals(string("2 <-> 3 0.5678"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test5() {
@@ -486,7 +486,7 @@ class edge_testsuite : public testsuite {
                     weighted_udedge_base e(2, 3, 3.1);
                     return test::ccassert_equals(
                              string("2 ?-? 3 3.1"),
-                             static_cast<weighted_edge_base>(e).to_string()); 
+                             string(static_cast<weighted_edge_base>(e))); 
                 }
 
                 bool test7() {
@@ -682,7 +682,7 @@ class edge_testsuite : public testsuite {
                 bool test2() {
                     weighted_diedge_base e(2, 3, .5678);
                     return test::ccassert_equals(string("2 -> 3 0.5678"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test3() {
@@ -695,7 +695,7 @@ class edge_testsuite : public testsuite {
                         });
                      
                     bool retval = test::ccassert_equals(string("2 -> 3 0.5678"),
-                                                        e->to_string()); 
+                                                        string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -704,7 +704,7 @@ class edge_testsuite : public testsuite {
                     weighted_edge_base e1(2, 3, .5678);
                     weighted_diedge_base e(e1);
                     return test::ccassert_equals(string("2 -> 3 0.5678"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test5() {
@@ -717,7 +717,7 @@ class edge_testsuite : public testsuite {
                     weighted_diedge_base e(2, 3, 3.1);
                     return test::ccassert_equals(
                               string("2 ?-? 3 3.1"),
-                              static_cast<weighted_edge_base>(e).to_string()); 
+                              string(static_cast<weighted_edge_base>(e))); 
                 }
 
                 bool test7() {
@@ -922,7 +922,7 @@ class edge_testsuite : public testsuite {
                 bool test2() {
                     flow_edge_base e(2, 3, 10, 5.3);
                     return test::ccassert_equals(string("2 -> 3 5.3/10"),
-                                                        e.to_string());
+                                                        string(e));
                 }
 
                 bool test3() {
@@ -937,7 +937,7 @@ class edge_testsuite : public testsuite {
                 bool test4() {
                     flow_edge_base e(2, 3, 10);
                     return test::ccassert_equals(string("2 -> 3 0/10"),
-                                                        e.to_string());
+                                                        string(e));
                 }
 
                 bool test5() {
@@ -950,7 +950,7 @@ class edge_testsuite : public testsuite {
                         });
                      
                     bool retval = test::ccassert_equals(string("2 -> 3 5.3/10.7"),
-                                                        e->to_string()); 
+                                                        string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -965,7 +965,7 @@ class edge_testsuite : public testsuite {
                         });
                      
                     bool retval = test::ccassert_equals(string("2 -> 3 0/10.7"),
-                                                        e->to_string()); 
+                                                        string(*e)); 
                     delete e;
                     return retval;
                 }
@@ -1262,7 +1262,7 @@ class edge_testsuite : public testsuite {
                 bool test2() {
                     udedge_base e(2, 3);
                     return test::ccassert_equals(string("2 <-> 3"),
-                                                 e.to_string());
+                                                 string(e));
                 }
 
                 bool test3() {
@@ -1276,7 +1276,7 @@ class edge_testsuite : public testsuite {
                      
                     bool retval = test::ccassert_equals(
                                           string("2 <-> 3"),
-                                          e->to_string());
+                                          string(*e));
                     delete e;
                     return retval;
                 }
@@ -1285,14 +1285,14 @@ class edge_testsuite : public testsuite {
                     edge_base e1(2, 3);
                     udedge_base e(e1);
                     return test::ccassert_equals(string("2 <-> 3"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test5() {
                     udedge_base e(2, 3);
                     return test::ccassert_equals(
                              string("2 ?-? 3"),
-                             static_cast<edge_base>(e).to_string()); 
+                             string(static_cast<edge_base>(e))); 
                 }
 
                 bool test6() {
@@ -1487,7 +1487,7 @@ class edge_testsuite : public testsuite {
                 bool test2() {
                     diedge_base e(2, 3);
                     return test::ccassert_equals(string("2 -> 3"),
-                                                 e.to_string());
+                                                 string(e));
                 }
 
                 bool test3() {
@@ -1501,7 +1501,7 @@ class edge_testsuite : public testsuite {
                      
                     bool retval = test::ccassert_equals(
                                           string("2 -> 3"),
-                                          e->to_string());
+                                          string(*e));
                     delete e;
                     return retval;
                 }
@@ -1510,14 +1510,14 @@ class edge_testsuite : public testsuite {
                     edge_base e1(2, 3);
                     diedge_base e(e1);
                     return test::ccassert_equals(string("2 -> 3"),
-                                                 e.to_string()); 
+                                                 string(e)); 
                 }
 
                 bool test5() {
                     diedge_base e(2, 3);
                     return test::ccassert_equals(
                              string("2 ?-? 3"),
-                             static_cast<edge_base>(e).to_string()); 
+                             string(static_cast<edge_base>(e))); 
                 }
 
                 bool test6() {
