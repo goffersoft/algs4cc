@@ -102,7 +102,17 @@ class graph_testsuite : public testsuite {
                     add_test(bind(&testcase1::test17, this),
                              "add_edge(udedge_base) method exception test");
                     add_test(bind(&testcase1::test18, this),
-                             "get_edges(all) method exception test");
+                             "get_edges(all vertices) method test");
+                    add_test(bind(&testcase1::test19, this),
+                             "get_edges(single vertex) method test");
+                    add_test(bind(&testcase1::test20, this),
+                             "get_edges(range of vertices) method test");
+                    add_test(bind(&testcase1::test21, this),
+                             "get_edges(single vertex) method exception test");
+                    add_test(bind(&testcase1::test22, this),
+                             "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase1::test23, this),
+                             "get_edges(vertex range) method exception test");
                 }
 
                 bool test1() {
@@ -369,6 +379,86 @@ class graph_testsuite : public testsuite {
                                       return lhs.equals(rhs);
                                       });
                 }
+
+                bool test19() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    udgraph g(s);
+
+                    bag<udedge_base>::bag_value_type exp;
+                    exp.add(udedge_base(1, 0));
+                    exp.add(udedge_base(1, 1));
+                    exp.add(udedge_base(1, 2));
+                    exp.add(udedge_base(1, 3));
+
+                    auto edges = g.get_edges(1);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const udedge_base& lhs,
+                                      const udedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test20() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    udgraph g(s);
+
+                    bag<udedge_base>::bag_value_type exp;
+                    exp.add(udedge_base(1, 0));
+                    exp.add(udedge_base(1, 1));
+                    exp.add(udedge_base(1, 2));
+                    exp.add(udedge_base(1, 3));
+                    exp.add(udedge_base(2, 1));
+                    exp.add(udedge_base(2, 3));
+
+                    auto edges = g.get_edges(1,2);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const udedge_base& lhs,
+                                      const udedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test21() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4);
+                              }
+                           );
+                }
+
+                bool test22() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(0, 4); 
+                              }
+                           );
+                }
+
+                bool test23() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4, 5); 
+                              }
+                           );
+                }
         };
 
         class testcase2 : public testcase {
@@ -415,6 +505,18 @@ class graph_testsuite : public testsuite {
                              "add_edge(diedge_base) method exception test");
                     add_test(bind(&testcase2::test17, this),
                              "add_edge(diedge_base) method exception test");
+                    add_test(bind(&testcase2::test18, this),
+                             "get_edges(all vertices) method test");
+                    add_test(bind(&testcase2::test19, this),
+                             "get_edges(single vertex) method test");
+                    add_test(bind(&testcase2::test20, this),
+                             "get_edges(range of vertices) method test");
+                    add_test(bind(&testcase2::test21, this),
+                             "get_edges(single vertex) method exception test");
+                    add_test(bind(&testcase2::test22, this),
+                             "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase2::test23, this),
+                             "get_edges(vertex range) method exception test");
                 }
 
                 bool test1() {
@@ -657,6 +759,105 @@ class graph_testsuite : public testsuite {
                               }
                            );
                 }
+
+                bool test18() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    digraph g(s);
+
+                    bag<diedge_base>::bag_value_type exp;
+                    exp.add(diedge_base(0, 1));
+                    exp.add(diedge_base(1, 1));
+                    exp.add(diedge_base(1, 2));
+                    exp.add(diedge_base(1, 3));
+                    exp.add(diedge_base(2, 3));
+
+                    auto edges = g.get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const diedge_base& lhs,
+                                      const diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test19() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    digraph g(s);
+
+                    bag<diedge_base>::bag_value_type exp;
+                    exp.add(diedge_base(1, 1));
+                    exp.add(diedge_base(1, 2));
+                    exp.add(diedge_base(1, 3));
+
+                    auto edges = g.get_edges(1);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const diedge_base& lhs,
+                                      const diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test20() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    digraph g(s);
+
+                    bag<diedge_base>::bag_value_type exp;
+                    exp.add(diedge_base(1, 1));
+                    exp.add(diedge_base(1, 2));
+                    exp.add(diedge_base(1, 3));
+                    exp.add(diedge_base(2, 3));
+
+                    auto edges = g.get_edges(1,2);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const diedge_base& lhs,
+                                      const diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test21() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4);
+                              }
+                           );
+                }
+
+                bool test22() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(0, 4); 
+                              }
+                           );
+                }
+
+                bool test23() {
+                    stringstream s("4 3\n1 2\n2 3\n3 1");
+                    digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4, 5); 
+                              }
+                           );
+                }
         };
 
         class testcase3 : public testcase {
@@ -703,6 +904,18 @@ class graph_testsuite : public testsuite {
                              "add_edge(weighted_udedge_base) method exception test");
                     add_test(bind(&testcase3::test17, this),
                              "add_edge(weighted_udedge_base) method exception test");
+                    add_test(bind(&testcase3::test18, this),
+                             "get_edges(all vertices) method test");
+                    add_test(bind(&testcase3::test19, this),
+                             "get_edges(single vertex) method test");
+                    add_test(bind(&testcase3::test20, this),
+                             "get_edges(range of vertices) method test");
+                    add_test(bind(&testcase3::test21, this),
+                             "get_edges(single vertex) method exception test");
+                    add_test(bind(&testcase3::test22, this),
+                             "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase3::test23, this),
+                             "get_edges(vertex range) method exception test");
                 }
 
                 bool test1() {
@@ -958,6 +1171,115 @@ class graph_testsuite : public testsuite {
                               }
                            );
                 }
+
+                bool test18() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+
+                    bag<weighted_udedge_base>::bag_value_type exp;
+                    exp.add(weighted_udedge_base(0, 1, .23));
+                    exp.add(weighted_udedge_base(1, 0, .23));
+                    exp.add(weighted_udedge_base(1, 1, .34));
+                    exp.add(weighted_udedge_base(1, 2, 1.43));
+                    exp.add(weighted_udedge_base(1, 3, 3.4));
+                    exp.add(weighted_udedge_base(2, 1, 1.43));
+                    exp.add(weighted_udedge_base(2, 3, 5));
+                    exp.add(weighted_udedge_base(3, 1, 3.4));
+                    exp.add(weighted_udedge_base(3, 2, 5));
+
+                    auto edges = g.get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_udedge_base& lhs,
+                                      const weighted_udedge_base& rhs){
+                                      return (lhs).equals(rhs);
+                                      });
+                }
+
+                bool test19() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+
+                    bag<weighted_udedge_base>::bag_value_type exp;
+                    exp.add(weighted_udedge_base(1, 0, .23));
+                    exp.add(weighted_udedge_base(1, 1, .34));
+                    exp.add(weighted_udedge_base(1, 2, 1.43));
+                    exp.add(weighted_udedge_base(1, 3, 3.4));
+
+                    auto edges = g.get_edges(1);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_udedge_base& lhs,
+                                      const weighted_udedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test20() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+
+                    bag<weighted_udedge_base>::bag_value_type exp;
+                    exp.add(weighted_udedge_base(1, 0, .23));
+                    exp.add(weighted_udedge_base(1, 1, .34));
+                    exp.add(weighted_udedge_base(1, 2, 1.43));
+                    exp.add(weighted_udedge_base(1, 3, 3.4));
+                    exp.add(weighted_udedge_base(2, 1, 1.43));
+                    exp.add(weighted_udedge_base(2, 3, 5));
+
+                    auto edges = g.get_edges(1,2);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_udedge_base& lhs,
+                                      const weighted_udedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test21() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4);
+                              }
+                           );
+                }
+
+                bool test22() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(0, 4); 
+                              }
+                           );
+                }
+
+                bool test23() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_udgraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4, 5); 
+                              }
+                           );
+                }
         };
 
         class testcase4 : public testcase {
@@ -1004,6 +1326,18 @@ class graph_testsuite : public testsuite {
                              "add_edge(weighted_diedge_base) method exception test");
                     add_test(bind(&testcase4::test17, this),
                              "add_edge(weighted_diedge_base) method exception test");
+                    add_test(bind(&testcase4::test18, this),
+                             "get_edges(all vertices) method test");
+                    add_test(bind(&testcase4::test19, this),
+                             "get_edges(single vertex) method test");
+                    add_test(bind(&testcase4::test20, this),
+                             "get_edges(range of vertices) method test");
+                    add_test(bind(&testcase4::test21, this),
+                             "get_edges(single vertex) method exception test");
+                    add_test(bind(&testcase4::test22, this),
+                             "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase4::test23, this),
+                             "get_edges(vertex range) method exception test");
                 }
 
                 bool test1() {
@@ -1255,6 +1589,108 @@ class graph_testsuite : public testsuite {
                               }
                            );
                 }
+
+                bool test18() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+
+                    bag<weighted_diedge_base>::bag_value_type exp;
+                    exp.add(weighted_diedge_base(0, 1, .23));
+                    exp.add(weighted_diedge_base(1, 1, .34));
+                    exp.add(weighted_diedge_base(1, 2, 1.43));
+                    exp.add(weighted_diedge_base(1, 3, 3.4));
+                    exp.add(weighted_diedge_base(2, 3, 5));
+
+                    auto edges = g.get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_diedge_base& lhs,
+                                      const weighted_diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test19() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+
+                    bag<weighted_diedge_base>::bag_value_type exp;
+                    exp.add(weighted_diedge_base(1, 1, .34));
+                    exp.add(weighted_diedge_base(1, 2, 1.43));
+                    exp.add(weighted_diedge_base(1, 3, 3.4));
+
+                    auto edges = g.get_edges(1);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_diedge_base& lhs,
+                                      const weighted_diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test20() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+
+                    bag<weighted_diedge_base>::bag_value_type exp;
+                    exp.add(weighted_diedge_base(1, 1, .34));
+                    exp.add(weighted_diedge_base(1, 2, 1.43));
+                    exp.add(weighted_diedge_base(1, 3, 3.4));
+                    exp.add(weighted_diedge_base(2, 3, 5));
+
+                    auto edges = g.get_edges(1,2);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_diedge_base& lhs,
+                                      const weighted_diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test21() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4);
+                              }
+                           );
+                }
+
+                bool test22() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(0, 4); 
+                              }
+                           );
+                }
+
+                bool test23() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4, 5); 
+                              }
+                           );
+                }
         };
 
         class testcase5 : public testcase {
@@ -1303,6 +1739,18 @@ class graph_testsuite : public testsuite {
                              "add_edge(flow_edge_base) method exception test");
                     add_test(bind(&testcase5::test18, this),
                              "add_edge(flow_edge_base) method exception test");
+                    add_test(bind(&testcase5::test19, this),
+                             "get_edges(all vertices) method test");
+                    add_test(bind(&testcase5::test20, this),
+                             "get_edges(single vertex) method test");
+                    add_test(bind(&testcase5::test21, this),
+                             "get_edges(range of vertices) method test");
+                    add_test(bind(&testcase5::test22, this),
+                             "get_edges(single vertex) method exception test");
+                    add_test(bind(&testcase5::test23, this),
+                             "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase5::test24, this),
+                             "get_edges(vertex range) method exception test");
                 }
 
                 bool test1() {
@@ -1561,6 +2009,115 @@ class graph_testsuite : public testsuite {
                               e,
                               [&g]() {
                                   g.add_edge(flow_edge_base(5,1, 5.0, 2.3));
+                              }
+                           );
+                }
+
+                bool test19() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+
+                    bag<flow_edge_base>::bag_value_type exp;
+                    exp.add(flow_edge_base(0, 1, .23, .1));
+                    exp.add(flow_edge_base(1, 0, .23, .1));
+                    exp.add(flow_edge_base(1, 1, .34, .3));
+                    exp.add(flow_edge_base(1, 2, 1.43, .5));
+                    exp.add(flow_edge_base(1, 3, 3.4, 1));
+                    exp.add(flow_edge_base(2, 1, 1.43, .5));
+                    exp.add(flow_edge_base(2, 3, 5, 2));
+                    exp.add(flow_edge_base(3, 1, 3.4, 1));
+                    exp.add(flow_edge_base(3, 2, 5, 2));
+
+                    auto edges = g.get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test20() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+
+                    bag<flow_edge_base>::bag_value_type exp;
+                    exp.add(flow_edge_base(1, 0, .23, .1));
+                    exp.add(flow_edge_base(1, 1, .34, .3));
+                    exp.add(flow_edge_base(1, 2, 1.43, .5));
+                    exp.add(flow_edge_base(1, 3, 3.4, 1));
+
+                    auto edges = g.get_edges(1);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test21() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+
+                    bag<flow_edge_base>::bag_value_type exp;
+                    exp.add(flow_edge_base(1, 0, .23, .1));
+                    exp.add(flow_edge_base(1, 1, .34, .3));
+                    exp.add(flow_edge_base(1, 2, 1.43, .5));
+                    exp.add(flow_edge_base(1, 3, 3.4, 1));
+                    exp.add(flow_edge_base(2, 1, 1.43, .5));
+                    exp.add(flow_edge_base(2, 3, 5, 2));
+
+                    auto edges = g.get_edges(1,2);
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test22() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4);
+                              }
+                           );
+                }
+
+                bool test23() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(0, 4); 
+                              }
+                           );
+                }
+
+                bool test24() {
+                    stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
+                                   "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
+                    flow_network g(s);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&g]() {
+                                  g.get_edges(4, 5); 
                               }
                            );
                 }

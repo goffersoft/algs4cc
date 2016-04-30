@@ -162,7 +162,7 @@ class flow_edge_base {
         }
 
         bool equals(const flow_edge_type& that) const {
-            return (e.equals((edge_type)that) == 0 &&
+            return (e.equals((edge_type)that) &&
                     utils::cmp_equal(this->flow,
                                      that.flow) &&
                     utils::cmp_equal(this->capacity,

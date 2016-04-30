@@ -1179,7 +1179,7 @@ class edge_testsuite : public testsuite {
 
                 bool test9() {
                     flow_edge e1(2, 4, 10, 5);
-                    flow_edge e2(4, 3, 10, 5);
+                    flow_edge e2(2, 4, 10, 5);
                     return test::ccassert(
                               (e1.equals(e2) == true) &&
                               (e1.equals(e1) == true)

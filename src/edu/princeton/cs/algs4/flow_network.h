@@ -61,7 +61,7 @@ class flow_network : public graph_base {
         using adj_const_iterator = typename adj_iterable::const_iterator;
         using graph_type = vector<adj_iterable>;
         using edge_iterable =
-            typename bag<adj_type>::bag_value_type;
+            typename bag<edge_type>::bag_value_type;
         using edge_iterable_ptr = unique_ptr<edge_iterable>;
 
         flow_network(const size_t& nvertices) :
@@ -96,12 +96,22 @@ class flow_network : public graph_base {
         edge_iterable_ptr get_edges(
                const vertex_type& start_vertex,
                const vertex_type& end_vertex) const {
-            validate_input(start_vertex, end_vertex - 1);
+            validate_input(start_vertex, end_vertex);
             edge_iterable *edges = new edge_iterable();
 
-            for(size_t v = start_vertex; v < end_vertex; v++) {
+            for(size_t v = start_vertex; v <= end_vertex; v++) {
                 for(auto& e : get_adj(v)) {
-                    edges->add(e); 
+                    if(((edge_base)(*e)).get_first() == v) {
+                        edges->add(edge_type(v,
+                                             ((edge_base)(*e)).get_second(),
+                                             e->get_capacity(),
+                                             e->get_flow())); 
+                    } else if(((edge_base)(*e)).get_second() == v) {
+                        edges->add(edge_type(v,
+                                             ((edge_base)(*e)).get_first(),
+                                             e->get_capacity(),
+                                             e->get_flow()));
+                    }
                 }
             }
 
@@ -109,11 +119,11 @@ class flow_network : public graph_base {
         }
 
         edge_iterable_ptr get_edges() const {
-            return get_edges(0, get_num_vertices());
+            return get_edges(0, get_num_vertices() - 1);
         }
 
         edge_iterable_ptr get_edges(const vertex_type& v) const {
-            return get_edges(v, v+1);
+            return get_edges(v, v);
         }
 
         bool has_edge(const vertex_type& v,

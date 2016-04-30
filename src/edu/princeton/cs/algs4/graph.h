@@ -126,12 +126,12 @@ class graph : public graph_base {
                           const graph& g,
                           const vertex_type& start_vertex,
                           const vertex_type& end_vertex) {
-            g.validate_input(start_vertex, end_vertex - 1);
+            g.validate_input(start_vertex, end_vertex);
             edge_iterable<E> *edges =
                       new edge_iterable<E>();
 
             for(size_t v = start_vertex;
-                v < end_vertex; v++) {
+                v <= end_vertex; v++) {
                 for(auto& w : g.get_adj(v)) {
                     edges->add(E(v, w));
                 }
@@ -141,13 +141,13 @@ class graph : public graph_base {
 
         template<typename E>
         static edge_iterable_ptr<E> get_edges(const graph& g) {
-            return get_edges<E>(g, 0, g.get_num_vertices());
+            return get_edges<E>(g, 0, g.get_num_vertices() - 1);
         }
 
         template<typename E>
         static edge_iterable_ptr<E> get_edges(const graph& g,
                                               const vertex_type& v) {
-            return get_edges<E>(g, v, v+1);
+            return get_edges<E>(g, v, v);
         }
 
         operator string() const {
