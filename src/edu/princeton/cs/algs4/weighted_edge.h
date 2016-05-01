@@ -83,7 +83,7 @@ class weighted_edge_base : public edge_base {
             if(this == &that)
                 return true;
 
-            return cmp_by_weight(*this, that);
+            return (cmp_by_weight(*this, that) == 0);
         }
 
         bool operator !=(const edge_type& that) const {

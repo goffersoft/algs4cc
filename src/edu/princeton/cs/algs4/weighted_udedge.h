@@ -102,7 +102,7 @@ class weighted_udedge_base : public udedge_base {
             if(this == &that)
                 return true;
 
-            return cmp_by_weight(*this, that);
+            return (cmp_by_weight(*this, that) == 0);
         }
 
         bool operator !=(const udedge_type& that) const {

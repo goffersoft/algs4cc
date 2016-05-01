@@ -84,6 +84,14 @@ class edge_testsuite : public testsuite {
                                   "get_first method test");
                     add_test(bind(&testcase1::test5, this),
                                   "get_second method test");
+                    add_test(bind(&testcase1::test6, this),
+                             "equals(edge_base) method test");
+                    add_test(bind(&testcase1::test7, this),
+                             "!equals(edge_base) method test");
+                    add_test(bind(&testcase1::test8, this),
+                             "==(edge_base) method test");
+                    add_test(bind(&testcase1::test9, this),
+                             "!=(edge_base) method test");
                 }
 
                 bool test1() {
@@ -119,6 +127,34 @@ class edge_testsuite : public testsuite {
                     return test::ccassert_equals(e.get_second(), edge_base::vertex_type(3)); 
                 }
 
+                bool test6() {
+                    edge_base e1(3, 3);
+                    edge_base e2(3, 3);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test7() {
+                    edge_base e1(3, 3);
+                    edge_base e2(4, 3);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test8() {
+                    edge_base e1(3, 3);
+                    edge_base e2(3, 3);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test9() {
+                    edge_base e1(3, 2);
+                    edge_base e2(3, 3);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
         };
 
         class testcase2 : public testcase {
@@ -259,6 +295,14 @@ class edge_testsuite : public testsuite {
                              "constructor-(cin) test");
                     add_test(bind(&testcase3::test4, this),
                                   "get_weight method test");
+                    add_test(bind(&testcase3::test5, this),
+                             "equals(weighted_edge_base) method test");
+                    add_test(bind(&testcase3::test6, this),
+                             "!equals(weighted_edge_base) method test");
+                    add_test(bind(&testcase3::test7, this),
+                             "==(weighted_edge_base) method test");
+                    add_test(bind(&testcase3::test8, this),
+                             "!=(weighted_edge_base) method test");
                 }
 
                 bool test1() {
@@ -289,6 +333,35 @@ class edge_testsuite : public testsuite {
                     weighted_edge_base e(2, 3, 3.0);
                     return test::ccassert(utils::cmp_equal(e.get_weight(),
                                         weighted_edge_base::weight_type(3.0)));
+                }
+
+                bool test5() {
+                    weighted_edge_base e1(3, 3, 3.0);
+                    weighted_edge_base e2(3, 3, 3.0);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test6() {
+                    weighted_edge_base e1(3, 3, 3.0);
+                    weighted_edge_base e2(4, 3, 3.0);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test7() {
+                    weighted_edge_base e1(3, 3, 3.0);
+                    weighted_edge_base e2(3, 3, 3.0);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test8() {
+                    weighted_edge_base e1(3, 3, 3.1);
+                    weighted_edge_base e2(3, 3, 3.0);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
         };
 
@@ -441,6 +514,14 @@ class edge_testsuite : public testsuite {
                                   "get_other method test");
                     add_test(bind(&testcase5::test9, this),
                                   "get_other method exception test");
+                    add_test(bind(&testcase5::test10, this),
+                             "equals(weighted_udedge_base) method test");
+                    add_test(bind(&testcase5::test11, this),
+                             "!equals(weighted_udedge_base) method test");
+                    add_test(bind(&testcase5::test12, this),
+                             "==(weighted_udedge_base) method test");
+                    add_test(bind(&testcase5::test13, this),
+                             "!=(weighted_udedge_base) method test");
                 }
 
                 bool test1() {
@@ -513,6 +594,35 @@ class edge_testsuite : public testsuite {
                                  weighted_udedge_base e(2, 3, 3.0);
                                  e.get_other(4);
                               });
+                }
+
+                bool test10() {
+                    weighted_udedge_base e1(3, 3, 3.0);
+                    weighted_udedge_base e2(3, 3, 3.0);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test11() {
+                    weighted_udedge_base e1(3, 3, 3.0);
+                    weighted_udedge_base e2(4, 3, 3.0);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test12() {
+                    weighted_udedge_base e1(3, 3, 3.0);
+                    weighted_udedge_base e2(3, 3, 3.0);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test13() {
+                    weighted_udedge_base e1(3, 3, 3.0);
+                    weighted_udedge_base e2(3, 3, 3.1);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
         };
 
@@ -673,6 +783,14 @@ class edge_testsuite : public testsuite {
                                   "get_from method test");
                     add_test(bind(&testcase7::test8, this),
                                   "get_to method test");
+                    add_test(bind(&testcase7::test9, this),
+                             "equals(weighted_diedge_base) method test");
+                    add_test(bind(&testcase7::test10, this),
+                             "!equals(weighted_diedge_base) method test");
+                    add_test(bind(&testcase7::test11, this),
+                             "==(weighted_diedge_base) method test");
+                    add_test(bind(&testcase7::test12, this),
+                             "!=(eighted_diedge_base) method test");
                 }
 
                 bool test1() {
@@ -731,6 +849,36 @@ class edge_testsuite : public testsuite {
                     return test::ccassert_equals(e.get_to(),
                                           weighted_diedge_base::vertex_type(3));
                 }
+
+                bool test9() {
+                    weighted_diedge_base e1(3, 3, 3.0);
+                    weighted_diedge_base e2(3, 3, 3.0);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test10() {
+                    weighted_diedge_base e1(3, 3, 3.0);
+                    weighted_diedge_base e2(4, 3, 3.0);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test11() {
+                    weighted_diedge_base e1(3, 3, 3.0);
+                    weighted_diedge_base e2(3, 3, 3.0);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test12() {
+                    weighted_diedge_base e1(3, 3, 3.1);
+                    weighted_diedge_base e2(3, 3, 3.0);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
+
         };
 
         class testcase8 : public testcase {
@@ -913,6 +1061,14 @@ class edge_testsuite : public testsuite {
                                   "add_residual_flow_to - exception method test");
                     add_test(bind(&testcase9::test19, this),
                                   "add_residual_flow_to - exception method test");
+                    add_test(bind(&testcase9::test20, this),
+                             "equals(flow_edge_base) method test");
+                    add_test(bind(&testcase9::test21, this),
+                             "!equals(flow_edge_base) method test");
+                    add_test(bind(&testcase9::test22, this),
+                             "==(flow_edge_base) method test");
+                    add_test(bind(&testcase9::test23, this),
+                             "!=(flow_edge_base) method test");
                 }
 
                 bool test1() {
@@ -1066,6 +1222,35 @@ class edge_testsuite : public testsuite {
                                  flow_edge_base e(2, 3, 3.0, 1);
                                  e.add_residual_flow_to(4, 2.2);
                               });
+                }
+
+                bool test20() {
+                    flow_edge_base e1(3, 3, 3.0, 1.2);
+                    flow_edge_base e2(3, 3, 3.0, 1.2);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test21() {
+                    flow_edge_base e1(3, 3, 3.0, 1.2);
+                    flow_edge_base e2(4, 3, 3.0, 1.2);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test22() {
+                    flow_edge_base e1(3, 3, 3.0, 1.2);
+                    flow_edge_base e2(3, 3, 3.0, 1.2);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test23() {
+                    flow_edge_base e1(3, 3, 3.0, 1.2);
+                    flow_edge_base e2(3, 3, 3.1, 1.2);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
         };
 
@@ -1253,6 +1438,14 @@ class edge_testsuite : public testsuite {
                                   "get_other method test");
                     add_test(bind(&testcase11::test8, this),
                                   "get_other method exception test");
+                    add_test(bind(&testcase11::test9, this),
+                             "equals(udedge_base) method test");
+                    add_test(bind(&testcase11::test10, this),
+                             "!equals(udedge_base) method test");
+                    add_test(bind(&testcase11::test11, this),
+                             "==(udedge_base) method test");
+                    add_test(bind(&testcase11::test12, this),
+                             "!=(udedge_base) method test");
                 }
 
                 bool test1() {
@@ -1319,6 +1512,35 @@ class edge_testsuite : public testsuite {
                                  udedge_base e(2, 3);
                                  e.get_other(4);
                               });
+                }
+
+                bool test9() {
+                    udedge_base e1(3, 3);
+                    udedge_base e2(3, 3);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test10() {
+                    udedge_base e1(3, 3);
+                    udedge_base e2(4, 3);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test11() {
+                    udedge_base e1(3, 3);
+                    udedge_base e2(3, 3);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test12() {
+                    udedge_base e1(3, 3);
+                    udedge_base e2(4, 3);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
         };
 
@@ -1478,6 +1700,14 @@ class edge_testsuite : public testsuite {
                                   "get_from method test");
                     add_test(bind(&testcase13::test7, this),
                                   "get_to method test");
+                    add_test(bind(&testcase13::test8, this),
+                             "equals(diedge_base) method test");
+                    add_test(bind(&testcase13::test9, this),
+                             "!equals(diedge_base) method test");
+                    add_test(bind(&testcase13::test10, this),
+                             "==(diedge_base) method test");
+                    add_test(bind(&testcase13::test11, this),
+                             "!=(diedge_base) method test");
                 }
 
                 bool test1() {
@@ -1531,6 +1761,35 @@ class edge_testsuite : public testsuite {
                     diedge_base e(2, 3);
                     return test::ccassert(e.get_to() ==
                                           diedge_base::vertex_type(3));
+                }
+
+                bool test8() {
+                    diedge_base e1(3, 3);
+                    diedge_base e2(3, 3);
+                    return test::ccassert(
+                              (e1.equals(e2) == true) &&
+                              (e1.equals(e1) == true)
+                                         );
+                }
+
+                bool test9() {
+                    diedge_base e1(3, 3);
+                    diedge_base e2(4, 3);
+                    return test::ccassert(
+                              e1.equals(e2) == false
+                                         );
+                }
+
+                bool test10() {
+                    diedge_base e1(3, 3);
+                    diedge_base e2(3, 3);
+                    return test::ccassert(e1 == e2 && e1 == e1);
+                }
+
+                bool test11() {
+                    diedge_base e1(3, 2);
+                    diedge_base e2(3, 3);
+                    return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
         };
 

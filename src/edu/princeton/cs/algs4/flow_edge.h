@@ -184,7 +184,7 @@ class flow_edge_base {
             if(this == &that)
                 return true;
 
-            return cmp_by_flow(*this, that);
+            return (cmp_by_flow(*this, that) == 0);
         }
 
         bool operator !=(const flow_edge_type& that) const {
