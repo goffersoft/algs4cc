@@ -517,6 +517,8 @@ class graph_testsuite : public testsuite {
                              "get_edges(vertex range) method exception test");
                     add_test(bind(&testcase2::test23, this),
                              "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase2::test24, this),
+                             "reverse method test");
                 }
 
                 bool test1() {
@@ -857,6 +859,30 @@ class graph_testsuite : public testsuite {
                                   g.get_edges(4, 5); 
                               }
                            );
+                }
+
+                bool test24() {
+                    stringstream s("4 5\n0 1\n1 1\n"
+                                   "1 2\n1 3\n2 3");
+                    digraph g(s);
+
+                    bag<diedge_base>::bag_value_type exp;
+                    exp.add(diedge_base(1, 0));
+                    exp.add(diedge_base(1, 1));
+                    exp.add(diedge_base(2, 1));
+                    exp.add(diedge_base(3, 1));
+                    exp.add(diedge_base(3, 2));
+
+                    auto g_reverse_ptr = g.reverse();
+
+                    auto edges = (*g_reverse_ptr).get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const diedge_base& lhs,
+                                      const diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
                 }
         };
 
@@ -1338,6 +1364,8 @@ class graph_testsuite : public testsuite {
                              "get_edges(vertex range) method exception test");
                     add_test(bind(&testcase4::test23, this),
                              "get_edges(vertex range) method exception test");
+                    add_test(bind(&testcase4::test24, this),
+                             "reverse method test");
                 }
 
                 bool test1() {
@@ -1690,6 +1718,30 @@ class graph_testsuite : public testsuite {
                                   g.get_edges(4, 5); 
                               }
                            );
+                }
+
+                bool test24() {
+                    stringstream s("4 5\n0 1 .23\n1 1 .34\n"
+                                   "1 2 1.43\n1 3 3.4\n2 3 5");
+                    weighted_digraph g(s);
+
+                    bag<weighted_diedge_base>::bag_value_type exp;
+                    exp.add(weighted_diedge_base(1, 0, .23));
+                    exp.add(weighted_diedge_base(1, 1, .34));
+                    exp.add(weighted_diedge_base(2, 1, 1.43));
+                    exp.add(weighted_diedge_base(3, 1, 3.4));
+                    exp.add(weighted_diedge_base(3, 2, 5));
+
+                    auto g_reverse_ptr = g.reverse();
+
+                    auto edges = (*g_reverse_ptr).get_edges();
+
+                    return test::ccassert_array_equals(
+                                   exp, *edges,
+                                   [](const weighted_diedge_base& lhs,
+                                      const weighted_diedge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
                 }
         };
 
