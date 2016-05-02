@@ -40,7 +40,7 @@ using com::goffersoft::core::object;
  **  provides methods for accessing the two endpoints of the edge and
  **  the weight.
  **  2 cmp_by_weight methods compares 2 weighted_edges by
- **  ascending/descending order of weight.
+ **  ascending order of weight.
  **
  **  Memory <= sizeof(weighted_edge) (16 bytes)
  **  This is am immutable class.
@@ -112,14 +112,8 @@ class weighted_diedge_base : public diedge_base {
             return utils::cmp(lhs.weight, rhs.weight);
         }
 
-        static int32_t cmp_by_weight_descending(
-                                     const diedge_type& lhs,
-                                     const diedge_type& rhs) {
-            return -utils::cmp(lhs.weight, rhs.weight);
-        }
-
     private :
-        const weight_type  weight;
+        weight_type  weight;
 };
 
 /**

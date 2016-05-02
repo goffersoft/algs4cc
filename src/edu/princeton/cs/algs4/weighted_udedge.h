@@ -119,14 +119,8 @@ class weighted_udedge_base : public udedge_base {
             return utils::cmp(lhs.weight, rhs.weight);
         }
 
-        static int32_t cmp_by_weight_descending(
-                                     const udedge_type& lhs,
-                                     const udedge_type& rhs) {
-            return -utils::cmp(lhs.weight, rhs.weight);
-        }
-
     private :
-        const weight_type weight;
+        weight_type weight;
 };
 
 /**

@@ -102,13 +102,6 @@ class edge_base {
                               rhs.get_first(), rhs.get_second());
         }
 
-        static int32_t cmp_by_first_vertex_descending(
-                           const edge_type& lhs,
-                           const edge_type& rhs) {
-            return -utils::cmp(lhs.get_first(), lhs.get_second(),
-                               rhs.get_first(), rhs.get_second());
-        }
-
         static int32_t cmp_by_second_vertex(
                            const edge_type& lhs,
                            const edge_type& rhs) {
@@ -118,16 +111,9 @@ class edge_base {
                               rhs.get_second(), rhs.get_first());
         }
 
-        static int32_t cmp_by_second_vertex_descending(
-                           const edge_type& lhs,
-                           const edge_type& rhs) {
-            return -utils::cmp(lhs.get_second(), lhs.get_first(),
-                              rhs.get_second(), rhs.get_first());
-        }
-
     private :
-        const vertex_type first;
-        const vertex_type second;
+        vertex_type first;
+        vertex_type second;
 };
 
 /**

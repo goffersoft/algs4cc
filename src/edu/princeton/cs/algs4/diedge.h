@@ -36,7 +36,7 @@ using com::goffersoft::core::object;
  **  (naming the two vertices). The data type
  **  provides methods for accessing the two endpoints of the edge
  **  cmp_by_<>_vertex methods compares 2 edges by
- **  ascending/descending order of vertex.
+ **  ascending order of vertex.
  **
  **  Memory <= sizeof(edge) (8 bytes)
  **  This is am immutable class.
@@ -102,22 +102,10 @@ class diedge_base {
             return edge_type::cmp_by_first_vertex(lhs, rhs);
         }
 
-        static int32_t cmp_by_first_vertex_descending(
-                           const diedge_type& lhs,
-                           const diedge_type& rhs) {
-            return edge_type::cmp_by_first_vertex_descending(lhs, rhs);
-        }
-
         static int32_t cmp_by_second_vertex(
                            const diedge_type& lhs,
                            const diedge_type& rhs) {
             return edge_type::cmp_by_second_vertex(lhs, rhs);
-        }
-
-        static int32_t cmp_by_second_vertex_descending(
-                           const diedge_type& lhs,
-                           const diedge_type& rhs) {
-            return edge_type::cmp_by_second_vertex_descending(lhs, rhs);
         }
 
     protected :
@@ -127,7 +115,7 @@ class diedge_base {
         }
 
     private :
-        const edge_type  e;
+        edge_type  e;
 };
 
 /**

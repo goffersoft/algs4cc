@@ -42,7 +42,7 @@ using edu::princeton::cs::algs4::edge_base;
  **  The data type provides methods for accessing the two
  **  endpoints of the edge.
  **  cmp_by_<>_vertex methods compares 2 edges by
- **  ascending/descending order of vertex.
+ **  ascending order of vertex.
  **
  **  Memory <= sizeof(edge_base) (8 bytes)
  **  This is am immutable class.
@@ -115,22 +115,10 @@ class udedge_base {
             return edge_type::cmp_by_first_vertex(lhs, rhs);
         }
 
-        static int32_t cmp_by_first_vertex_descending(
-                           const udedge_type& lhs,
-                           const udedge_type& rhs) {
-            return edge_type::cmp_by_first_vertex_descending(lhs, rhs);
-        }
-
         static int32_t cmp_by_second_vertex(
                            const udedge_type& lhs,
                            const udedge_type& rhs) {
             return edge_type::cmp_by_second_vertex(lhs, rhs);
-        }
-
-        static int32_t cmp_by_second_vertex_descending(
-                           const udedge_type& lhs,
-                           const udedge_type& rhs) {
-            return edge_type::cmp_by_second_vertex_descending(lhs, rhs);
         }
 
     protected :
@@ -140,7 +128,7 @@ class udedge_base {
         }
 
     private :
-        const edge_type e;
+        edge_type e;
 };
 
 /**

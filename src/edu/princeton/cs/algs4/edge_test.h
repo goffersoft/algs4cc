@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <algorithm>
 
 #include "codeclean.h"
 #include "edge.h"
@@ -26,6 +27,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::sort;
 using std::bind;
 using std::stringstream;
 using std::string;
@@ -92,6 +94,14 @@ class edge_testsuite : public testsuite {
                              "==(edge_base) method test");
                     add_test(bind(&testcase1::test9, this),
                              "!=(edge_base) method test");
+                    add_test(bind(&testcase1::test10, this),
+                             "cmp_by_first_vertex - ascending static method test");
+                    add_test(bind(&testcase1::test11, this),
+                             "cmp_by_first_vertex - descending static method test");
+                    add_test(bind(&testcase1::test12, this),
+                             "cmp_by_second_vertex - ascending static method test");
+                    add_test(bind(&testcase1::test13, this),
+                             "cmp_by_second_vertex - descending static method test");
                 }
 
                 bool test1() {
@@ -155,6 +165,150 @@ class edge_testsuite : public testsuite {
                     edge_base e2(3, 3);
                     return test::ccassert(e1 != e2 && !(e1 != e1));
                 }
+
+                bool test10() {
+                    vector<edge_base> edges_act;
+                    vector<edge_base> edges_exp;
+                    edges_act.push_back(edge_base(0, 1));
+                    edges_act.push_back(edge_base(1, 0));
+                    edges_act.push_back(edge_base(1, 1));
+                    edges_act.push_back(edge_base(1, 2));
+                    edges_act.push_back(edge_base(1, 3));
+                    edges_act.push_back(edge_base(2, 1));
+                    edges_act.push_back(edge_base(2, 3));
+                    edges_act.push_back(edge_base(3, 1));
+                    edges_act.push_back(edge_base(3, 2));
+
+                    edges_exp.push_back(edge_base(0, 1));
+                    edges_exp.push_back(edge_base(1, 0));
+                    edges_exp.push_back(edge_base(1, 1));
+                    edges_exp.push_back(edge_base(1, 2));
+                    edges_exp.push_back(edge_base(1, 3));
+                    edges_exp.push_back(edge_base(2, 1));
+                    edges_exp.push_back(edge_base(2, 3));
+                    edges_exp.push_back(edge_base(3, 1));
+                    edges_exp.push_back(edge_base(3, 2));
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const edge_base& lhs,
+                            const edge_base& rhs) {
+                             return edge_base::
+                                    cmp_by_first_vertex(lhs, rhs) < 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const edge_base& lhs,
+                                      const edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test11() {
+                    vector<edge_base> edges_act;
+                    vector<edge_base> edges_exp;
+                    edges_act.push_back(edge_base(0, 1));
+                    edges_act.push_back(edge_base(1, 0));
+                    edges_act.push_back(edge_base(1, 1));
+                    edges_act.push_back(edge_base(1, 2));
+                    edges_act.push_back(edge_base(1, 3));
+                    edges_act.push_back(edge_base(2, 1));
+                    edges_act.push_back(edge_base(2, 3));
+                    edges_act.push_back(edge_base(3, 1));
+                    edges_act.push_back(edge_base(3, 2));
+
+                    edges_exp.push_back(edge_base(3, 2));
+                    edges_exp.push_back(edge_base(3, 1));
+                    edges_exp.push_back(edge_base(2, 3));
+                    edges_exp.push_back(edge_base(2, 1));
+                    edges_exp.push_back(edge_base(1, 3));
+                    edges_exp.push_back(edge_base(1, 2));
+                    edges_exp.push_back(edge_base(1, 1));
+                    edges_exp.push_back(edge_base(1, 0));
+                    edges_exp.push_back(edge_base(0, 1));
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const edge_base& lhs,
+                            const edge_base& rhs) {
+                             return edge_base::
+                                    cmp_by_first_vertex(lhs, rhs) > 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const edge_base& lhs,
+                                      const edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test12() {
+                    vector<edge_base> edges_act;
+                    vector<edge_base> edges_exp;
+                    edges_act.push_back(edge_base(0, 1));
+                    edges_act.push_back(edge_base(1, 0));
+                    edges_act.push_back(edge_base(1, 1));
+                    edges_act.push_back(edge_base(1, 2));
+                    edges_act.push_back(edge_base(1, 3));
+                    edges_act.push_back(edge_base(2, 1));
+                    edges_act.push_back(edge_base(2, 3));
+                    edges_act.push_back(edge_base(3, 1));
+                    edges_act.push_back(edge_base(3, 2));
+
+                    edges_exp.push_back(edge_base(1, 0));
+                    edges_exp.push_back(edge_base(0, 1));
+                    edges_exp.push_back(edge_base(1, 1));
+                    edges_exp.push_back(edge_base(2, 1));
+                    edges_exp.push_back(edge_base(3, 1));
+                    edges_exp.push_back(edge_base(1, 2));
+                    edges_exp.push_back(edge_base(3, 2));
+                    edges_exp.push_back(edge_base(1, 3));
+                    edges_exp.push_back(edge_base(2, 3));
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const edge_base& lhs,
+                            const edge_base& rhs) {
+                             return edge_base::
+                                    cmp_by_second_vertex(lhs, rhs) < 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const edge_base& lhs,
+                                      const edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test13() {
+                    vector<edge_base> edges_act;
+                    vector<edge_base> edges_exp;
+                    edges_act.push_back(edge_base(0, 1));
+                    edges_act.push_back(edge_base(1, 0));
+                    edges_act.push_back(edge_base(1, 1));
+                    edges_act.push_back(edge_base(1, 2));
+                    edges_act.push_back(edge_base(1, 3));
+                    edges_act.push_back(edge_base(2, 1));
+                    edges_act.push_back(edge_base(2, 3));
+                    edges_act.push_back(edge_base(3, 1));
+                    edges_act.push_back(edge_base(3, 2));
+
+                    edges_exp.push_back(edge_base(2, 3));
+                    edges_exp.push_back(edge_base(1, 3));
+                    edges_exp.push_back(edge_base(3, 2));
+                    edges_exp.push_back(edge_base(1, 2));
+                    edges_exp.push_back(edge_base(3, 1));
+                    edges_exp.push_back(edge_base(2, 1));
+                    edges_exp.push_back(edge_base(1, 1));
+                    edges_exp.push_back(edge_base(0, 1));
+                    edges_exp.push_back(edge_base(1, 0));
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const edge_base& lhs,
+                            const edge_base& rhs) {
+                             return edge_base::
+                                    cmp_by_second_vertex(lhs, rhs) > 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const edge_base& lhs,
+                                      const edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
         };
 
         class testcase2 : public testcase {
@@ -213,7 +367,7 @@ class edge_testsuite : public testsuite {
                 }
 
                 bool test4() {
-                    edge e1(2, 4);
+                    edge e1(3, 4);
                     edge e2(2, 3);
                     edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) > 0);
@@ -221,7 +375,7 @@ class edge_testsuite : public testsuite {
 
                 bool test5() {
                     edge e1(2, 3);
-                    edge e2(3, 3);
+                    edge e2(3, 4);
                     e1.set_cmp_func(edge::cmp_by_second_vertex);
                     edge::cmp_func_type& c = e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
@@ -303,6 +457,10 @@ class edge_testsuite : public testsuite {
                              "==(weighted_edge_base) method test");
                     add_test(bind(&testcase3::test8, this),
                              "!=(weighted_edge_base) method test");
+                    add_test(bind(&testcase3::test9, this),
+                             "cmp_by_weight - ascending static method test");
+                    add_test(bind(&testcase3::test10, this),
+                             "cmp_by_weight - descending static method test");
                 }
 
                 bool test1() {
@@ -362,6 +520,82 @@ class edge_testsuite : public testsuite {
                     weighted_edge_base e1(3, 3, 3.1);
                     weighted_edge_base e2(3, 3, 3.0);
                     return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
+
+                bool test9() {
+                    vector<weighted_edge_base> edges_act;
+                    vector<weighted_edge_base> edges_exp;
+
+                    edges_act.push_back(weighted_edge_base(0, 1, 9));
+                    edges_act.push_back(weighted_edge_base(1, 0, 8));
+                    edges_act.push_back(weighted_edge_base(1, 1, 7));
+                    edges_act.push_back(weighted_edge_base(1, 2, 6));
+                    edges_act.push_back(weighted_edge_base(1, 3, 5));
+                    edges_act.push_back(weighted_edge_base(2, 1, 5));
+                    edges_act.push_back(weighted_edge_base(2, 3, 3));
+                    edges_act.push_back(weighted_edge_base(3, 1, 2));
+                    edges_act.push_back(weighted_edge_base(3, 2, 1));
+
+                    edges_exp.push_back(weighted_edge_base(3, 2, 1));
+                    edges_exp.push_back(weighted_edge_base(3, 1, 2));
+                    edges_exp.push_back(weighted_edge_base(2, 3, 3));
+                    edges_exp.push_back(weighted_edge_base(1, 3, 5));
+                    edges_exp.push_back(weighted_edge_base(2, 1, 5));
+                    edges_exp.push_back(weighted_edge_base(1, 2, 6));
+                    edges_exp.push_back(weighted_edge_base(1, 1, 7));
+                    edges_exp.push_back(weighted_edge_base(1, 0, 8));
+                    edges_exp.push_back(weighted_edge_base(0, 1, 9));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const weighted_edge_base& lhs,
+                            const weighted_edge_base& rhs) {
+                             return weighted_edge_base::
+                                    cmp_by_weight(lhs, rhs) < 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const weighted_edge_base& lhs,
+                                      const weighted_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test10() {
+                    vector<weighted_edge_base> edges_act;
+                    vector<weighted_edge_base> edges_exp;
+
+                    edges_act.push_back(weighted_edge_base(0, 1, 1));
+                    edges_act.push_back(weighted_edge_base(1, 0, 2));
+                    edges_act.push_back(weighted_edge_base(1, 1, 3));
+                    edges_act.push_back(weighted_edge_base(1, 2, 5));
+                    edges_act.push_back(weighted_edge_base(1, 3, 5));
+                    edges_act.push_back(weighted_edge_base(2, 1, 6));
+                    edges_act.push_back(weighted_edge_base(2, 3, 7));
+                    edges_act.push_back(weighted_edge_base(3, 1, 8));
+                    edges_act.push_back(weighted_edge_base(3, 2, 9));
+
+                    edges_exp.push_back(weighted_edge_base(3, 2, 9));
+                    edges_exp.push_back(weighted_edge_base(3, 1, 8));
+                    edges_exp.push_back(weighted_edge_base(2, 3, 7));
+                    edges_exp.push_back(weighted_edge_base(2, 1, 6));
+                    edges_exp.push_back(weighted_edge_base(1, 2, 5));
+                    edges_exp.push_back(weighted_edge_base(1, 3, 5));
+                    edges_exp.push_back(weighted_edge_base(1, 1, 3));
+                    edges_exp.push_back(weighted_edge_base(1, 0, 2));
+                    edges_exp.push_back(weighted_edge_base(0, 1, 1));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const weighted_edge_base& lhs,
+                            const weighted_edge_base& rhs) {
+                             return weighted_edge_base::
+                                    cmp_by_weight(lhs, rhs) > 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const weighted_edge_base& lhs,
+                                      const weighted_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
                 }
         };
 
@@ -431,10 +665,15 @@ class edge_testsuite : public testsuite {
                 bool test5() {
                     weighted_edge e1(3, 3, .8456);
                     weighted_edge e2(3, 3, 0.7456);
-                    e1.set_cmp_func(
-                           weighted_edge::cmp_by_weight_descending);
+                    auto cmp_desc_fn =
+                       [](const weighted_edge_base& lhs,
+                          const weighted_edge_base& rhs) {
+                           return -weighted_edge::
+                                     cmp_by_weight(lhs, rhs);
+                       };
+                    e1.set_cmp_func(*cmp_desc_fn);
                     weighted_edge::cmp_func_type& c =
-                                              e1.get_cmp_func();
+                                           e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
                 }
 
@@ -703,8 +942,13 @@ class edge_testsuite : public testsuite {
                 bool test6() {
                     weighted_udedge e1(3, 3, .8456);
                     weighted_udedge e2(3, 3, 0.7456);
-                    e1.set_cmp_func(
-                           weighted_udedge::cmp_by_weight_descending);
+                    auto cmp_desc_fn =
+                       [](const weighted_udedge_base& lhs,
+                          const weighted_udedge_base& rhs) {
+                           return -weighted_udedge::
+                                     cmp_by_weight(lhs, rhs);
+                       };
+                    e1.set_cmp_func(*cmp_desc_fn);
                     weighted_udedge::cmp_func_type& c =
                                               e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
@@ -958,8 +1202,13 @@ class edge_testsuite : public testsuite {
                 bool test6() {
                     weighted_diedge e1(3, 3, .8456);
                     weighted_diedge e2(3, 3, 0.7456);
-                    e1.set_cmp_func(
-                           weighted_diedge::cmp_by_weight_descending);
+                    auto cmp_desc_fn =
+                       [](const weighted_diedge_base& lhs,
+                          const weighted_diedge_base& rhs) {
+                           return -weighted_diedge::
+                                     cmp_by_weight(lhs, rhs);
+                       };
+                    e1.set_cmp_func(*cmp_desc_fn);
                     weighted_diedge::cmp_func_type& c =
                                               e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
@@ -1620,9 +1869,9 @@ class edge_testsuite : public testsuite {
 
                 bool test6() {
                     udedge e1(3, 3);
-                    udedge e2(2, 3);
+                    udedge e2(2, 4);
                     e1.set_cmp_func(
-                           udedge::cmp_by_first_vertex_descending);
+                           udedge::cmp_by_second_vertex);
                     udedge::cmp_func_type& c =
                                    e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);
@@ -1869,9 +2118,9 @@ class edge_testsuite : public testsuite {
 
                 bool test6() {
                     diedge e1(3, 3);
-                    diedge e2(2, 3);
+                    diedge e2(2, 4);
                     e1.set_cmp_func(
-                           diedge::cmp_by_first_vertex_descending);
+                           diedge::cmp_by_second_vertex);
                     diedge::cmp_func_type& c =
                                    e1.get_cmp_func();
                     return test::ccassert(c(e1, e2) < 0);

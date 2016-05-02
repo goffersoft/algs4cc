@@ -40,7 +40,7 @@ using com::goffersoft::core::utils;
  **  provides methods for accessing the two endpoints of the edge and
  **  the weight.
  **  2 cmp_by_weight methods compares 2 weighted_edges by
- **  ascending/descending order of weight.
+ **  ascending order of weight.
  **
  **  Memory <= 16 bytes(sizeof(edge_base) + 8)
  **  This is am immutable class.
@@ -104,13 +104,8 @@ class weighted_edge_base : public edge_base {
             return utils::cmp(lhs.weight, rhs.weight);
         }
 
-        static int32_t cmp_by_weight_descending(
-                                     const edge_type& lhs,
-                                     const edge_type& rhs) {
-            return -utils::cmp(lhs.weight, rhs.weight);
-        }
     private :
-        const weight_type weight;
+        weight_type weight;
 };
 
 /**
