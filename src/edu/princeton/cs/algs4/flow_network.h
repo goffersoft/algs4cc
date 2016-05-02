@@ -35,6 +35,7 @@ namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::vector;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -60,8 +61,7 @@ class flow_network : public graph_base {
         using adj_iterator = typename adj_iterable::iterator;
         using adj_const_iterator = typename adj_iterable::const_iterator;
         using graph_type = vector<adj_iterable>;
-        using edge_iterable =
-            typename bag<edge_type>::bag_value_type;
+        using edge_iterable = vector<edge_type>;
         using edge_iterable_ptr = unique_ptr<edge_iterable>;
 
         flow_network(const size_t& nvertices) :
@@ -102,12 +102,12 @@ class flow_network : public graph_base {
             for(size_t v = start_vertex; v <= end_vertex; v++) {
                 for(auto& e : get_adj(v)) {
                     if(((edge_base)(*e)).get_first() == v) {
-                        edges->add(edge_type(v,
+                        edges->push_back(edge_type(v,
                                              ((edge_base)(*e)).get_second(),
                                              e->get_capacity(),
                                              e->get_flow())); 
                     } else if(((edge_base)(*e)).get_second() == v) {
-                        edges->add(edge_type(v,
+                        edges->push_back(edge_type(v,
                                              ((edge_base)(*e)).get_first(),
                                              e->get_capacity(),
                                              e->get_flow()));

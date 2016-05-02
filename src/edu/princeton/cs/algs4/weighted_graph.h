@@ -68,8 +68,7 @@ class weighted_graph : public graph_base {
         using adj_type = adj_ptr_type;
         using adj_iterable =
             typename bag<adj_type >::bag_value_type;
-        using edge_iterable =
-            typename bag<edge_type>::bag_value_type;
+        using edge_iterable = vector<edge_type>;
         using edge_iterable_ptr = unique_ptr<edge_iterable>;
         using adj_iterator =
             typename adj_iterable::iterator;
@@ -115,11 +114,11 @@ class weighted_graph : public graph_base {
             for(size_t v = start_vertex; v <= end_vertex; v++) {
                 for(auto& e : get_adj(v)) {
                     if(((edge_base)(*e)).get_first() == v) {
-                        edges->add(edge_type(v,
+                        edges->push_back(edge_type(v,
                                              ((edge_base)(*e)).get_second(),
                                              e->get_weight())); 
                     } else if(((edge_base)(*e)).get_second() == v) {
-                        edges->add(edge_type(v,
+                        edges->push_back(edge_type(v,
                                              ((edge_base)(*e)).get_first(),
                                              e->get_weight()));
                     }

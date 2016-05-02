@@ -13,6 +13,7 @@
 #include <stdexcept>
 
 #include "codeclean.h"
+#include "bag.h"
 #include "udgraph.h"
 #include "digraph.h"
 #include "weighted_udgraph.h"
@@ -35,6 +36,7 @@ using com::goffersoft::codeclean::testcase;
 using com::goffersoft::codeclean::test;
 using com::goffersoft::codeclean::utils;
 
+using edu::princeton::cs::algs4::bag;
 using edu::princeton::cs::algs4::udgraph;
 using edu::princeton::cs::algs4::digraph;
 using edu::princeton::cs::algs4::udedge_base;
@@ -359,16 +361,16 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     udgraph g(s);
 
-                    bag<udedge_base>::bag_value_type exp;
-                    exp.add(udedge_base(0, 1));
-                    exp.add(udedge_base(1, 0));
-                    exp.add(udedge_base(1, 1));
-                    exp.add(udedge_base(1, 2));
-                    exp.add(udedge_base(1, 3));
-                    exp.add(udedge_base(2, 1));
-                    exp.add(udedge_base(2, 3));
-                    exp.add(udedge_base(3, 1));
-                    exp.add(udedge_base(3, 2));
+                    vector<udedge_base> exp;
+                    exp.push_back(udedge_base(0, 1));
+                    exp.push_back(udedge_base(1, 0));
+                    exp.push_back(udedge_base(1, 1));
+                    exp.push_back(udedge_base(1, 2));
+                    exp.push_back(udedge_base(1, 3));
+                    exp.push_back(udedge_base(2, 1));
+                    exp.push_back(udedge_base(2, 3));
+                    exp.push_back(udedge_base(3, 1));
+                    exp.push_back(udedge_base(3, 2));
 
                     auto edges = g.get_edges();
 
@@ -385,11 +387,11 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     udgraph g(s);
 
-                    bag<udedge_base>::bag_value_type exp;
-                    exp.add(udedge_base(1, 0));
-                    exp.add(udedge_base(1, 1));
-                    exp.add(udedge_base(1, 2));
-                    exp.add(udedge_base(1, 3));
+                    vector<udedge_base> exp;
+                    exp.push_back(udedge_base(1, 0));
+                    exp.push_back(udedge_base(1, 1));
+                    exp.push_back(udedge_base(1, 2));
+                    exp.push_back(udedge_base(1, 3));
 
                     auto edges = g.get_edges(1);
 
@@ -406,13 +408,13 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     udgraph g(s);
 
-                    bag<udedge_base>::bag_value_type exp;
-                    exp.add(udedge_base(1, 0));
-                    exp.add(udedge_base(1, 1));
-                    exp.add(udedge_base(1, 2));
-                    exp.add(udedge_base(1, 3));
-                    exp.add(udedge_base(2, 1));
-                    exp.add(udedge_base(2, 3));
+                    vector<udedge_base> exp;
+                    exp.push_back(udedge_base(1, 0));
+                    exp.push_back(udedge_base(1, 1));
+                    exp.push_back(udedge_base(1, 2));
+                    exp.push_back(udedge_base(1, 3));
+                    exp.push_back(udedge_base(2, 1));
+                    exp.push_back(udedge_base(2, 3));
 
                     auto edges = g.get_edges(1,2);
 
@@ -767,12 +769,12 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     digraph g(s);
 
-                    bag<diedge_base>::bag_value_type exp;
-                    exp.add(diedge_base(0, 1));
-                    exp.add(diedge_base(1, 1));
-                    exp.add(diedge_base(1, 2));
-                    exp.add(diedge_base(1, 3));
-                    exp.add(diedge_base(2, 3));
+                    vector<diedge_base> exp;
+                    exp.push_back(diedge_base(0, 1));
+                    exp.push_back(diedge_base(1, 1));
+                    exp.push_back(diedge_base(1, 2));
+                    exp.push_back(diedge_base(1, 3));
+                    exp.push_back(diedge_base(2, 3));
 
                     auto edges = g.get_edges();
 
@@ -789,10 +791,10 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     digraph g(s);
 
-                    bag<diedge_base>::bag_value_type exp;
-                    exp.add(diedge_base(1, 1));
-                    exp.add(diedge_base(1, 2));
-                    exp.add(diedge_base(1, 3));
+                    vector<diedge_base> exp;
+                    exp.push_back(diedge_base(1, 1));
+                    exp.push_back(diedge_base(1, 2));
+                    exp.push_back(diedge_base(1, 3));
 
                     auto edges = g.get_edges(1);
 
@@ -809,11 +811,11 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     digraph g(s);
 
-                    bag<diedge_base>::bag_value_type exp;
-                    exp.add(diedge_base(1, 1));
-                    exp.add(diedge_base(1, 2));
-                    exp.add(diedge_base(1, 3));
-                    exp.add(diedge_base(2, 3));
+                    vector<diedge_base> exp;
+                    exp.push_back(diedge_base(1, 1));
+                    exp.push_back(diedge_base(1, 2));
+                    exp.push_back(diedge_base(1, 3));
+                    exp.push_back(diedge_base(2, 3));
 
                     auto edges = g.get_edges(1,2);
 
@@ -866,12 +868,12 @@ class graph_testsuite : public testsuite {
                                    "1 2\n1 3\n2 3");
                     digraph g(s);
 
-                    bag<diedge_base>::bag_value_type exp;
-                    exp.add(diedge_base(1, 0));
-                    exp.add(diedge_base(1, 1));
-                    exp.add(diedge_base(2, 1));
-                    exp.add(diedge_base(3, 1));
-                    exp.add(diedge_base(3, 2));
+                    vector<diedge_base> exp;
+                    exp.push_back(diedge_base(1, 0));
+                    exp.push_back(diedge_base(1, 1));
+                    exp.push_back(diedge_base(2, 1));
+                    exp.push_back(diedge_base(3, 1));
+                    exp.push_back(diedge_base(3, 2));
 
                     auto g_reverse_ptr = g.reverse();
 
@@ -1203,16 +1205,16 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_udgraph g(s);
 
-                    bag<weighted_udedge_base>::bag_value_type exp;
-                    exp.add(weighted_udedge_base(0, 1, .23));
-                    exp.add(weighted_udedge_base(1, 0, .23));
-                    exp.add(weighted_udedge_base(1, 1, .34));
-                    exp.add(weighted_udedge_base(1, 2, 1.43));
-                    exp.add(weighted_udedge_base(1, 3, 3.4));
-                    exp.add(weighted_udedge_base(2, 1, 1.43));
-                    exp.add(weighted_udedge_base(2, 3, 5));
-                    exp.add(weighted_udedge_base(3, 1, 3.4));
-                    exp.add(weighted_udedge_base(3, 2, 5));
+                    vector<weighted_udedge_base> exp;
+                    exp.push_back(weighted_udedge_base(0, 1, .23));
+                    exp.push_back(weighted_udedge_base(1, 0, .23));
+                    exp.push_back(weighted_udedge_base(1, 1, .34));
+                    exp.push_back(weighted_udedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_udedge_base(1, 3, 3.4));
+                    exp.push_back(weighted_udedge_base(2, 1, 1.43));
+                    exp.push_back(weighted_udedge_base(2, 3, 5));
+                    exp.push_back(weighted_udedge_base(3, 1, 3.4));
+                    exp.push_back(weighted_udedge_base(3, 2, 5));
 
                     auto edges = g.get_edges();
 
@@ -1229,11 +1231,11 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_udgraph g(s);
 
-                    bag<weighted_udedge_base>::bag_value_type exp;
-                    exp.add(weighted_udedge_base(1, 0, .23));
-                    exp.add(weighted_udedge_base(1, 1, .34));
-                    exp.add(weighted_udedge_base(1, 2, 1.43));
-                    exp.add(weighted_udedge_base(1, 3, 3.4));
+                    vector<weighted_udedge_base> exp;
+                    exp.push_back(weighted_udedge_base(1, 0, .23));
+                    exp.push_back(weighted_udedge_base(1, 1, .34));
+                    exp.push_back(weighted_udedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_udedge_base(1, 3, 3.4));
 
                     auto edges = g.get_edges(1);
 
@@ -1250,13 +1252,13 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_udgraph g(s);
 
-                    bag<weighted_udedge_base>::bag_value_type exp;
-                    exp.add(weighted_udedge_base(1, 0, .23));
-                    exp.add(weighted_udedge_base(1, 1, .34));
-                    exp.add(weighted_udedge_base(1, 2, 1.43));
-                    exp.add(weighted_udedge_base(1, 3, 3.4));
-                    exp.add(weighted_udedge_base(2, 1, 1.43));
-                    exp.add(weighted_udedge_base(2, 3, 5));
+                    vector<weighted_udedge_base> exp;
+                    exp.push_back(weighted_udedge_base(1, 0, .23));
+                    exp.push_back(weighted_udedge_base(1, 1, .34));
+                    exp.push_back(weighted_udedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_udedge_base(1, 3, 3.4));
+                    exp.push_back(weighted_udedge_base(2, 1, 1.43));
+                    exp.push_back(weighted_udedge_base(2, 3, 5));
 
                     auto edges = g.get_edges(1,2);
 
@@ -1623,12 +1625,12 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_digraph g(s);
 
-                    bag<weighted_diedge_base>::bag_value_type exp;
-                    exp.add(weighted_diedge_base(0, 1, .23));
-                    exp.add(weighted_diedge_base(1, 1, .34));
-                    exp.add(weighted_diedge_base(1, 2, 1.43));
-                    exp.add(weighted_diedge_base(1, 3, 3.4));
-                    exp.add(weighted_diedge_base(2, 3, 5));
+                    vector<weighted_diedge_base> exp;
+                    exp.push_back(weighted_diedge_base(0, 1, .23));
+                    exp.push_back(weighted_diedge_base(1, 1, .34));
+                    exp.push_back(weighted_diedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_diedge_base(1, 3, 3.4));
+                    exp.push_back(weighted_diedge_base(2, 3, 5));
 
                     auto edges = g.get_edges();
 
@@ -1645,10 +1647,10 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_digraph g(s);
 
-                    bag<weighted_diedge_base>::bag_value_type exp;
-                    exp.add(weighted_diedge_base(1, 1, .34));
-                    exp.add(weighted_diedge_base(1, 2, 1.43));
-                    exp.add(weighted_diedge_base(1, 3, 3.4));
+                    vector<weighted_diedge_base> exp;
+                    exp.push_back(weighted_diedge_base(1, 1, .34));
+                    exp.push_back(weighted_diedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_diedge_base(1, 3, 3.4));
 
                     auto edges = g.get_edges(1);
 
@@ -1665,11 +1667,11 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_digraph g(s);
 
-                    bag<weighted_diedge_base>::bag_value_type exp;
-                    exp.add(weighted_diedge_base(1, 1, .34));
-                    exp.add(weighted_diedge_base(1, 2, 1.43));
-                    exp.add(weighted_diedge_base(1, 3, 3.4));
-                    exp.add(weighted_diedge_base(2, 3, 5));
+                    vector<weighted_diedge_base> exp;
+                    exp.push_back(weighted_diedge_base(1, 1, .34));
+                    exp.push_back(weighted_diedge_base(1, 2, 1.43));
+                    exp.push_back(weighted_diedge_base(1, 3, 3.4));
+                    exp.push_back(weighted_diedge_base(2, 3, 5));
 
                     auto edges = g.get_edges(1,2);
 
@@ -1725,12 +1727,12 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43\n1 3 3.4\n2 3 5");
                     weighted_digraph g(s);
 
-                    bag<weighted_diedge_base>::bag_value_type exp;
-                    exp.add(weighted_diedge_base(1, 0, .23));
-                    exp.add(weighted_diedge_base(1, 1, .34));
-                    exp.add(weighted_diedge_base(2, 1, 1.43));
-                    exp.add(weighted_diedge_base(3, 1, 3.4));
-                    exp.add(weighted_diedge_base(3, 2, 5));
+                    vector<weighted_diedge_base> exp;
+                    exp.push_back(weighted_diedge_base(1, 0, .23));
+                    exp.push_back(weighted_diedge_base(1, 1, .34));
+                    exp.push_back(weighted_diedge_base(2, 1, 1.43));
+                    exp.push_back(weighted_diedge_base(3, 1, 3.4));
+                    exp.push_back(weighted_diedge_base(3, 2, 5));
 
                     auto g_reverse_ptr = g.reverse();
 
@@ -2070,16 +2072,16 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
                     flow_network g(s);
 
-                    bag<flow_edge_base>::bag_value_type exp;
-                    exp.add(flow_edge_base(0, 1, .23, .1));
-                    exp.add(flow_edge_base(1, 0, .23, .1));
-                    exp.add(flow_edge_base(1, 1, .34, .3));
-                    exp.add(flow_edge_base(1, 2, 1.43, .5));
-                    exp.add(flow_edge_base(1, 3, 3.4, 1));
-                    exp.add(flow_edge_base(2, 1, 1.43, .5));
-                    exp.add(flow_edge_base(2, 3, 5, 2));
-                    exp.add(flow_edge_base(3, 1, 3.4, 1));
-                    exp.add(flow_edge_base(3, 2, 5, 2));
+                    vector<flow_edge_base> exp;
+                    exp.push_back(flow_edge_base(0, 1, .23, .1));
+                    exp.push_back(flow_edge_base(1, 0, .23, .1));
+                    exp.push_back(flow_edge_base(1, 1, .34, .3));
+                    exp.push_back(flow_edge_base(1, 2, 1.43, .5));
+                    exp.push_back(flow_edge_base(1, 3, 3.4, 1));
+                    exp.push_back(flow_edge_base(2, 1, 1.43, .5));
+                    exp.push_back(flow_edge_base(2, 3, 5, 2));
+                    exp.push_back(flow_edge_base(3, 1, 3.4, 1));
+                    exp.push_back(flow_edge_base(3, 2, 5, 2));
 
                     auto edges = g.get_edges();
 
@@ -2096,11 +2098,11 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
                     flow_network g(s);
 
-                    bag<flow_edge_base>::bag_value_type exp;
-                    exp.add(flow_edge_base(1, 0, .23, .1));
-                    exp.add(flow_edge_base(1, 1, .34, .3));
-                    exp.add(flow_edge_base(1, 2, 1.43, .5));
-                    exp.add(flow_edge_base(1, 3, 3.4, 1));
+                    vector<flow_edge_base> exp;
+                    exp.push_back(flow_edge_base(1, 0, .23, .1));
+                    exp.push_back(flow_edge_base(1, 1, .34, .3));
+                    exp.push_back(flow_edge_base(1, 2, 1.43, .5));
+                    exp.push_back(flow_edge_base(1, 3, 3.4, 1));
 
                     auto edges = g.get_edges(1);
 
@@ -2117,13 +2119,13 @@ class graph_testsuite : public testsuite {
                                    "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
                     flow_network g(s);
 
-                    bag<flow_edge_base>::bag_value_type exp;
-                    exp.add(flow_edge_base(1, 0, .23, .1));
-                    exp.add(flow_edge_base(1, 1, .34, .3));
-                    exp.add(flow_edge_base(1, 2, 1.43, .5));
-                    exp.add(flow_edge_base(1, 3, 3.4, 1));
-                    exp.add(flow_edge_base(2, 1, 1.43, .5));
-                    exp.add(flow_edge_base(2, 3, 5, 2));
+                    vector<flow_edge_base> exp;
+                    exp.push_back(flow_edge_base(1, 0, .23, .1));
+                    exp.push_back(flow_edge_base(1, 1, .34, .3));
+                    exp.push_back(flow_edge_base(1, 2, 1.43, .5));
+                    exp.push_back(flow_edge_base(1, 3, 3.4, 1));
+                    exp.push_back(flow_edge_base(2, 1, 1.43, .5));
+                    exp.push_back(flow_edge_base(2, 3, 5, 2));
 
                     auto edges = g.get_edges(1,2);
 

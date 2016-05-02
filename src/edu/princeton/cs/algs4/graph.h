@@ -63,8 +63,7 @@ using edu::princeton::cs::algs4::diedge_base;
 class graph : public graph_base {
     public :
         template<typename E>
-        using edge_iterable =
-            typename bag<E>::bag_value_type;
+        using edge_iterable = vector<E>;
         template<typename E>
         using edge_iterable_ptr = unique_ptr<edge_iterable<E> >;
         using adj_iterable =
@@ -133,7 +132,7 @@ class graph : public graph_base {
             for(size_t v = start_vertex;
                 v <= end_vertex; v++) {
                 for(auto& w : g.get_adj(v)) {
-                    edges->add(E(v, w));
+                    edges->push_back(E(v, w));
                 }
             }
             return edge_iterable_ptr<E>(edges);
