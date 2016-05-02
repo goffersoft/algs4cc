@@ -209,8 +209,8 @@ class flow_edge_base {
         };
 
     private :
-        const edge_type e;
-        const capacity_type capacity;
+        edge_type e;
+        capacity_type capacity;
         flow_type flow;
 
         static void validate_input(const flow_type& flow,

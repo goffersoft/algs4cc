@@ -1318,6 +1318,14 @@ class edge_testsuite : public testsuite {
                              "==(flow_edge_base) method test");
                     add_test(bind(&testcase9::test23, this),
                              "!=(flow_edge_base) method test");
+                    add_test(bind(&testcase9::test24, this),
+                             "cmp_by_capacity - ascending static method test");
+                    add_test(bind(&testcase9::test25, this),
+                             "cmp_by_capacity - descending static method test");
+                    add_test(bind(&testcase9::test26, this),
+                             "cmp_by_flow - ascending static method test");
+                    add_test(bind(&testcase9::test27, this),
+                             "cmp_by_flow - descending static method test");
                 }
 
                 bool test1() {
@@ -1500,6 +1508,158 @@ class edge_testsuite : public testsuite {
                     flow_edge_base e1(3, 3, 3.0, 1.2);
                     flow_edge_base e2(3, 3, 3.1, 1.2);
                     return test::ccassert(e1 != e2 && !(e1 != e1));
+                }
+
+                bool test24() {
+                    vector<flow_edge_base> edges_act;
+                    vector<flow_edge_base> edges_exp;
+
+                    edges_act.push_back(flow_edge_base(0, 1, 9));
+                    edges_act.push_back(flow_edge_base(1, 0, 8));
+                    edges_act.push_back(flow_edge_base(1, 1, 7));
+                    edges_act.push_back(flow_edge_base(1, 2, 6));
+                    edges_act.push_back(flow_edge_base(1, 3, 5));
+                    edges_act.push_back(flow_edge_base(2, 1, 5));
+                    edges_act.push_back(flow_edge_base(2, 3, 3));
+                    edges_act.push_back(flow_edge_base(3, 1, 2));
+                    edges_act.push_back(flow_edge_base(3, 2, 1));
+
+                    edges_exp.push_back(flow_edge_base(3, 2, 1));
+                    edges_exp.push_back(flow_edge_base(3, 1, 2));
+                    edges_exp.push_back(flow_edge_base(2, 3, 3));
+                    edges_exp.push_back(flow_edge_base(1, 3, 5));
+                    edges_exp.push_back(flow_edge_base(2, 1, 5));
+                    edges_exp.push_back(flow_edge_base(1, 2, 6));
+                    edges_exp.push_back(flow_edge_base(1, 1, 7));
+                    edges_exp.push_back(flow_edge_base(1, 0, 8));
+                    edges_exp.push_back(flow_edge_base(0, 1, 9));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const flow_edge_base& lhs,
+                            const flow_edge_base& rhs) {
+                             return flow_edge_base::
+                                    cmp_by_capacity(lhs, rhs) < 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test25() {
+                    vector<flow_edge_base> edges_act;
+                    vector<flow_edge_base> edges_exp;
+
+                    edges_act.push_back(flow_edge_base(0, 1, 1));
+                    edges_act.push_back(flow_edge_base(1, 0, 2));
+                    edges_act.push_back(flow_edge_base(1, 1, 3));
+                    edges_act.push_back(flow_edge_base(1, 2, 4));
+                    edges_act.push_back(flow_edge_base(1, 3, 5));
+                    edges_act.push_back(flow_edge_base(2, 1, 6));
+                    edges_act.push_back(flow_edge_base(2, 3, 7));
+                    edges_act.push_back(flow_edge_base(3, 1, 8));
+                    edges_act.push_back(flow_edge_base(3, 2, 9));
+
+                    edges_exp.push_back(flow_edge_base(3, 2, 9));
+                    edges_exp.push_back(flow_edge_base(3, 1, 8));
+                    edges_exp.push_back(flow_edge_base(2, 3, 7));
+                    edges_exp.push_back(flow_edge_base(2, 1, 6));
+                    edges_exp.push_back(flow_edge_base(1, 3, 5));
+                    edges_exp.push_back(flow_edge_base(1, 2, 4));
+                    edges_exp.push_back(flow_edge_base(1, 1, 3));
+                    edges_exp.push_back(flow_edge_base(1, 0, 2));
+                    edges_exp.push_back(flow_edge_base(0, 1, 1));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const flow_edge_base& lhs,
+                            const flow_edge_base& rhs) {
+                             return flow_edge_base::
+                                    cmp_by_capacity(lhs, rhs) > 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test26() {
+                    vector<flow_edge_base> edges_act;
+                    vector<flow_edge_base> edges_exp;
+
+                    edges_act.push_back(flow_edge_base(0, 1, 9, 7.5));
+                    edges_act.push_back(flow_edge_base(1, 0, 8, 6.5));
+                    edges_act.push_back(flow_edge_base(1, 1, 7, 5.4));
+                    edges_act.push_back(flow_edge_base(1, 2, 6, 4.3));
+                    edges_act.push_back(flow_edge_base(1, 3, 5, 3.9));
+                    edges_act.push_back(flow_edge_base(2, 1, 4, 3.9));
+                    edges_act.push_back(flow_edge_base(2, 3, 3, 2.3));
+                    edges_act.push_back(flow_edge_base(3, 1, 2, 1.7));
+                    edges_act.push_back(flow_edge_base(3, 2, 1, .8));
+
+                    edges_exp.push_back(flow_edge_base(3, 2, 1, .8));
+                    edges_exp.push_back(flow_edge_base(3, 1, 2, 1.7));
+                    edges_exp.push_back(flow_edge_base(2, 3, 3, 2.3));
+                    edges_exp.push_back(flow_edge_base(2, 1, 4, 3.9));
+                    edges_exp.push_back(flow_edge_base(1, 3, 5, 3.9));
+                    edges_exp.push_back(flow_edge_base(1, 2, 6, 4.3));
+                    edges_exp.push_back(flow_edge_base(1, 1, 7, 5.4));
+                    edges_exp.push_back(flow_edge_base(1, 0, 8, 6.5));
+                    edges_exp.push_back(flow_edge_base(0, 1, 9, 7.5));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const flow_edge_base& lhs,
+                            const flow_edge_base& rhs) {
+                             return flow_edge_base::
+                                    cmp_by_flow(lhs, rhs) < 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
+                }
+
+                bool test27() {
+                    vector<flow_edge_base> edges_act;
+                    vector<flow_edge_base> edges_exp;
+
+                    edges_act.push_back(flow_edge_base(3, 2, 1, .8));
+                    edges_act.push_back(flow_edge_base(3, 1, 2, 1.7));
+                    edges_act.push_back(flow_edge_base(2, 3, 3, 2.3));
+                    edges_act.push_back(flow_edge_base(2, 1, 5, 3.9));
+                    edges_act.push_back(flow_edge_base(1, 3, 5, 3.9));
+                    edges_act.push_back(flow_edge_base(1, 2, 6, 4.3));
+                    edges_act.push_back(flow_edge_base(1, 1, 7, 5.4));
+                    edges_act.push_back(flow_edge_base(1, 0, 8, 6.5));
+                    edges_act.push_back(flow_edge_base(0, 1, 9, 7.5));
+
+                    edges_exp.push_back(flow_edge_base(0, 1, 9, 7.5));
+                    edges_exp.push_back(flow_edge_base(1, 0, 8, 6.5));
+                    edges_exp.push_back(flow_edge_base(1, 1, 7, 5.4));
+                    edges_exp.push_back(flow_edge_base(1, 2, 6, 4.3));
+                    edges_exp.push_back(flow_edge_base(2, 1, 5, 3.9));
+                    edges_exp.push_back(flow_edge_base(1, 3, 5, 3.9));
+                    edges_exp.push_back(flow_edge_base(2, 3, 3, 2.3));
+                    edges_exp.push_back(flow_edge_base(3, 1, 2, 1.7));
+                    edges_exp.push_back(flow_edge_base(3, 2, 1, .8));
+
+                    sort(edges_act.begin(), edges_act.end(),
+                         [](const flow_edge_base& lhs,
+                            const flow_edge_base& rhs) {
+                             return flow_edge_base::
+                                    cmp_by_flow(lhs, rhs) > 0;
+                         });
+                    return test::ccassert_array_equals(
+                                   edges_exp, edges_act,
+                                   [](const flow_edge_base& lhs,
+                                      const flow_edge_base& rhs){
+                                      return lhs.equals(rhs);
+                                      });
                 }
         };
 
