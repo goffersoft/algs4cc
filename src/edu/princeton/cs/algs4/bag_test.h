@@ -53,7 +53,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_value_type b;
                     for(auto v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     bool retval = false;
                     for(bag<string>::value_iterator it = b.begin();
@@ -69,7 +69,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_value_type b;
                     for(auto v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     const bag<string>::bag_value_type& b_const = b;
                     bool retval = false;
@@ -86,7 +86,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_value_type b;
                     for(auto v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     bool retval = false;
                     for(bag<string>::const_value_iterator it = b.cbegin();
@@ -104,7 +104,7 @@ class bag_testsuite : public testsuite {
                     stringstream ss;
 
                     for(auto v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                        ss << v << " ";
                     }
                     ss << endl;
@@ -131,7 +131,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_reference_type b;
                     for(auto& v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     bool retval = false;
                     for(bag<string>::reference_iterator it = b.begin();
@@ -147,7 +147,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_reference_type b;
                     for(auto& v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     const bag<string>::bag_reference_type& b_const = b;
                     bool retval = false;
@@ -164,7 +164,7 @@ class bag_testsuite : public testsuite {
                     string s[] = {"value1"};
                     bag<string>::bag_reference_type b;
                     for(auto& v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                     }
                     bool retval = false;
                     for(bag<string>::const_reference_iterator it = b.cbegin();
@@ -182,7 +182,7 @@ class bag_testsuite : public testsuite {
                     stringstream ss;
 
                     for(auto& v : s) {
-                       b.add(v); 
+                       b.push_back(v); 
                        ss << v << " ";
                     }
                     ss << endl;

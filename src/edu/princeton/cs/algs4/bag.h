@@ -85,7 +85,7 @@ class bag {
 
         size_t size() const { return list_of_items.size(); }
 
-        void add(typename conditional<is_reference_type,
+        void push_back(typename conditional<is_reference_type,
                              reference,
                              const_reference>::type item) {
             list_of_items.push_back(item);

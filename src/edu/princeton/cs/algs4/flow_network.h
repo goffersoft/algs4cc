@@ -83,7 +83,7 @@ class flow_network : public graph_base {
 
             for(size_t v = 0; v < get_num_vertices(); v++) {
                 for(auto& a : g.get_adj(v)) {
-                    grep[v].add(a);
+                    grep[v].push_back(a);
                 }
             }
         }
@@ -194,9 +194,9 @@ class flow_network : public graph_base {
         void add_edge(edge_type* e,
                       bool inc_edge_count = true) {
             adj_type tmp(e);
-            grep[e->get_from()].add(tmp);
+            grep[e->get_from()].push_back(tmp);
             if(e->get_from() != e->get_to())
-                grep[e->get_to()].add(tmp);
+                grep[e->get_to()].push_back(tmp);
             if(inc_edge_count)
                 set_num_edges(get_num_edges() + 1);
         }

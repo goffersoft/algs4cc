@@ -90,7 +90,7 @@ class graph : public graph_base {
 
             for(size_t v = 0; v < get_num_vertices(); v++) {
                 for(auto& a : g.get_adj(v)) {
-                    grep[v].add(a);
+                    grep[v].push_back(a);
                 }
             }
         }
@@ -178,9 +178,9 @@ class graph : public graph_base {
                       const vertex_type& w,
                       bool directed,
                       bool inc_edge_count = true) {
-            grep[v].add(w);
+            grep[v].push_back(w);
             if(!directed && v != w)
-                grep[w].add(v);
+                grep[w].push_back(v);
             if(inc_edge_count)
                 set_num_edges(get_num_edges() + 1);
         }

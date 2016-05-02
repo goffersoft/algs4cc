@@ -93,7 +93,7 @@ class weighted_graph : public graph_base {
 
             for(size_t v = 0; v < get_num_vertices(); v++) {
                 for(auto& a : g.get_adj(v)) {
-                    grep[v].add(a);
+                    grep[v].push_back(a);
                 }
             }
         }
@@ -191,9 +191,9 @@ class weighted_graph : public graph_base {
                       bool inc_edge_count = true) {
             edge_type* e = new edge_type(v, w, wt);
             adj_type tmp(e);
-            grep[v].add(tmp);
+            grep[v].push_back(tmp);
             if(!directed && (v != w)) {
-                grep[w].add(tmp);
+                grep[w].push_back(tmp);
             }
             if(inc_edge_count)
                 set_num_edges(get_num_edges() + 1);
