@@ -102,6 +102,10 @@ class edge_testsuite : public testsuite {
                              "cmp_by_second_vertex - ascending static method test");
                     add_test(bind(&testcase1::test13, this),
                              "cmp_by_second_vertex - descending static method test");
+                    add_test(bind(&testcase1::test14, this),
+                                  "get_other method test");
+                    add_test(bind(&testcase1::test15, this),
+                                  "get_other method exception test");
                 }
 
                 bool test1() {
@@ -308,6 +312,24 @@ class edge_testsuite : public testsuite {
                                       const edge_base& rhs){
                                       return lhs.equals(rhs);
                                       });
+                }
+
+                bool test14() {
+                    edge_base e(2, 3);
+                    return test::ccassert(e.get_other(2) ==
+                                          edge_base::vertex_type(3) || 
+                                          e.get_other(3) ==
+                                          edge_base::vertex_type(2));
+                }
+
+                bool test15() {
+                    invalid_argument e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              []() {
+                                 edge_base e(2, 3);
+                                 e.get_other(4);
+                              });
                 }
         };
 

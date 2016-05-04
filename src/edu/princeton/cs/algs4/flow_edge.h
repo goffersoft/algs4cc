@@ -87,13 +87,7 @@ class flow_edge_base {
         }
 
         const vertex_type get_other(const vertex_type& v) {
-            if(v == get_from()) {
-                return get_to();
-            } else if(v == get_to()) {
-                return get_from();
-            } else {
-                throw invalid_argument("v is not a member of this edge");
-            }
+            return e.get_other(v);
         }
 
         const flow_type get_flow() const {

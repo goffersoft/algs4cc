@@ -66,14 +66,7 @@ class udedge_base {
         }
 
         const vertex_type get_other(const vertex_type& v) const {
-            if(e.get_first() == v) {
-                return e.get_second();
-            } else if(e.get_second() == v) {
-                return e.get_first();
-            } else {
-                throw invalid_argument( "invalid argument : v"
-                                        "not member of this edge");
-            }
+            return e.get_other(v);
         }
 
         operator edge_type() const {

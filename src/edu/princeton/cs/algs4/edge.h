@@ -10,6 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <stdexcept>
 
 #include "object.h"
 #include "cstdin.h"
@@ -25,6 +26,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::stringstream;
+using std::invalid_argument;
 
 using edu::princeton::cs::algs4::cstdin;
 using com::goffersoft::core::object;
@@ -60,6 +62,17 @@ class edge_base {
 
         const vertex_type& get_second() const {
             return second;
+        }
+
+        const vertex_type get_other(const vertex_type& v) const {
+            if(get_first() == v) {
+                return get_second();
+            } else if(get_second() == v) {
+                return get_first();
+            } else {
+                throw invalid_argument( "invalid argument : v"
+                                        "not member of this edge");
+            }
         }
 
         bool equals(const edge_type& that) const {
