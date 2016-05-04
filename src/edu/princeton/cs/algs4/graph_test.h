@@ -56,6 +56,7 @@ class graph_testsuite : public testsuite {
             add_testcase(testcase3());
             add_testcase(testcase4());
             add_testcase(testcase5());
+            add_testcase(testcase6());
         }
 
     private :
@@ -2172,6 +2173,372 @@ class graph_testsuite : public testsuite {
                               e,
                               [&g]() {
                                   g.get_edges(4, 5); 
+                              }
+                           );
+                }
+        };
+
+        class testcase6 : public testcase {
+            public :
+                testcase6(const string& name = "graph_base - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase6::test1, this),
+                             "get_vertex(vertex_type, vertex_type) "
+                             "static method test");
+                    add_test(bind(&testcase6::test2, this),
+                             "get_vertex(vertex_type, edge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test3, this),
+                             "get_vertex(vertex_type, edge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test4, this),
+                             "get_vertex(vertex_type, edge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test5, this),
+                             "get_vertex(vertex_type, edge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test6, this),
+                             "get_vertex(vertex_type, udedge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test7, this),
+                             "get_vertex(vertex_type, udedge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test8, this),
+                             "get_vertex(vertex_type, udedge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test9, this),
+                             "get_vertex(vertex_type, udedge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test10, this),
+                             "get_vertex(vertex_type, diedge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test11, this),
+                             "get_vertex(vertex_type, diedge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test12, this),
+                             "get_vertex(vertex_type, diedge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test13, this),
+                             "get_vertex(vertex_type, diedge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test14, this),
+                             "get_vertex(vertex_type, weighted_edge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test15, this),
+                             "get_vertex(vertex_type, weighted_edge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test16, this),
+                             "get_vertex(vertex_type, weighted_edge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test17, this),
+                             "get_vertex(vertex_type, weighted_edge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test18, this),
+                             "get_vertex(vertex_type, weighted_udedge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test19, this),
+                             "get_vertex(vertex_type, weighted_udedge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test20, this),
+                             "get_vertex(vertex_type, weighted_udedge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test21, this),
+                             "get_vertex(vertex_type, weighted_udedge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test22, this),
+                             "get_vertex(vertex_type, weighted_diedge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test23, this),
+                             "get_vertex(vertex_type, weighted_diedge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test24, this),
+                             "get_vertex(vertex_type, weighted_diedge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test25, this),
+                             "get_vertex(vertex_type, weighted_diedge) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test26, this),
+                             "get_vertex(vertex_type, flow_edge_base) "
+                             "static method test");
+                    add_test(bind(&testcase6::test27, this),
+                             "get_vertex(vertex_type, flow_edge_base) "
+                             "static method exception test");
+                    add_test(bind(&testcase6::test28, this),
+                             "get_vertex(vertex_type, flow_edge) "
+                             "static method test");
+                    add_test(bind(&testcase6::test29, this),
+                             "get_vertex(vertex_type, flow_edge) "
+                             "static method exception test");
+                }
+
+                bool test1() {
+                    return test::ccassert(graph_base::get_vertex(
+                                             graph_base::vertex_type(2),
+                                             graph_base::vertex_type(3)) == 3);
+                }
+
+                bool test2() {
+                    edge_base e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), e) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), e) == 2);
+                }
+
+                bool test3() {
+                    edge_base e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, e); 
+                              }
+                           );
+                }
+
+                bool test4() {
+                    edge e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test5() {
+                    edge e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test6() {
+                    udedge_base e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test7() {
+                    udedge_base e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test8() {
+                    udedge e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test9() {
+                    udedge e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test10() {
+                    diedge_base e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test11() {
+                    diedge_base e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test12() {
+                    diedge e(2, 3);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test13() {
+                    diedge e(2, 3);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test14() {
+                    weighted_edge_base e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test15() {
+                    weighted_edge_base e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test16() {
+                    weighted_edge e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test17() {
+                    weighted_edge e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test18() {
+                    weighted_udedge_base e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test19() {
+                    weighted_udedge_base e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test20() {
+                    weighted_udedge e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test21() {
+                    weighted_udedge e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test22() {
+                    weighted_diedge_base e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test23() {
+                    weighted_diedge_base e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test24() {
+                    weighted_diedge e(2, 3, 3.4);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test25() {
+                    weighted_diedge e(2, 3, 3.4);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test26() {
+                    flow_edge_base e(2, 3, 3.4, 2.1);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test27() {
+                    flow_edge_base e(2, 3, 3.4, 2.1);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
+                              }
+                           );
+                }
+
+                bool test28() {
+                    flow_edge e(2, 3, 3.4, 2.1);
+                    return test::ccassert(graph_base::get_vertex(
+                                                graph_base::vertex_type(2), edge_base(e)) == 3 &&
+                                          graph_base::get_vertex(
+                                                graph_base::vertex_type(3), edge_base(e)) == 2);
+                }
+
+                bool test29() {
+                    flow_edge e(2, 3, 3.4, 2.1);
+                    invalid_argument ex("some exp");
+                    return test::ccassert_exception(
+                              ex,
+                              [&e]() {
+                                  graph_base::get_vertex(4, edge_base(e)); 
                               }
                            );
                 }

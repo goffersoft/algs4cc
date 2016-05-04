@@ -20,14 +20,17 @@
 #include <sstream>
 #include <stdexcept>
 #include <climits>
+#include <type_traits>
 
 #include "cstdin.h"
+#include "edge.h"
 
 namespace edu {
 namespace princeton {
 namespace cs {
 namespace algs4 {
 
+using std::is_same;
 using std::istream;
 using std::cin;
 using std::endl;
@@ -36,6 +39,7 @@ using std::range_error;
 using std::numeric_limits;
 
 using edu::princeton::cs::algs4::cstdin;
+using edu::princeton::cs::algs4::edge_base;
 
 /**
  ** The graph_base class represents an abstract base class
@@ -118,6 +122,14 @@ class graph_base {
 
         virtual ~graph_base() {}
 
+        template<typename E>
+        static vertex_type get_vertex(const vertex_type& v,
+                                      const E& e) {
+            static_assert(is_same<E, vertex_type>::value,
+                          "E must be one of vertex_type or edge_base");
+            return e;
+        }
+
     protected :
         graph_base(const size_t& num_vertices,
                    const size_t& num_edges) {
@@ -155,6 +167,11 @@ class graph_base {
             nedges = cstdin::read_uint32(is);
         }
 };
+
+template<>
+graph_base::vertex_type
+graph_base::get_vertex<edge_base>(const graph_base::vertex_type& v,
+                                  const edge_base& e);
 
 } //edu
 } //princeton
