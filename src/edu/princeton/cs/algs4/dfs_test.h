@@ -256,7 +256,6 @@ class dfs_testsuite : public testsuite {
                     deque<digraph::vertex_type> d1{3, 4, 6};
                     deque<digraph::vertex_type> d2;
 
-                    std::cout << string(g) << std::endl;
                     for(size_t x = 0; x < g.get_num_vertices(); x++) {
                         if(dfs.has_path(x)) {
                             d2.push_back(x);
@@ -603,7 +602,6 @@ class dfs_testsuite : public testsuite {
                     deque<weighted_digraph::vertex_type> d1{3, 4, 6};
                     deque<weighted_digraph::vertex_type> d2;
 
-                    std::cout << string(g) << std::endl;
                     for(size_t x = 0; x < g.get_num_vertices(); x++) {
                         if(dfs.has_path(x)) {
                             d2.push_back(x);
