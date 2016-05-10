@@ -20,8 +20,9 @@ using edu::princeton::cs::algs4::graph_base;
 using edu::princeton::cs::algs4::edge_base;
 
 template<>
-graph_base::vertex_type
-graph_base::get_vertex<edge_base>(const graph_base::vertex_type& v,
-                                  const edge_base& e) {
+typename graph_base::vertex_type
+graph_base::get_vertex<edge_base>(
+         const typename graph_base::vertex_type& v,
+         const edge_base& e) {
     return e.get_other(v);
 }

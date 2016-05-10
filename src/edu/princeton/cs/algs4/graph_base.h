@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <climits>
 #include <type_traits>
+#include <memory>
 
 #include "cstdin.h"
 #include "edge.h"
@@ -37,6 +38,8 @@ using std::endl;
 using std::stringstream;
 using std::range_error;
 using std::numeric_limits;
+using std::shared_ptr;
+using std::unique_ptr;
 
 using edu::princeton::cs::algs4::cstdin;
 using edu::princeton::cs::algs4::edge_base;
@@ -130,6 +133,18 @@ class graph_base {
             return e;
         }
 
+        template<typename E>
+        static vertex_type get_vertex(const vertex_type& v,
+                                      const shared_ptr<E>& e) {
+            return get_vertex(v, edge_base(*e));
+        }
+
+        template<typename E>
+        static vertex_type get_vertex(const vertex_type& v,
+                                      const unique_ptr<E>& e) {
+            return get_vertex(v, edge_base(*e));
+        }
+
     protected :
         graph_base(const size_t& num_vertices,
                    const size_t& num_edges) {
@@ -169,9 +184,10 @@ class graph_base {
 };
 
 template<>
-graph_base::vertex_type
-graph_base::get_vertex<edge_base>(const graph_base::vertex_type& v,
-                                  const edge_base& e);
+typename graph_base::vertex_type
+graph_base::get_vertex<edge_base>(
+      const graph_base::vertex_type& v,
+      const edge_base& e);
 
 } //edu
 } //princeton
