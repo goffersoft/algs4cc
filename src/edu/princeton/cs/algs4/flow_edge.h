@@ -280,7 +280,7 @@ class flow_edge : public flow_edge_base, public object {
             return flow_edge_base::equals(that);
         }
 
-        int cmp(const object& obj) const override {
+        int32_t cmp(const object& obj) const override {
             const flow_edge_type& that =
                       static_cast<const flow_edge_type&>(obj);
             return cmp(that);
