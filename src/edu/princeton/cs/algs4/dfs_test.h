@@ -69,12 +69,10 @@ class dfs_testsuite : public testsuite {
                     add_test(bind(&testcase1::test4, this),
                              "set_start_vertex method exception test");
                     add_test(bind(&testcase1::test5, this),
-                             "reset method test");
-                    add_test(bind(&testcase1::test6, this),
                              "recompute method test");
-                    add_test(bind(&testcase1::test7, this),
+                    add_test(bind(&testcase1::test6, this),
                              "get_graph method test");
-                    add_test(bind(&testcase1::test8, this),
+                    add_test(bind(&testcase1::test7, this),
                              "set_graph method test");
                 }
 
@@ -148,28 +146,6 @@ class dfs_testsuite : public testsuite {
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
                     udgraph g = udgraph(s);
-                    dfs<udgraph> dfs(g, 0);
-                    deque<udgraph::vertex_type> d1{9, 10, 11, 12};
-                    deque<udgraph::vertex_type> d2;
-
-                    dfs.set_lazy();
-                    dfs.set_start_vertex(12);
-                    dfs.reset();
-
-                    for(size_t x = 0; x < g.get_num_vertices(); x++) {
-                        if(dfs.has_path(x)) {
-                            d2.push_back(x);
-                        }
-                    }
-                    return test::ccassert_array_equals(d1, d2);
-                }
-
-                bool test6() {
-                    stringstream s("13 13\n"
-                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
-                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
-                                   "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
                     dfs<udgraph> dfs(g, 6);
                     deque<udgraph::vertex_type> d1{7, 8};
                     deque<udgraph::vertex_type> d2;
@@ -186,7 +162,7 @@ class dfs_testsuite : public testsuite {
                     return test::ccassert_array_equals(d1, d2);
                 }
 
-                bool test7() {
+                bool test6() {
                     stringstream s("13 13\n"
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
@@ -197,7 +173,7 @@ class dfs_testsuite : public testsuite {
                                                  (const udgraph *)&g);
                 }
 
-                bool test8() {
+                bool test7() {
                     stringstream s1("13 11\n"
                                    "0 5\n4 3\n0 1\n9 12\n"
                                    "5 4\n0 2\n11 12\n9 10\n"
@@ -237,12 +213,10 @@ class dfs_testsuite : public testsuite {
                     add_test(bind(&testcase2::test4, this),
                              "set_start_vertex method exception test");
                     add_test(bind(&testcase2::test5, this),
-                             "reset method test");
-                    add_test(bind(&testcase2::test6, this),
                              "recompute method test");
-                    add_test(bind(&testcase2::test7, this),
+                    add_test(bind(&testcase2::test6, this),
                              "get_graph method test");
-                    add_test(bind(&testcase2::test8, this),
+                    add_test(bind(&testcase2::test7, this),
                              "set_graph method test");
                 }
 
@@ -316,28 +290,6 @@ class dfs_testsuite : public testsuite {
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
                     digraph g = digraph(s);
-                    dfs<digraph> dfs(g, 0);
-                    deque<digraph::vertex_type> d1{12};
-                    deque<digraph::vertex_type> d2;
-
-                    dfs.set_lazy();
-                    dfs.set_start_vertex(12);
-                    dfs.reset();
-
-                    for(size_t x = 0; x < g.get_num_vertices(); x++) {
-                        if(dfs.has_path(x)) {
-                            d2.push_back(x);
-                        }
-                    }
-                    return test::ccassert_array_equals(d1, d2);
-                }
-
-                bool test6() {
-                    stringstream s("13 13\n"
-                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
-                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
-                                   "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
                     dfs<digraph> dfs(g, 6);
                     deque<digraph::vertex_type> d1{8};
                     deque<digraph::vertex_type> d2;
@@ -354,7 +306,7 @@ class dfs_testsuite : public testsuite {
                     return test::ccassert_array_equals(d1, d2);
                 }
 
-                bool test7() {
+                bool test6() {
                     stringstream s("13 13\n"
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
@@ -365,7 +317,7 @@ class dfs_testsuite : public testsuite {
                                                  (const digraph *)&g);
                 }
 
-                bool test8() {
+                bool test7() {
                     stringstream s1("13 11\n"
                                    "0 5\n4 3\n0 1\n9 12\n"
                                    "5 4\n0 2\n11 12\n9 10\n"
@@ -405,12 +357,10 @@ class dfs_testsuite : public testsuite {
                     add_test(bind(&testcase3::test4, this),
                              "set_start_vertex method exception test");
                     add_test(bind(&testcase3::test5, this),
-                             "reset method test");
-                    add_test(bind(&testcase3::test6, this),
                              "recompute method test");
-                    add_test(bind(&testcase3::test7, this),
+                    add_test(bind(&testcase3::test6, this),
                              "get_graph method test");
-                    add_test(bind(&testcase3::test8, this),
+                    add_test(bind(&testcase3::test7, this),
                              "set_graph method test");
                 }
 
@@ -489,29 +439,6 @@ class dfs_testsuite : public testsuite {
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
                     weighted_udgraph g = weighted_udgraph(s);
-                    dfs<weighted_udgraph> dfs(g, 0);
-                    deque<weighted_udgraph::vertex_type> d1{9, 10, 11, 12};
-                    deque<weighted_udgraph::vertex_type> d2;
-
-                    dfs.set_lazy();
-                    dfs.set_start_vertex(12);
-                    dfs.reset();
-
-                    for(size_t x = 0; x < g.get_num_vertices(); x++) {
-                        if(dfs.has_path(x)) {
-                            d2.push_back(x);
-                        }
-                    }
-                    return test::ccassert_array_equals(d1, d2);
-                }
-
-                bool test6() {
-                    stringstream s("13 13\n"
-                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
-                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
-                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
-                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
                     dfs<weighted_udgraph> dfs(g, 6);
                     deque<weighted_udgraph::vertex_type> d1{7, 8};
                     deque<weighted_udgraph::vertex_type> d2;
@@ -528,7 +455,7 @@ class dfs_testsuite : public testsuite {
                     return test::ccassert_array_equals(d1, d2);
                 }
 
-                bool test7() {
+                bool test6() {
                     stringstream s("13 13\n"
                                    "0 5 .56\n4 3 2\n0 1 3.2\n"
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
@@ -540,7 +467,7 @@ class dfs_testsuite : public testsuite {
                                                  (const weighted_udgraph *)&g);
                 }
 
-                bool test8() {
+                bool test7() {
                     stringstream s1("13 11\n"
                                    "0 5 .56\n4 3 2\n0 1 3.2\n"
                                    "9 12 4.8\n5 4 .12\n"
@@ -582,12 +509,10 @@ class dfs_testsuite : public testsuite {
                     add_test(bind(&testcase4::test4, this),
                              "set_start_vertex method exception test");
                     add_test(bind(&testcase4::test5, this),
-                             "reset method test");
-                    add_test(bind(&testcase4::test6, this),
                              "recompute method test");
-                    add_test(bind(&testcase4::test7, this),
+                    add_test(bind(&testcase4::test6, this),
                              "get_graph method test");
-                    add_test(bind(&testcase4::test8, this),
+                    add_test(bind(&testcase4::test7, this),
                              "set_graph method test");
                 }
 
@@ -666,29 +591,6 @@ class dfs_testsuite : public testsuite {
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
                     weighted_digraph g = weighted_digraph(s);
-                    dfs<weighted_digraph> dfs(g, 0);
-                    deque<weighted_digraph::vertex_type> d1{12};
-                    deque<weighted_digraph::vertex_type> d2;
-
-                    dfs.set_lazy();
-                    dfs.set_start_vertex(12);
-                    dfs.reset();
-
-                    for(size_t x = 0; x < g.get_num_vertices(); x++) {
-                        if(dfs.has_path(x)) {
-                            d2.push_back(x);
-                        }
-                    }
-                    return test::ccassert_array_equals(d1, d2);
-                }
-
-                bool test6() {
-                    stringstream s("13 13\n"
-                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
-                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
-                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
-                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
                     dfs<weighted_digraph> dfs(g, 6);
                     deque<weighted_digraph::vertex_type> d1{8};
                     deque<weighted_digraph::vertex_type> d2;
@@ -705,7 +607,7 @@ class dfs_testsuite : public testsuite {
                     return test::ccassert_array_equals(d1, d2);
                 }
 
-                bool test7() {
+                bool test6() {
                     stringstream s("13 13\n"
                                    "0 5 .56\n4 3 2\n0 1 3.2\n"
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
@@ -717,7 +619,7 @@ class dfs_testsuite : public testsuite {
                                                  (const weighted_digraph *)&g);
                 }
 
-                bool test8() {
+                bool test7() {
                     stringstream s1("13 11\n"
                                    "0 5 .56\n4 3 2\n0 1 3.2\n"
                                    "9 12 4.8\n5 4 .12\n"
@@ -759,12 +661,10 @@ class dfs_testsuite : public testsuite {
                     add_test(bind(&testcase5::test4, this),
                              "set_start_vertex method exception test");
                     add_test(bind(&testcase5::test5, this),
-                             "reset method test");
-                    add_test(bind(&testcase5::test6, this),
                              "recompute method test");
-                    add_test(bind(&testcase5::test7, this),
+                    add_test(bind(&testcase5::test6, this),
                              "get_graph method test");
-                    add_test(bind(&testcase5::test8, this),
+                    add_test(bind(&testcase5::test7, this),
                              "set_graph method test");
                 }
 
@@ -843,29 +743,6 @@ class dfs_testsuite : public testsuite {
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
                     flow_network g = flow_network(s);
-                    dfs<flow_network> dfs(g, 0);
-                    deque<flow_network::vertex_type> d1{9, 10, 11, 12};
-                    deque<flow_network::vertex_type> d2;
-
-                    dfs.set_lazy();
-                    dfs.set_start_vertex(12);
-                    dfs.reset();
-
-                    for(size_t x = 0; x < g.get_num_vertices(); x++) {
-                        if(dfs.has_path(x)) {
-                            d2.push_back(x);
-                        }
-                    }
-                    return test::ccassert_array_equals(d1, d2);
-                }
-
-                bool test6() {
-                    stringstream s("13 13\n"
-                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
-                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
-                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
-                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
                     dfs<flow_network> dfs(g, 6);
                     deque<flow_network::vertex_type> d1{7, 8};
                     deque<flow_network::vertex_type> d2;
@@ -882,7 +759,7 @@ class dfs_testsuite : public testsuite {
                     return test::ccassert_array_equals(d1, d2);
                 }
 
-                bool test7() {
+                bool test6() {
                     stringstream s("13 13\n"
                                    "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
@@ -894,7 +771,7 @@ class dfs_testsuite : public testsuite {
                                                  (const flow_network *)&g);
                 }
 
-                bool test8() {
+                bool test7() {
                     stringstream s1("13 11\n"
                                    "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
                                    "9 12 10 4.8\n5 4 5 .12\n"

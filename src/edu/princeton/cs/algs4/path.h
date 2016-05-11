@@ -76,7 +76,7 @@ using edu::princeton::cs::algs4::compute_base;
  **    compute method
  **
  ** derived classes must override the following methods.
- **     a) reset method -
+ **     a) reset method - This is a protected method
  **                 (inherited from the compute_base class)
  **                 re-initialize any data structures defined
  **                 in the concrete derived classes before

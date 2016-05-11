@@ -70,6 +70,7 @@ using std::stack;
  **                 to avoid unnecessary execution of the search
  **                 algorithm.
  **     b) reset method -
+ **                 This is a protected method.
  **                 re-initialize any data structures defined
  **                 in the concrete derived classes before
  **                 running the search algorithm
@@ -108,9 +109,8 @@ class compute_base {
             compute();
         }
 
-        virtual void reset() = 0;
-
     protected :
+        virtual void reset() = 0;
         virtual void compute() = 0;
         bool get_eval() const { return eval; }
         void set_eval() { eval = true; }

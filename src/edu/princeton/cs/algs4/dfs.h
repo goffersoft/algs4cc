@@ -73,11 +73,6 @@ class dfs : public dfs_base<G>,
             }
         }
 
-        void reset() override {
-            dfs_base<graph_type>::reset(get_graph().get_num_vertices());
-            count = 0;
-        }
-
         /**
          ** Is there a path between the source vertex s
          ** and vertex v
@@ -106,6 +101,11 @@ class dfs : public dfs_base<G>,
         }
 
     protected :
+        void reset() override {
+            dfs_base<graph_type>::reset(get_graph().get_num_vertices());
+            count = 0;
+        }
+
         void compute_path(const graph_type& g,
                           const vertex_type& s) override {
             generic_dfs(g, s,
