@@ -20,6 +20,7 @@
 #include "weighted_digraph.h"
 #include "flow_network.h"
 #include "dfs.h"
+#include "dfs_paths.h"
 
 namespace edu {
 namespace princeton {
@@ -43,6 +44,7 @@ using edu::princeton::cs::algs4::weighted_udgraph;
 using edu::princeton::cs::algs4::weighted_digraph;
 using edu::princeton::cs::algs4::flow_network;
 using edu::princeton::cs::algs4::dfs;
+using edu::princeton::cs::algs4::dfs_paths;
 
 class dfs_testsuite : public testsuite {
     public :
@@ -53,6 +55,11 @@ class dfs_testsuite : public testsuite {
             add_testcase(testcase3());
             add_testcase(testcase4());
             add_testcase(testcase5());
+            add_testcase(testcase6());
+            add_testcase(testcase7());
+            add_testcase(testcase8());
+            add_testcase(testcase9());
+            add_testcase(testcase10());
         }
 
     private :
@@ -81,7 +88,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 6, true);
                     deque<udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<udgraph::vertex_type> d2;
@@ -99,7 +106,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 6);
                     return test::ccassert_equals(dfs.get_count(), size_t(7));
                 }
@@ -109,7 +116,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 3);
                     deque<udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<udgraph::vertex_type> d2;
@@ -129,7 +136,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 3);
                     range_error e("some exp");
                     return test::ccassert_exception(
@@ -145,7 +152,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 6);
                     deque<udgraph::vertex_type> d1{7, 8};
                     deque<udgraph::vertex_type> d2;
@@ -167,7 +174,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g = udgraph(s);
+                    udgraph g(s);
                     dfs<udgraph> dfs(g, 6, true);
                     return test::ccassert_equals(&dfs.get_graph(),
                                                  (const udgraph *)&g);
@@ -182,8 +189,8 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    udgraph g1 = udgraph(s1);
-                    udgraph g2 = udgraph(s2);
+                    udgraph g1(s1);
+                    udgraph g2(s2);
                     dfs<udgraph> dfs(g1, 3, true);
                     deque<udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<udgraph::vertex_type> d2;
@@ -225,7 +232,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 6, true);
                     deque<digraph::vertex_type> d1{3, 4, 6};
                     deque<digraph::vertex_type> d2;
@@ -243,7 +250,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 6);
                     return test::ccassert_equals(dfs.get_count(), size_t(3));
                 }
@@ -253,7 +260,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 3);
                     deque<digraph::vertex_type> d1{3, 4, 6};
                     deque<digraph::vertex_type> d2;
@@ -273,7 +280,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 3);
                     range_error e("some exp");
                     return test::ccassert_exception(
@@ -289,7 +296,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 6);
                     deque<digraph::vertex_type> d1{8};
                     deque<digraph::vertex_type> d2;
@@ -311,7 +318,7 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g = digraph(s);
+                    digraph g(s);
                     dfs<digraph> dfs(g, 6, true);
                     return test::ccassert_equals(&dfs.get_graph(),
                                                  (const digraph *)&g);
@@ -326,8 +333,8 @@ class dfs_testsuite : public testsuite {
                                    "0 5\n4 3\n0 1\n9 12\n6 4\n"
                                    "5 4\n0 2\n11 12\n9 10\n0 6\n"
                                    "7 8\n9 11\n5 3\n");
-                    digraph g1 = digraph(s1);
-                    digraph g2 = digraph(s2);
+                    digraph g1(s1);
+                    digraph g2(s2);
                     dfs<digraph> dfs(g1, 3, true);
                     deque<digraph::vertex_type> d1{3, 4, 6};
                     deque<digraph::vertex_type> d2;
@@ -370,7 +377,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 6, true);
                     deque<weighted_udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<weighted_udgraph::vertex_type> d2;
@@ -389,7 +396,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 6);
                     return test::ccassert_equals(dfs.get_count(), size_t(7));
                 }
@@ -400,7 +407,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 3);
                     deque<weighted_udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<weighted_udgraph::vertex_type> d2;
@@ -421,7 +428,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 3);
                     range_error e("some exp");
                     return test::ccassert_exception(
@@ -438,7 +445,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 6);
                     deque<weighted_udgraph::vertex_type> d1{7, 8};
                     deque<weighted_udgraph::vertex_type> d2;
@@ -461,7 +468,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g = weighted_udgraph(s);
+                    weighted_udgraph g(s);
                     dfs<weighted_udgraph> dfs(g, 6, true);
                     return test::ccassert_equals(&dfs.get_graph(),
                                                  (const weighted_udgraph *)&g);
@@ -478,8 +485,8 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_udgraph g1 = weighted_udgraph(s1);
-                    weighted_udgraph g2 = weighted_udgraph(s2);
+                    weighted_udgraph g1(s1);
+                    weighted_udgraph g2(s2);
                     dfs<weighted_udgraph> dfs(g1, 3, true);
                     deque<weighted_udgraph::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<weighted_udgraph::vertex_type> d2;
@@ -522,7 +529,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 6, true);
                     deque<weighted_digraph::vertex_type> d1{3, 4, 6};
                     deque<weighted_digraph::vertex_type> d2;
@@ -541,7 +548,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 6);
                     return test::ccassert_equals(dfs.get_count(), size_t(3));
                 }
@@ -552,7 +559,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 3);
                     deque<weighted_digraph::vertex_type> d1{3, 4, 6};
                     deque<weighted_digraph::vertex_type> d2;
@@ -573,7 +580,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 3);
                     range_error e("some exp");
                     return test::ccassert_exception(
@@ -590,7 +597,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 6);
                     deque<weighted_digraph::vertex_type> d1{8};
                     deque<weighted_digraph::vertex_type> d2;
@@ -613,7 +620,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g = weighted_digraph(s);
+                    weighted_digraph g(s);
                     dfs<weighted_digraph> dfs(g, 6, true);
                     return test::ccassert_equals(&dfs.get_graph(),
                                                  (const weighted_digraph *)&g);
@@ -630,8 +637,8 @@ class dfs_testsuite : public testsuite {
                                    "9 12 4.8\n6 4 6.4\n5 4 .12\n"
                                    "0 2 10\n11 12 5.6\n9 10 23.4\n"
                                    "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
-                    weighted_digraph g1 = weighted_digraph(s1);
-                    weighted_digraph g2 = weighted_digraph(s2);
+                    weighted_digraph g1(s1);
+                    weighted_digraph g2(s2);
                     dfs<weighted_digraph> dfs(g1, 3, true);
                     deque<weighted_digraph::vertex_type> d1{3, 4, 6};
                     deque<weighted_digraph::vertex_type> d2;
@@ -674,7 +681,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 6, true);
                     deque<flow_network::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<flow_network::vertex_type> d2;
@@ -693,7 +700,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 6);
                     return test::ccassert_equals(dfs.get_count(), size_t(7));
                 }
@@ -704,7 +711,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 3);
                     deque<flow_network::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<flow_network::vertex_type> d2;
@@ -725,7 +732,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 3);
                     range_error e("some exp");
                     return test::ccassert_exception(
@@ -742,7 +749,7 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 6);
                     deque<flow_network::vertex_type> d1{7, 8};
                     deque<flow_network::vertex_type> d2;
@@ -765,10 +772,10 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g = flow_network(s);
+                    flow_network g(s);
                     dfs<flow_network> dfs(g, 6, true);
                     return test::ccassert_equals(&dfs.get_graph(),
-                                                 (const flow_network *)&g);
+                                                 (const flow_network*)&g);
                 }
 
                 bool test7() {
@@ -782,8 +789,8 @@ class dfs_testsuite : public testsuite {
                                    "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
                                    "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
                                    "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
-                    flow_network g1 = flow_network(s1);
-                    flow_network g2 = flow_network(s2);
+                    flow_network g1(s1);
+                    flow_network g2(s2);
                     dfs<flow_network> dfs(g1, 3, true);
                     deque<flow_network::vertex_type> d1{0, 1, 2, 3, 4, 5, 6};
                     deque<flow_network::vertex_type> d2;
@@ -797,6 +804,550 @@ class dfs_testsuite : public testsuite {
                         }
                     }
                     return test::ccassert_array_equals(d1, d2);
+                }
+        };
+
+        class testcase6 : public testcase {
+            public :
+                testcase6(const string& name =
+                            "dfs_paths - udgraph - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase6::test1, this),
+                             "has_path method - test");
+                    add_test(bind(&testcase6::test2, this),
+                             "has_path method - exception test");
+                    add_test(bind(&testcase6::test3, this),
+                             "path_to method - test");
+                    add_test(bind(&testcase6::test4, this),
+                             "path_to method - exception test");
+                    add_test(bind(&testcase6::test5, this),
+                             "set_graph method test");
+                }
+                bool test1() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    udgraph g(s);
+                    dfs_paths<udgraph> dfs_paths(g, 6, true);
+                    return test::ccassert(
+                               dfs_paths.has_path(0) == true &&
+                               dfs_paths.has_path(1) == true &&
+                               dfs_paths.has_path(2) == true &&
+                               dfs_paths.has_path(3) == true &&
+                               dfs_paths.has_path(4) == true &&
+                               dfs_paths.has_path(5) == true &&
+                               dfs_paths.has_path(6) == true &&
+                               dfs_paths.has_path(7) == false &&
+                               dfs_paths.has_path(8) == false &&
+                               dfs_paths.has_path(9) == false &&
+                               dfs_paths.has_path(10) == false &&
+                               dfs_paths.has_path(11) == false &&
+                               dfs_paths.has_path(12) == false );
+                }
+
+                bool test2() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    udgraph g(s);
+                    dfs_paths<udgraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.has_path(20);
+                              }
+                           );
+                }
+
+                bool test3() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    udgraph g(s);
+                    dfs_paths<udgraph> dfs_paths(g, 6);
+                    deque<udgraph::vertex_type> d1{6, 4, 3, 5, 0, 1};
+
+                    return test::ccassert_array_equals(
+                                   d1, *(dfs_paths.path_to(1)));
+                }
+
+                bool test4() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    udgraph g(s);
+                    dfs_paths<udgraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.path_to(20);
+                              }
+                           );
+                }
+
+                bool test5() {
+                    stringstream s1("13 11\n"
+                                   "0 5\n4 3\n0 1\n9 12\n"
+                                   "5 4\n0 2\n11 12\n9 10\n"
+                                   "7 8\n9 11\n5 3\n");
+                    stringstream s2("15 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    udgraph g1(s1);
+                    udgraph g2(s2);
+                    dfs_paths<udgraph> dfs_paths(g1, 6, true);
+                    deque<udgraph::vertex_type> d1{3, 4, 6, 0, 5};
+
+                    dfs_paths.set_graph(g2);
+                    dfs_paths.set_start_vertex(3);
+
+                    return test::ccassert_array_equals(d1, *(dfs_paths.path_to(5)));
+                }
+        };
+
+        class testcase7 : public testcase {
+            public :
+                testcase7(const string& name =
+                            "dfs_paths - digraph - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase7::test1, this),
+                             "has_path method - test");
+                    add_test(bind(&testcase7::test2, this),
+                             "has_path method - exception test");
+                    add_test(bind(&testcase7::test3, this),
+                             "path_to method - test");
+                    add_test(bind(&testcase7::test4, this),
+                             "path_to method - exception test");
+                    add_test(bind(&testcase7::test5, this),
+                             "set_graph method test");
+                }
+                bool test1() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    digraph g(s);
+                    dfs_paths<digraph> dfs_paths(g, 6, true);
+                    return test::ccassert(
+                               dfs_paths.has_path(0) == false &&
+                               dfs_paths.has_path(1) == false &&
+                               dfs_paths.has_path(2) == false &&
+                               dfs_paths.has_path(3) == true &&
+                               dfs_paths.has_path(4) == true &&
+                               dfs_paths.has_path(5) == false &&
+                               dfs_paths.has_path(6) == true &&
+                               dfs_paths.has_path(7) == false &&
+                               dfs_paths.has_path(8) == false &&
+                               dfs_paths.has_path(9) == false &&
+                               dfs_paths.has_path(10) == false &&
+                               dfs_paths.has_path(11) == false &&
+                               dfs_paths.has_path(12) == false );
+                }
+
+                bool test2() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    digraph g(s);
+                    dfs_paths<digraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.has_path(20);
+                              }
+                           );
+                }
+
+                bool test3() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    digraph g(s);
+                    dfs_paths<digraph> dfs_paths(g, 6);
+                    deque<digraph::vertex_type> d1{6, 4, 3};
+
+                    return test::ccassert_array_equals(
+                                   d1, *(dfs_paths.path_to(3)));
+                }
+
+                bool test4() {
+                    stringstream s("13 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    digraph g(s);
+                    dfs_paths<digraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.path_to(20);
+                              }
+                           );
+                }
+
+                bool test5() {
+                    stringstream s1("13 11\n"
+                                   "0 5\n4 3\n0 1\n9 12\n"
+                                   "5 4\n0 2\n11 12\n9 10\n"
+                                   "7 8\n9 11\n5 3\n");
+                    stringstream s2("15 13\n"
+                                   "0 5\n4 3\n0 1\n9 12\n6 4\n"
+                                   "5 4\n0 2\n11 12\n9 10\n0 6\n"
+                                   "7 8\n9 11\n5 3\n");
+                    digraph g1(s1);
+                    digraph g2(s2);
+                    dfs_paths<digraph> dfs_paths(g1, 6, true);
+                    deque<digraph::vertex_type> d1{0, 5, 4, 3};
+
+                    dfs_paths.set_graph(g2);
+                    dfs_paths.set_start_vertex(0);
+
+                    return test::ccassert_array_equals(d1, *(dfs_paths.path_to(3)));
+                }
+        };
+
+        class testcase8 : public testcase {
+            public :
+                testcase8(const string& name =
+                            "dfs_paths - weighted_udgraph - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase8::test1, this),
+                             "has_path method - test");
+                    add_test(bind(&testcase8::test2, this),
+                             "has_path method - exception test");
+                    add_test(bind(&testcase8::test3, this),
+                             "path_to method - test");
+                    add_test(bind(&testcase8::test4, this),
+                             "path_to method - exception test");
+                    add_test(bind(&testcase8::test5, this),
+                             "set_graph method test");
+                }
+                bool test1() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_udgraph g(s);
+                    dfs_paths<weighted_udgraph> dfs_paths(g, 6, true);
+                    return test::ccassert(
+                               dfs_paths.has_path(0) == true &&
+                               dfs_paths.has_path(1) == true &&
+                               dfs_paths.has_path(2) == true &&
+                               dfs_paths.has_path(3) == true &&
+                               dfs_paths.has_path(4) == true &&
+                               dfs_paths.has_path(5) == true &&
+                               dfs_paths.has_path(6) == true &&
+                               dfs_paths.has_path(7) == false &&
+                               dfs_paths.has_path(8) == false &&
+                               dfs_paths.has_path(9) == false &&
+                               dfs_paths.has_path(10) == false &&
+                               dfs_paths.has_path(11) == false &&
+                               dfs_paths.has_path(12) == false );
+                }
+
+                bool test2() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_udgraph g(s);
+                    dfs_paths<weighted_udgraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.has_path(20);
+                              }
+                           );
+                }
+
+                bool test3() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_udgraph g(s);
+                    dfs_paths<weighted_udgraph> dfs_paths(g, 6);
+                    deque<weighted_udgraph::vertex_type> d1{6, 4, 3, 5, 0, 1};
+
+                    return test::ccassert_array_equals(
+                                   d1, *(dfs_paths.path_to(1)));
+                }
+
+                bool test4() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_udgraph g(s);
+                    dfs_paths<weighted_udgraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.path_to(20);
+                              }
+                           );
+                }
+
+                bool test5() {
+                    stringstream s1("13 11\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "7 8 5\n9 11 7\n5 3 9\n");
+                    stringstream s2("15 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_udgraph g1(s1);
+                    weighted_udgraph g2(s2);
+                    dfs_paths<weighted_udgraph> dfs_paths(g1, 6, true);
+                    deque<weighted_udgraph::vertex_type> d1{3, 4, 6, 0, 5};
+
+                    dfs_paths.set_graph(g2);
+                    dfs_paths.set_start_vertex(3);
+
+                    return test::ccassert_array_equals(d1, *(dfs_paths.path_to(5)));
+                }
+        };
+
+        class testcase9 : public testcase {
+            public :
+                testcase9(const string& name =
+                            "dfs_paths - weighted_digraph - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase9::test1, this),
+                             "has_path method - test");
+                    add_test(bind(&testcase9::test2, this),
+                             "has_path method - exception test");
+                    add_test(bind(&testcase9::test3, this),
+                             "path_to method - test");
+                    add_test(bind(&testcase9::test4, this),
+                             "path_to method - exception test");
+                    add_test(bind(&testcase9::test5, this),
+                             "set_graph method test");
+                }
+
+                bool test1() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_digraph g(s);
+                    dfs_paths<weighted_digraph> dfs_paths(g, 6, true);
+                    return test::ccassert(
+                               dfs_paths.has_path(0) == false &&
+                               dfs_paths.has_path(1) == false &&
+                               dfs_paths.has_path(2) == false &&
+                               dfs_paths.has_path(3) == true &&
+                               dfs_paths.has_path(4) == true &&
+                               dfs_paths.has_path(5) == false &&
+                               dfs_paths.has_path(6) == true &&
+                               dfs_paths.has_path(7) == false &&
+                               dfs_paths.has_path(8) == false &&
+                               dfs_paths.has_path(9) == false &&
+                               dfs_paths.has_path(10) == false &&
+                               dfs_paths.has_path(11) == false &&
+                               dfs_paths.has_path(12) == false );
+                }
+
+                bool test2() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_digraph g(s);
+                    dfs_paths<weighted_digraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.has_path(20);
+                              }
+                           );
+                }
+
+                bool test3() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_digraph g(s);
+                    dfs_paths<weighted_digraph> dfs_paths(g, 6);
+                    deque<weighted_digraph::vertex_type> d1{6, 4, 3};
+
+                    return test::ccassert_array_equals(
+                                   d1, *(dfs_paths.path_to(3)));
+                }
+
+                bool test4() {
+                    stringstream s("13 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_digraph g(s);
+                    dfs_paths<weighted_digraph> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.path_to(20);
+                              }
+                           );
+                }
+
+                bool test5() {
+                    stringstream s1("13 11\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "7 8 5\n9 11 7\n5 3 9\n");
+                    stringstream s2("15 13\n"
+                                   "0 5 .56\n4 3 2\n0 1 3.2\n"
+                                   "9 12 4.8\n6 4 6.4\n5 4 .12\n"
+                                   "0 2 10\n11 12 5.6\n9 10 23.4\n"
+                                   "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
+                    weighted_digraph g1(s1);
+                    weighted_digraph g2(s2);
+                    dfs_paths<weighted_digraph> dfs_paths(g1, 6, true);
+                    deque<weighted_digraph::vertex_type> d1{0, 5, 4, 3};
+
+                    dfs_paths.set_graph(g2);
+                    dfs_paths.set_start_vertex(0);
+
+                    return test::ccassert_array_equals(d1, *(dfs_paths.path_to(3)));
+                }
+        };
+
+        class testcase10 : public testcase {
+            public :
+                testcase10(const string& name =
+                            "dfs_paths - flow_network - all tests") :
+                                   testcase(name) {
+                    add_test(bind(&testcase10::test1, this),
+                             "has_path method - test");
+                    add_test(bind(&testcase10::test2, this),
+                             "has_path method - exception test");
+                    add_test(bind(&testcase10::test3, this),
+                             "path_to method - test");
+                    add_test(bind(&testcase10::test4, this),
+                             "path_to method - exception test");
+                    add_test(bind(&testcase10::test5, this),
+                             "set_graph method test");
+                }
+                bool test1() {
+                    stringstream s("13 13\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    flow_network g(s);
+                    dfs_paths<flow_network> dfs_paths(g, 6, true);
+                    return test::ccassert(
+                               dfs_paths.has_path(0) == true &&
+                               dfs_paths.has_path(1) == true &&
+                               dfs_paths.has_path(2) == true &&
+                               dfs_paths.has_path(3) == true &&
+                               dfs_paths.has_path(4) == true &&
+                               dfs_paths.has_path(5) == true &&
+                               dfs_paths.has_path(6) == true &&
+                               dfs_paths.has_path(7) == false &&
+                               dfs_paths.has_path(8) == false &&
+                               dfs_paths.has_path(9) == false &&
+                               dfs_paths.has_path(10) == false &&
+                               dfs_paths.has_path(11) == false &&
+                               dfs_paths.has_path(12) == false );
+                }
+
+                bool test2() {
+                    stringstream s("13 13\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    flow_network g(s);
+                    dfs_paths<flow_network> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.has_path(20);
+                              }
+                           );
+                }
+
+                bool test3() {
+                    stringstream s("13 13\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    flow_network g(s);
+                    dfs_paths<flow_network> dfs_paths(g, 6);
+                    deque<flow_network::vertex_type> d1{6, 4, 3, 5, 0, 1};
+
+                    return test::ccassert_array_equals(
+                                   d1, *(dfs_paths.path_to(1)));
+                }
+
+                bool test4() {
+                    stringstream s("13 13\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    flow_network g(s);
+                    dfs_paths<flow_network> dfs_paths(g, 3);
+                    range_error e("some exp");
+                    return test::ccassert_exception(
+                              e,
+                              [&dfs_paths]() {
+                                  dfs_paths.path_to(20);
+                              }
+                           );
+                }
+
+                bool test5() {
+                    stringstream s1("13 11\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    stringstream s2("15 13\n"
+                                   "0 5 5 .56\n4 3 10 2\n0 1 8 3.2\n"
+                                   "9 12 10 4.8\n6 4 20 6.4\n5 4 5 .12\n"
+                                   "0 2 20 10\n11 12 10 5.6\n9 10 35.6 23.4\n"
+                                   "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
+                    flow_network g1(s1);
+                    flow_network g2(s2);
+                    dfs_paths<flow_network> dfs_paths(g1, 6, true);
+                    deque<weighted_udgraph::vertex_type> d1{3, 4, 6, 0, 5};
+
+                    dfs_paths.set_graph(g2);
+                    dfs_paths.set_start_vertex(3);
+
+                    return test::ccassert_array_equals(d1, *(dfs_paths.path_to(5)));
                 }
         };
 };
