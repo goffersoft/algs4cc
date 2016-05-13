@@ -178,8 +178,8 @@ class graph_base {
         size_t nvertices;
 
         void create_graph(istream& is) {
-            nvertices = cstdin::read_uint32(is);
-            nedges = cstdin::read_uint32(is);
+            nvertices = cstdin::read_uint64(is);
+            nedges = cstdin::read_uint64(is);
         }
 };
 
