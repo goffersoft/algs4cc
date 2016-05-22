@@ -77,12 +77,15 @@ using std::unique_ptr;
  ** time per set_union, find, and is_connected operation has inverse
  ** Ackermann complexity.
  **/
-class union_find {
+template<typename S = uint32_t,
+         typename C = uint32_t,
+         typename R = uint8_t>
+class union_find_t {
     public :
-        using site_id_type = uint32_t;
+        using site_id_type = S;
         using site_id_type_ptr = unique_ptr<site_id_type[]>;
-        using component_id_type = uint32_t;
-        using rank_type = uint8_t;
+        using component_id_type = C;
+        using rank_type = R;
         using rank_type_ptr = unique_ptr<rank_type[]>;
         
         /**
@@ -92,7 +95,7 @@ class union_find {
          **
          ** params : N the number of sites
          **/
-        union_find(size_t num_sites) :
+        union_find_t(size_t num_sites) :
             sites(new site_id_type[num_sites]),
             ranks(new rank_type[num_sites]),
             count(num_sites), n_sites(num_sites) {
@@ -229,6 +232,14 @@ class union_find {
             return root;
         }
 };
+
+class union_find : public union_find_t<> {
+    public :
+        union_find(size_t num_sites) :
+            union_find_t<>(num_sites) {}
+};
+
+
 } //edu
 } //princeton
 } //cs
