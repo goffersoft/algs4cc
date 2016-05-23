@@ -235,8 +235,7 @@ class union_find_t {
 
 class union_find : public union_find_t<> {
     public :
-        union_find(size_t num_sites) :
-            union_find_t<>(num_sites) {}
+        using union_find_t<>::union_find_t;
 };
 
 
