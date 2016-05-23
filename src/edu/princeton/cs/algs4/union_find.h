@@ -116,7 +116,7 @@ class union_find_t {
          **/
         void set_union(const site_id_type& p,
                        const site_id_type& q) {
-            validate_data(p, q);
+            validate_input(p, q);
             site_id_type root_p = get_root(p);
             site_id_type root_q = get_root(q);
 
@@ -144,13 +144,13 @@ class union_find_t {
          **/
         component_id_type
              find(const site_id_type& p) {
-            validate_data(p);
+            validate_input(p);
             return get_root(p);
         }
 
         bool is_connected(const site_id_type& p,
                           const site_id_type& q) {
-            validate_data(p, q);
+            validate_input(p, q);
             return (get_root(p) == get_root(q));
         }
 
@@ -184,7 +184,7 @@ class union_find_t {
          ** params  : p the integer representing one site
          ** throws  : invalid_argument exception unless 0 <= p <= N
          **/
-        void validate_data(const site_id_type& p) const {
+        void validate_input(const site_id_type& p) const {
             if (p >= n_sites) {
                 throw invalid_argument( "invalid argument :"
                                          "p >= num_sites");
@@ -199,7 +199,7 @@ class union_find_t {
          ** throws : invalid_argument exception unless
          **          both 0 <= p <= N< and 0 <= q <= N
          **/
-        void validate_data(const site_id_type& p,
+        void validate_input(const site_id_type& p,
                            const site_id_type& q) const {
             if ( (p >= n_sites) &&
                  (q >= n_sites) ) {
