@@ -23,7 +23,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::invalid_argument;
 
 using com::goffersoft::codeclean::testcase;
@@ -121,7 +121,7 @@ class digraph_testcase1 : public testcase {
         }
 
         bool test3() {
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       []() {
@@ -206,7 +206,7 @@ class digraph_testcase1 : public testcase {
         bool test10() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -220,7 +220,7 @@ class digraph_testcase1 : public testcase {
         bool test10_1() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -232,7 +232,7 @@ class digraph_testcase1 : public testcase {
         bool test11() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -246,7 +246,7 @@ class digraph_testcase1 : public testcase {
         bool test11_1() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -273,7 +273,7 @@ class digraph_testcase1 : public testcase {
         bool test13() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -285,7 +285,7 @@ class digraph_testcase1 : public testcase {
         bool test14() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -312,7 +312,7 @@ class digraph_testcase1 : public testcase {
         bool test16() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -324,7 +324,7 @@ class digraph_testcase1 : public testcase {
         bool test17() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -399,7 +399,7 @@ class digraph_testcase1 : public testcase {
         bool test21() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -411,7 +411,7 @@ class digraph_testcase1 : public testcase {
         bool test22() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -423,7 +423,7 @@ class digraph_testcase1 : public testcase {
         bool test23() {
             stringstream s("4 3\n1 2\n2 3\n3 1");
             digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {

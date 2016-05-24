@@ -31,7 +31,6 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
 using std::invalid_argument;
 
 using com::goffersoft::codeclean::testcase;

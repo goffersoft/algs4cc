@@ -23,7 +23,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::invalid_argument;
 
 using com::goffersoft::codeclean::testcase;
@@ -233,7 +233,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -246,7 +246,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -259,7 +259,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -272,7 +272,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -295,7 +295,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -308,7 +308,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -331,7 +331,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -344,7 +344,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -427,7 +427,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -440,7 +440,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -453,7 +453,7 @@ class flow_network_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23 .1\n1 1 .34 .3\n"
                            "1 2 1.43 .5\n1 3 3.4 1\n2 3 5 2");
             flow_network g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {

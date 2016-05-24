@@ -36,7 +36,7 @@ using std::istream;
 using std::cin;
 using std::endl;
 using std::stringstream;
-using std::range_error;
+using std::invalid_argument;
 using std::numeric_limits;
 using std::shared_ptr;
 using std::unique_ptr;
@@ -159,17 +159,40 @@ class graph_base {
             nedges = num;
         }
 
-        void validate_input(const vertex_type& v,
-                            const vertex_type& w) const {
-            if (v >= get_num_vertices() ||
-                w >= get_num_vertices()) {
-                throw range_error("v or w out of range");
+        /**
+         ** Internal method to validate the input data
+         **
+         ** params  : v the integer representing one vertex 
+         ** throws  : invalid_argument exception unless
+         **           0 <= v < G.num_vertices()
+         **/
+        void validate_input(const vertex_type& v) const {
+            if (v >= get_num_vertices()) {
+                throw invalid_argument("v >= G.num_Vertices()");
             }
         }
 
-        void validate_input(const vertex_type& v) const {
-            if (v >= get_num_vertices()) {
-                throw range_error("v out of range");
+        /**
+         ** Internal method to validate the input data
+         **
+         ** param  : p the integer representing one vertex 
+         ** param  : q the integer representing the other vertex
+         ** throws : invalid_argument exception unless
+         **          both 0 <= v < G.num_vertices() and
+         **               0 <= w < G.num_vertices()
+         **/
+        void validate_input(const vertex_type& v,
+                           const vertex_type& w) const {
+            if ( (v >= get_num_vertices()) ||
+                 (w >= get_num_vertices())) {
+                throw invalid_argument( "invalid argument :"
+                                         "v and w >= G.num_Vertices()");
+            } else if (v >= get_num_vertices()) {
+                throw invalid_argument( "invalid argument :"
+                                         "v >= num_sites");
+            } else if (w >= get_num_vertices()) {
+                throw invalid_argument( "invalid argument :"
+                                         "w >= num_sites");
             }
         }
 

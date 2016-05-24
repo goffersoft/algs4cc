@@ -23,7 +23,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::invalid_argument;
 
 using com::goffersoft::codeclean::testcase;
@@ -121,7 +121,7 @@ class weighted_digraph_testcase1 : public testcase {
         }
 
         bool test3() {
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       []() {
@@ -208,7 +208,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -223,7 +223,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -236,7 +236,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -251,7 +251,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -279,7 +279,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -292,7 +292,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -320,7 +320,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -333,7 +333,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -409,7 +409,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -422,7 +422,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
@@ -435,7 +435,7 @@ class weighted_digraph_testcase1 : public testcase {
             stringstream s("4 5\n0 1 .23\n1 1 .34\n"
                            "1 2 1.43\n1 3 3.4\n2 3 5");
             weighted_digraph g(s);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&g]() {
