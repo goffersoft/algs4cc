@@ -10,7 +10,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <stdexcept>
 #include <deque>
 
 #include "codeclean.h"
@@ -31,7 +30,6 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
 using std::deque;
 
 using com::goffersoft::codeclean::testcase;

@@ -19,7 +19,6 @@
 #define __DFS_REVERSE_POST_H__
 
 #include <iostream>
-#include <stdexcept>
 #include <memory>
 
 #include "dfs_post_order.h"
@@ -30,7 +29,6 @@ namespace cs {
 namespace algs4 {
 
 using std::unique_ptr;
-using std::range_error;
 
 using edu::princeton::cs::algs4::dfs_post_order;
 using edu::princeton::cs::algs4::dfs_base;

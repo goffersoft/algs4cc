@@ -31,7 +31,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::deque;
 
 using com::goffersoft::codeclean::testcase;
@@ -91,7 +91,7 @@ class dfs_pre_order_testcase1 : public testcase {
                            "7 8\n9 11\n5 3\n");
             udgraph g(s);
             dfs_pre_order<udgraph> dfs_pre_order(g);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_pre_order]() {
@@ -183,7 +183,7 @@ class dfs_pre_order_testcase2 : public testcase {
                            "7 8\n9 11\n5 3\n");
             digraph g(s);
             dfs_pre_order<digraph> dfs_pre_order(g);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_pre_order]() {
@@ -277,7 +277,7 @@ class dfs_pre_order_testcase3 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_udgraph g(s);
             dfs_pre_order<weighted_udgraph> dfs_pre_order(g);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_pre_order]() {
@@ -375,7 +375,7 @@ class dfs_pre_order_testcase4 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_digraph g(s);
             dfs_pre_order<weighted_digraph> dfs_pre_order(g);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_pre_order]() {
@@ -473,7 +473,7 @@ class dfs_pre_order_testcase5 : public testcase {
                            "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
             flow_network g(s);
             dfs_pre_order<flow_network> dfs_pre_order(g);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_pre_order]() {

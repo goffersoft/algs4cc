@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <vector>
-#include <stdexcept>
 #include <memory>
 #include <deque>
 #include <cstring>
@@ -37,7 +36,6 @@ using std::unique_ptr;
 using std::shared_ptr;
 using std::vector;
 using std::deque;
-using std::range_error;
 
 using edu::princeton::cs::algs4::path_compute;
 using edu::princeton::cs::algs4::dfs_base;
@@ -77,6 +75,7 @@ class dfs_post_order : public virtual dfs_base<G>,
         using path_compute<graph_type>::is_lazy;
         using path_compute<graph_type>::compute;
         using path_compute<graph_type>::get_graph;
+        using path_compute<graph_type>::validate_input;
 
         dfs_post_order(const graph_type& g,
                   bool defer = false) :
@@ -97,9 +96,7 @@ class dfs_post_order : public virtual dfs_base<G>,
          ** return : the postorder number of vertex v
          **/
         order_type post(const vertex_type& v) {
-            if (v >= get_graph().get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_input(v);
             if(is_lazy()) {
                 compute();
             }
@@ -112,9 +109,7 @@ class dfs_post_order : public virtual dfs_base<G>,
          ** return : the postorder number of vertex v
          **/
         order_type reverse_post(const vertex_type& v) {
-            if (v >= get_graph().get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_input(v);
             if(is_lazy()) {
                 compute();
             }
