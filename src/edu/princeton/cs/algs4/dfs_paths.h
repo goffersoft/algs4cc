@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include <vector>
-#include <stdexcept>
 #include <deque>
 #include <memory>
 #include <cstring>
@@ -36,7 +35,6 @@ namespace algs4 {
 using std::unique_ptr;
 using std::vector;
 using std::deque;
-using std::range_error;
 
 using edu::princeton::cs::algs4::path_compute;
 using edu::princeton::cs::algs4::dfs_base;
@@ -70,6 +68,7 @@ class dfs_paths : public dfs_base<G>,
         using path_compute<graph_type>::compute;
         using path_compute<graph_type>::get_graph;
         using path_compute<graph_type>::get_start_vertex;
+        using path_compute<graph_type>::validate_input;
 
         dfs_paths(const graph_type& g,
                   const vertex_type& s,
@@ -88,9 +87,7 @@ class dfs_paths : public dfs_base<G>,
          ** return : true if there is a path, false otherwise
          **/
         bool has_path(const vertex_type& v) {
-            if (v >= get_graph().get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_input(v);
             if(is_lazy()) {
                 compute();
             }
@@ -105,9 +102,7 @@ class dfs_paths : public dfs_base<G>,
          ** s and vertex v, as an Iterable
          **/
         iterable_ptr path_to(const vertex_type& v) {
-            if (v >= get_graph().get_num_vertices()) {
-                throw range_error("v out of range");
-            }
+            validate_input(v);
             if(is_lazy()) {
                 compute();
             }

@@ -30,7 +30,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::deque;
 
 using com::goffersoft::codeclean::testcase;
@@ -91,7 +91,7 @@ class dfs_paths_testcase1 : public testcase {
                            "7 8\n9 11\n5 3\n");
             udgraph g(s);
             dfs_paths<udgraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -120,7 +120,7 @@ class dfs_paths_testcase1 : public testcase {
                            "7 8\n9 11\n5 3\n");
             udgraph g(s);
             dfs_paths<udgraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -196,7 +196,7 @@ class dfs_paths_testcase2 : public testcase {
                            "7 8\n9 11\n5 3\n");
             digraph g(s);
             dfs_paths<digraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -225,7 +225,7 @@ class dfs_paths_testcase2 : public testcase {
                            "7 8\n9 11\n5 3\n");
             digraph g(s);
             dfs_paths<digraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -303,7 +303,7 @@ class dfs_paths_testcase3 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_udgraph g(s);
             dfs_paths<weighted_udgraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -334,7 +334,7 @@ class dfs_paths_testcase3 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_udgraph g(s);
             dfs_paths<weighted_udgraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -415,7 +415,7 @@ class dfs_paths_testcase4 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_digraph g(s);
             dfs_paths<weighted_digraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -446,7 +446,7 @@ class dfs_paths_testcase4 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_digraph g(s);
             dfs_paths<weighted_digraph> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -526,7 +526,7 @@ class dfs_paths_testcase5 : public testcase {
                            "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
             flow_network g(s);
             dfs_paths<flow_network> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {
@@ -557,7 +557,7 @@ class dfs_paths_testcase5 : public testcase {
                            "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
             flow_network g(s);
             dfs_paths<flow_network> dfs_paths(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs_paths]() {

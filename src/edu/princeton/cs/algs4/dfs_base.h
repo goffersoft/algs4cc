@@ -21,7 +21,6 @@
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <stdexcept>
 
 #include "search_base.h"
 #include "graph_base.h"
@@ -33,7 +32,6 @@ namespace algs4 {
 
 using std::vector;
 using std::stack;
-using std::range_error;
 
 using edu::princeton::cs::algs4::search_base;
 using edu::princeton::cs::algs4::graph_base;
