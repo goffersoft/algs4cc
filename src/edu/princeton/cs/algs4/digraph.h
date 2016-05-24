@@ -19,7 +19,6 @@
 #define __DIGRAPH_H__
 
 #include <iostream>
-#include <stdexcept>
 #include <memory>
 
 #include "graph.h"
@@ -32,7 +31,6 @@ namespace algs4 {
 
 using std::istream;
 using std::cin;
-using std::range_error;
 using std::unique_ptr;
 
 using edu::princeton::cs::algs4::graph;

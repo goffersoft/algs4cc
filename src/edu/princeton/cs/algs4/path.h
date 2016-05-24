@@ -143,7 +143,7 @@ class path_compute : public compute_base {
          **
          ** params  : v the integer representing one vertex 
          ** throws  : invalid_argument exception unless
-         ** 0 <= v < G.num_vertices()
+         **           0 <= v < G.num_vertices()
          **/
         void validate_input(const vertex_type& v) const {
             if (v >= get_graph().get_num_vertices()) {

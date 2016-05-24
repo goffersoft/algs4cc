@@ -19,7 +19,6 @@
 #define __WEIGHTED_UDGRAPH_H__
 
 #include <iostream>
-#include <stdexcept>
 
 #include "cstdin.h"
 #include "weighted_udedge.h"
@@ -33,7 +32,6 @@ namespace algs4 {
 
 using std::istream;
 using std::cin;
-using std::range_error;
 
 using edu::princeton::cs::algs4::weighted_udedge_base;
 using edu::princeton::cs::algs4::weighted_graph;

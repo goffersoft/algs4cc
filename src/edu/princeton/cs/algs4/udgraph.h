@@ -19,7 +19,6 @@
 #define __UDGRAPH_H__
 
 #include <iostream>
-#include <stdexcept>
 
 #include "graph.h"
 #include "udedge.h"
@@ -31,7 +30,6 @@ namespace algs4 {
 
 using std::istream;
 using std::cin;
-using std::range_error;
 
 using edu::princeton::cs::algs4::graph;
 using edu::princeton::cs::algs4::udedge_base;

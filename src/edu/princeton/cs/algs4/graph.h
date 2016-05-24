@@ -22,7 +22,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <stdexcept>
 #include <memory>
 
 #include "bag.h"
@@ -42,7 +41,6 @@ using std::endl;
 using std::string;
 using std::vector;
 using std::stringstream;
-using std::range_error;
 using std::unique_ptr;
 
 using edu::princeton::cs::algs4::bag;
