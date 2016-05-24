@@ -10,7 +10,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <stdexcept>
 
 #include "object.h"
 #include "weighted_edge.h"
@@ -29,7 +28,6 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::stringstream;
-using std::invalid_argument;
 using std::move;
 
 using edu::princeton::cs::algs4::bag;

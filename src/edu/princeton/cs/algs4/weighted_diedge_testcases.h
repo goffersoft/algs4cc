@@ -10,7 +10,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <stdexcept>
 #include <algorithm>
 
 #include "codeclean.h"
@@ -25,7 +24,6 @@ using std::sort;
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::invalid_argument;
 
 using com::goffersoft::codeclean::testcase;
 using com::goffersoft::codeclean::test;
