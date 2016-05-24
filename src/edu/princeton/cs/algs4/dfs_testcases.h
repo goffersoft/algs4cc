@@ -31,7 +31,7 @@ namespace algs4 {
 using std::bind;
 using std::stringstream;
 using std::string;
-using std::range_error;
+using std::invalid_argument;
 using std::deque;
 
 using com::goffersoft::codeclean::testcase;
@@ -121,7 +121,7 @@ class dfs_testcase1 : public testcase {
                            "7 8\n9 11\n5 3\n");
             udgraph g(s);
             dfs<udgraph> dfs(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs]() {
@@ -266,7 +266,7 @@ class dfs_testcase2 : public testcase {
                            "7 8\n9 11\n5 3\n");
             digraph g(s);
             dfs<digraph> dfs(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs]() {
@@ -416,7 +416,7 @@ class dfs_testcase3 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_udgraph g(s);
             dfs<weighted_udgraph> dfs(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs]() {
@@ -570,7 +570,7 @@ class dfs_testcase4 : public testcase {
                            "0 6 2\n7 8 5\n9 11 7\n5 3 9\n");
             weighted_digraph g(s);
             dfs<weighted_digraph> dfs(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs]() {
@@ -724,7 +724,7 @@ class dfs_testcase5 : public testcase {
                            "0 6 10 2\n7 8 20 5\n9 11 30 7\n5 3 15 9\n");
             flow_network g(s);
             dfs<flow_network> dfs(g, 3);
-            range_error e("some exp");
+            invalid_argument e("some exp");
             return test::ccassert_exception(
                       e,
                       [&dfs]() {

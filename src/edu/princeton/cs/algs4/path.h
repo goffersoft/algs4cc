@@ -34,7 +34,7 @@ namespace algs4 {
 using std::unique_ptr;
 using std::function;
 using std::deque;
-using std::range_error;
+using std::invalid_argument;
 
 using edu::princeton::cs::algs4::compute_base;
 
@@ -106,7 +106,7 @@ class path_compute : public compute_base {
             if(get_start_vertex() == v) {
                 return;
             }
-            validate_vertex(v);
+            validate_input(v);
             vstart = v;
             reset();
             clear_eval();
@@ -138,9 +138,40 @@ class path_compute : public compute_base {
                        vstart(s),
                        gptr(const_cast<graph_type*>(&g)) {}
 
-        void validate_vertex(const vertex_type& v) const {
+        /**
+         ** Internal method to validate the input data
+         **
+         ** params  : v the integer representing one vertex 
+         ** throws  : invalid_argument exception unless
+         ** 0 <= v < G.num_vertices()
+         **/
+        void validate_input(const vertex_type& v) const {
             if (v >= get_graph().get_num_vertices()) {
-                throw range_error("v out of range");
+                throw invalid_argument("v >= G.num_Vertices()");
+            }
+        }
+
+        /**
+         ** Internal method to validate the input data
+         **
+         ** param  : p the integer representing one vertex 
+         ** param  : q the integer representing the other vertex
+         ** throws : invalid_argument exception unless
+         **          both 0 <= v < G.num_vertices() and
+         **               0 <= w < G.num_vertices()
+         **/
+        void validate_input(const vertex_type& v,
+                           const vertex_type& w) const {
+            if ( (v >= get_graph().get_num_vertices()) ||
+                 (w >= get_graph().get_num_vertices())) {
+                throw invalid_argument( "invalid argument :"
+                                         "v and w >= G.num_Vertices()");
+            } else if (v >= get_graph().get_num_vertices()) {
+                throw invalid_argument( "invalid argument :"
+                                         "v >= num_sites");
+            } else if (w >= get_graph().get_num_vertices()) {
+                throw invalid_argument( "invalid argument :"
+                                         "w >= num_sites");
             }
         }
 
