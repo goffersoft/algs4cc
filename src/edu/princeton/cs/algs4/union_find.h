@@ -182,7 +182,7 @@ class union_find_t {
          ** Internal method to validate the input data
          **
          ** params  : p the integer representing one site
-         ** throws  : invalid_argument exception unless 0 <= p <= N
+         ** throws  : invalid_argument exception unless 0 <= p < N
          **/
         void validate_input(const site_id_type& p) const {
             if (p >= n_sites) {
@@ -197,7 +197,7 @@ class union_find_t {
          ** param  : p the integer representing one site
          ** param  : q the integer representing the other site
          ** throws : invalid_argument exception unless
-         **          both 0 <= p <= N< and 0 <= q <= N
+         **          both 0 <= p < N and 0 <= q < N
          **/
         void validate_input(const site_id_type& p,
                            const site_id_type& q) const {
