@@ -77,6 +77,9 @@ class dfs_post_order : public virtual dfs_base<G>,
         using path_compute<graph_type>::get_graph;
         using path_compute<graph_type>::validate_input;
 
+        //No need to initialize all entries of the array to 0
+        //as the dfs algotihm sets all entries of the array
+        //upon completion
         dfs_post_order(const graph_type& g,
                   bool defer = false) :
                 dfs_base<graph_type>(g.get_num_vertices()),
@@ -145,6 +148,9 @@ class dfs_post_order : public virtual dfs_base<G>,
         using array_type = order_type;
         using array_type_ptr = unique_ptr<array_type[]>;
 
+        //No need to initialize all entries of the array to 0
+        //as the dfs algotihm sets all entries of the array
+        //upon completion
         dfs_post_order(const graph_type& g,
                   bool defer, bool base) :
                 dfs_base<graph_type>(g.get_num_vertices()),
@@ -207,11 +213,11 @@ class dfs_post_order : public virtual dfs_base<G>,
             (*post_order).clear();   
             post_counter = 0;
             if(get_graph().get_num_vertices() != get_visited().size()) {
+                //No need to initialize all entries of the array to 0
+                //as the dfs algotihm sets all entries of the array
+                //upon completion
                 post_array.reset(new array_type[
                                       get_graph().get_num_vertices()]);
-            } else {
-                memset(post_array.get(), 0x0,
-                       get_graph().get_num_vertices());
             }
             dfs_base<graph_type>::reset(get_graph().get_num_vertices());
         }
