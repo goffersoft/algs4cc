@@ -15,6 +15,7 @@
 #include "dfs_post_order_testcases.h"
 #include "dfs_reverse_post_order_testcases.h"
 #include "dfs_order_testcases.h"
+#include "cc_testcases.h"
 
 namespace edu {
 namespace princeton {
@@ -59,6 +60,10 @@ using edu::princeton::cs::algs4::dfs_order_testcase3;
 using edu::princeton::cs::algs4::dfs_order_testcase4;
 using edu::princeton::cs::algs4::dfs_order_testcase5;
 
+using edu::princeton::cs::algs4::cc_testcase1;
+using edu::princeton::cs::algs4::cc_testcase2;
+using edu::princeton::cs::algs4::cc_testcase3;
+
 class dfs_testsuite : public testsuite {
     public :
         dfs_testsuite(const string& name = "dfs") :
@@ -98,6 +103,10 @@ class dfs_testsuite : public testsuite {
             add_testcase(dfs_order_testcase3());
             add_testcase(dfs_order_testcase4());
             add_testcase(dfs_order_testcase5());
+
+            add_testcase(cc_testcase1());
+            add_testcase(cc_testcase2());
+            add_testcase(cc_testcase3());
         }
 };
 
